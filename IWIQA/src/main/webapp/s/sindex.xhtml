@@ -5,7 +5,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
-                template="./layout/skeleton.xhtml">
+                template="./../layout/skeleton.xhtml">
 
     <ui:define name="title">
         IWIQA - Index
@@ -15,11 +15,23 @@
         <b:row>
             <b:column span="12">
                 <h3>Qualifikationsarbeiten</h3>
+                <b:panel>
+                    <h:outputText value="Sie haben noch keine QA erfasst"/>
+                    <f:facet name="footer">
+                        <b:button outcome="#{navigation.NEWQA}" look="info" value="Bachelorarbeit erfassen"/>
+                        <b:button outcome="#{navigation.NEWQA}" look="primary" value="Masterarbeit erfassen"/>
+                    </f:facet>
+                </b:panel>
             </b:column>
         </b:row>
+        <hr />
         <b:row>
             <b:column span="12">
                 <h3>Forschungskolloquien</h3>
+                <b:panel>
+                    <p>Sie haben sich noch für keine FoKos angemeldet"</p>
+                    <p><h:link value="Verfügbare FoKos anzeigen" outcome="#{navigation.FOKO}"/></p>
+                </b:panel>
             </b:column>
         </b:row>
     </ui:define>

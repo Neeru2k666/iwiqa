@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="./../layout/skeleton.xhtml">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="content">
+        <b:row>
+            <b:column span="12">
+                <h3>Neue Qualifikationsarbeit erfassen</h3>
+                <b:form>
+                    <b:row>
+                        <b:column>
+                            <b:inputText id="qatitle" value="#{newQABean.newQA.title}" label="Titel der Arbeit" required="true" renderLabel="true" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="6">
+                            <b:selectOneMenu id="qabetreuer" value="#{newQABean.selectedAdvisor}" label="Betreuer" required="true" renderLabel="true" >
+                                <f:selectItems value="#{newQABean.availableAdvisors}" var="advisor" itemLabel="#{advisor.fullName}" />
+                            </b:selectOneMenu>
+                        </b:column>
+                        <b:column span="6">
+                            <b:radiobutton value="#{newQABean.newQA.qaType}">
+                                <f:selectItems value="#{newQABean.types}" var="type" itemValue="#{type}" itemLabel="#{text['qa_type.' += type]}" />
+                            </b:radiobutton>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:button look="danger" value="X" />
+                        <b:commandButton action="#{newQABean.registerNewQA()}" value="Speichern" look="success"/>
+                    </b:row>
+                </b:form>
+            </b:column>
+        </b:row>
+    </ui:define>
+
+    <ui:define name="sideContent">
+        <b:row>
+            <b:column span="12">
+                <h4>Pendenzen</h4>
+
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="12">
+                <h4>Termine</h4>
+
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="12">
+                <h4>Forschungskolloquien</h4>
+
+            </b:column>
+        </b:row>
+    </ui:define>
+
+</ui:composition>
