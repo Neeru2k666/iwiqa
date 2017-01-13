@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="./layout/skeleton.xhtml">
+
+    <ui:define name="title">
+        Als Student registrieren - IWIQA
+    </ui:define>
+
+    <ui:define name="content">
+        <b:row>
+            <b:column span="12">
+                <h3>Auf IWIQA registrieren</h3>
+                <b:form>
+                    <b:panelGrid colSpans="3, 3, 2, 4">
+                        <b:inputText id="studentFirstName" value="#{registerStudentBean.newStudent.firstName}" label="Vorname" required="true" renderLabel="true" />
+                        <b:inputText id="studentLastName" value="#{registerStudentBean.newStudent.lastName}" label="Nachname" required="true" renderLabel="true" />
+                        <b:inputText id="studentMatnr" value="#{registerStudentBean.newStudent.matNr}" label="Matr.nummer" required="true" renderLabel="true" />
+                        <b:inputText id="studentEmail" value="#{registerStudentBean.newStudent.email}" label="Email" required="true" renderLabel="true" />
+                    </b:panelGrid>
+                    <b:panelGrid colSpans="6, 2, 4">
+                        <b:inputText id="studentStreet" value="#{registerStudentBean.newStudent.street}" label="Strasse" required="true" renderLabel="true" />
+                        <b:inputText id="studentZIP" value="#{registerStudentBean.newStudent.ZIP}" label="PLZ" required="true" renderLabel="true" />
+                        <b:inputText id="studentCity" value="#{registerStudentBean.newStudent.city}" label="Ort" required="true" renderLabel="true" />
+                    </b:panelGrid>
+                    <b:panelGrid colSpans="6, 6">
+                        <b:inputSecret id="password" value="#{registerStudentBean.newStudent.password}" label="Passwort" required="true" renderLabel="true">
+                            <f:validator validatorId="confirmPasswordValidator" />
+                            <f:attribute name="confirm" value="#{confirmPassword.submittedValue}" />
+                            <f:ajax event="blur" execute="password confirm" render="m_password" />
+                        </b:inputSecret>
+                        <b:message id="m_password" for="password" />
+                        <b:inputSecret id="confirm" binding="#{confirmPassword}" required="true" label="Passwort wiederholen" renderLabel="true">
+                            <f:ajax event="blur" execute="password confirm" render="m_password m_confirm" />
+                        </b:inputSecret>
+                        <b:message id="m_confirm" for="confirm"/>
+                </b:panelGrid>
+
+                <hr/>
+                <b:row>
+                    <b:column span="9">
+                        <h:outputLabel for="agree" value="Bitte bestätigen Sie, dass Sie die Voraussetzungen für eine Qualifikationsarbeit erfüllen." />
+                        <b:message for="agree" />
+                    </b:column>
+                    <b:column span="1">
+                        <h:selectBooleanCheckbox id="agree" value="#{registerStudentBean.agreed}" requiredMessage="Sie müssen bestätigen!" label="Ich bestätige, dass ich die Voraussetzungen erfülle." >
+                            <f:validator validatorId="omnifaces.RequiredCheckboxValidator" />
+                        </h:selectBooleanCheckbox>
+                    </b:column>
+                    <b:column span="2">
+                        <b:commandButton value="Registrieren" update="@form" action="#{registerStudentBean.registerStudent()}" />
+                    </b:column>
+                </b:row>
+            </b:form>
+        </b:column>
+    </b:row>
+</ui:define>
+
+<ui:define name="sideContent">
+    sideContent
+</ui:define>
+
+</ui:composition>

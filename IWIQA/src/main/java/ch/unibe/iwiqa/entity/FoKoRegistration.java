@@ -8,12 +8,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Marc Jost
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "FoKoRegistration.findByQA", query = "SELECT f FROM FoKoRegistration f WHERE f.qa = :qa")
+})
 public class FoKoRegistration implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +42,30 @@ public class FoKoRegistration implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public QA getQa() {
+        return qa;
+    }
+
+    public void setQa(QA qa) {
+        this.qa = qa;
+    }
+
+    public FoKo getFoko() {
+        return foko;
+    }
+
+    public void setFoko(FoKo foko) {
+        this.foko = foko;
+    }
+
+    public FoKo_ParticipateAs getParticipatingAs() {
+        return participatingAs;
+    }
+
+    public void setParticipatingAs(FoKo_ParticipateAs participatingAs) {
+        this.participatingAs = participatingAs;
     }
 
     @Override

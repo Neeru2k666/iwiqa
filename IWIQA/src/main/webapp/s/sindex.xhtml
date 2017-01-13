@@ -5,32 +5,114 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
-                template="./../layout/skeleton.xhtml">
+                xmlns:o="http://omnifaces.org/ui"
+                template="/layout/skeleton.xhtml">
 
     <ui:define name="title">
-        IWIQA - Index
+        Startseite Studenten - IWIQA
     </ui:define>
 
     <ui:define name="content">
+        <o:importConstants type="ch.unibe.iwiqa.util.QA_Type"/>
+        <o:importConstants type="ch.unibe.iwiqa.util.FoKo_ParticipateAs"/>
         <b:row>
             <b:column span="12">
-                <h3>Qualifikationsarbeiten</h3>
-                <b:panel>
+                <h3>Meine Qualifikationsarbeiten</h3>
+                <b:panel rendered="#{empty studentIndexBean.myQAs}">
                     <h:outputText value="Sie haben noch keine QA erfasst"/>
                     <f:facet name="footer">
-                        <b:button outcome="#{navigation.NEWQA}" look="info" value="Bachelorarbeit erfassen"/>
-                        <b:button outcome="#{navigation.NEWQA}" look="primary" value="Masterarbeit erfassen"/>
+                        <b:button outcome="#{navigation.NEWQA}" look="primary" value="Neue Qualifikationsarbeit erfassen"/>
                     </f:facet>
+                </b:panel>
+                <b:panel rendered="#{not empty studentIndexBean.myQAs}">
+                    <ui:repeat value="#{studentIndexBean.myQAs}" var="qa">
+                        <b:panel look="#{qa.qaType == QA_Type.BA? 'info' : 'primary'}" collapsible="false">
+                            <f:facet name="heading">
+                                <h:outputText value="#{qa.qaType += ': ' += qa.title}"/>
+                            </f:facet>
+                            <h:form>
+                                <h:dataTable value="#{qa}" styleClass="table" style="margin-bottom: 0">
+                                    <h:column>
+                                        <f:facet name="header">Von</f:facet>
+                                        <h:outputText value="#{qa.startingDate.time}">
+                                            <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Bis</f:facet>
+                                        <h:outputText value="#{qa.endingDate.time}">
+                                            <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Betreuer</f:facet>
+                                        <h:outputText value="#{qa.advisor.fullName}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Status</f:facet>
+                                        <h:outputText value="#{text['qa_status.' += qa.status]}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Note</f:facet>
+                                        <h:outputText value="#{qa.grade}" rendered="#{qa.grade!=0}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header"/>
+                                        <b:button value="Details" size="xs" outcome="#{navigation.SQADETAIL}">
+                                            <f:param name="id" value="#{qa.getId()}"/>
+                                        </b:button>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:form>
+                        </b:panel>
+                    </ui:repeat>
                 </b:panel>
             </b:column>
         </b:row>
         <hr />
         <b:row>
             <b:column span="12">
-                <h3>Forschungskolloquien</h3>
-                <b:panel>
-                    <p>Sie haben sich noch für keine FoKos angemeldet"</p>
-                    <p><h:link value="Verfügbare FoKos anzeigen" outcome="#{navigation.FOKO}"/></p>
+                <h3>Meine Forschungskolloquien</h3>
+                <b:panel rendered="#{empty studentIndexBean.myFoKoRegistrations}">
+                    <p>Sie haben sich noch für keine FoKos angemeldet</p>
+                    <f:facet name="footer">
+                        <center><h:link value="Für Forschungskolloquium an- oder abmelden" outcome="#{navigation.SFOKO}"/></center>
+                    </f:facet>
+                </b:panel>
+                <b:panel rendered="#{not empty studentIndexBean.myFoKoRegistrations}">
+                    <b:form>
+                        <h:dataTable value="#{studentIndexBean.myFoKoRegistrations}" var="reg" styleClass="table"  style="margin-bottom: 0">
+                            <h:column>
+                                <f:facet name="header">Arbeit</f:facet>
+                                <h:outputText value="#{reg.qa.title}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Datum</f:facet>
+                                <h:outputText value="#{reg.foko.startingDate.time}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy hh:mm"/>
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Raum</f:facet>
+                                <h:outputText value="#{reg.foko.room}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Zuhörer</f:facet>
+                                <b:icon name="#{reg.participatingAs == FoKo_ParticipateAs.LISTENER ? 'check' : 'unchecked'}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Referent</f:facet>
+                                <b:icon name="#{reg.participatingAs == FoKo_ParticipateAs.SPEAKER ? 'check' : 'unchecked'}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header"/>
+                                <b:commandButton value="Details" ajax="true" size="xs"/>
+                            </h:column>
+                        </h:dataTable>
+                    </b:form>
+                    <f:facet name="footer">
+                        <center><h:link value="Für Forschungskolloquium an- oder abmelden" outcome="#{navigation.SFOKO}"/></center>
+                    </f:facet>
                 </b:panel>
             </b:column>
         </b:row>

@@ -1,7 +1,8 @@
 package ch.unibe.iwiqa.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -23,12 +26,16 @@ public class FoKo implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Date startingDate;
-    private Date endingDate;
+    @Temporal(TemporalType.DATE)
+    private Calendar startingDate;
+    
+    @Temporal(TemporalType.DATE)
+    private Calendar endingDate;
+    
     private String room;
     
     @OneToMany(mappedBy = "foko", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<FoKoRegistration> participants;
+    private List<FoKoRegistration> participants = new ArrayList<>();
     
     public Long getId() {
         return id;
@@ -36,6 +43,42 @@ public class FoKo implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Calendar getStartingDate() {
+        return startingDate;
+    }
+
+    public void setStartingDate(Calendar startingDate) {
+        this.startingDate = startingDate;
+    }
+
+    public Calendar getEndingDate() {
+        return endingDate;
+    }
+
+    public void setEndingDate(Calendar endingDate) {
+        this.endingDate = endingDate;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public List<FoKoRegistration> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<FoKoRegistration> participants) {
+        this.participants = participants;
+    }
+    
+    public void addParticipant(FoKoRegistration reg) {
+        this.participants.add(reg);
     }
 
     @Override

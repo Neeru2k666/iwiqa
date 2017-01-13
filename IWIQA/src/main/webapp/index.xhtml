@@ -12,34 +12,21 @@
     </ui:define>
 
     <ui:define name="content">
-        <b:row>
-            <b:column span="12">
-                <h3>Qualifikationsarbeiten</h3>
-            </b:column>
-        </b:row>
-        <b:row>
-            <b:column span="12">
-                <h3>Forschungskolloquien</h3>
-            </b:column>
-        </b:row>
+        <b:jumbotron>
+                <h1>Willkommen bei IWIQA!</h1>
+                <p>Hier können Sie Ihre Qualifikationsarbeit am Institut für Wirtschaftsinformatik an der Universität Bern verwalten und sich für Forschungskolloquien registrieren.</p>
+                <p>Bitte registrieren Sie sich, um die Plattform nutzen zu können.</p>
+                <p><a href="#{navigation.REGSTUDENT}" class="btn btn-lg btn-info">Jetzt registrieren »</a></p>
+        </b:jumbotron>
     </ui:define>
     <ui:define name="sideContent">
         <b:row>
-            <b:column span="12">
-                <h4>Pendenzen</h4>
-
-            </b:column>
-        </b:row>
-        <b:row>
-            <b:column span="12">
-                <h4>Termine</h4>
-
-            </b:column>
-        </b:row>
-        <b:row>
-            <b:column span="12">
-                <h4>Forschungskolloquien</h4>
-
+            <b:column>
+                <h4>Als Betreuer registrieren</h4>
+                <b:panel>
+                    <p>Hier können sich Betreuer registrieren.</p>
+                    <p><a href="#{navigation.REGADVISOR}" class="btn btn-sm btn-default">Jetzt registrieren »</a></p>
+                </b:panel>
             </b:column>
         </b:row>
     </ui:define>

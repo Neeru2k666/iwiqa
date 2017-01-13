@@ -2,7 +2,8 @@ package ch.unibe.iwiqa.entity;
 
 import ch.unibe.iwiqa.util.QA_Status;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,8 +11,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -33,18 +37,21 @@ public class QA implements Serializable {
     /**
      * Starting date of the processing period
      */
-    private Date startDate;
+    @Temporal(TemporalType.DATE)
+    private Calendar startingDate;
     
     /**
      * Ending date of the processing period. Should be automatically set to 
-     * startDate + 10 weeks
+ startingDate + 10 weeks
      */
-    private Date endDate;
+    @Temporal(TemporalType.DATE)
+    private Calendar endingDate;
     
     /**
      * Date when the thesis was effectively handed in e.g. uploaded
      */
-    private Date handInDate;
+    @Temporal(TemporalType.DATE)
+    private Calendar handInDate;
     
     /**
      * Tells the prof if the thesis can be completed. Must have 
@@ -60,7 +67,8 @@ public class QA implements Serializable {
     /**
      * Date when the work was graded
      */
-    private Date gradedDate;
+    @Temporal(TemporalType.DATE)
+    private Calendar gradedDate;
     
     /**
      * Identifies the type this QA is, either MA or BA
@@ -68,7 +76,12 @@ public class QA implements Serializable {
     private String qaType;
     
     @ManyToOne
+    @JoinColumn
     private Advisor advisor;
+    
+    @ManyToOne
+    @JoinColumn
+    private Student student;
     
     /**
      * Identifies the status of this QA
@@ -76,7 +89,7 @@ public class QA implements Serializable {
     private QA_Status status;
     
     @OneToMany(mappedBy = "qa", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<FoKoRegistration> participatingIn;
+    private List<FoKoRegistration> participatingIn = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -94,27 +107,27 @@ public class QA implements Serializable {
         this.title = title;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Calendar getStartingDate() {
+        return startingDate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStartingDate(Calendar startingDate) {
+        this.startingDate = startingDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Calendar getEndingDate() {
+        return endingDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndingDate(Calendar endingDate) {
+        this.endingDate = endingDate;
     }
 
-    public Date getHandInDate() {
+    public Calendar getHandInDate() {
         return handInDate;
     }
 
-    public void setHandInDate(Date handInDate) {
+    public void setHandInDate(Calendar handInDate) {
         this.handInDate = handInDate;
     }
 
@@ -134,11 +147,11 @@ public class QA implements Serializable {
         this.grade = grade;
     }
 
-    public Date getGradedDate() {
+    public Calendar getGradedDate() {
         return gradedDate;
     }
 
-    public void setGradedDate(Date gradedDate) {
+    public void setGradedDate(Calendar gradedDate) {
         this.gradedDate = gradedDate;
     }
 
@@ -165,6 +178,10 @@ public class QA implements Serializable {
     public void setParticipatingIn(List<FoKoRegistration> participatingIn) {
         this.participatingIn = participatingIn;
     }
+    
+    public void addFoKoRegistration(FoKoRegistration reg) {
+        this.participatingIn.add(reg);
+    }
 
     public Advisor getAdvisor() {
         return advisor;
@@ -173,8 +190,14 @@ public class QA implements Serializable {
     public void setAdvisor(Advisor advisor) {
         this.advisor = advisor;
     }
-    
-    
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     @Override
     public int hashCode() {

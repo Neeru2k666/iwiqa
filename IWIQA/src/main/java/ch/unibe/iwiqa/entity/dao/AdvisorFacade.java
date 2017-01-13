@@ -3,6 +3,7 @@
 package ch.unibe.iwiqa.entity.dao;
 
 import ch.unibe.iwiqa.entity.Advisor;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,6 +25,10 @@ public class AdvisorFacade extends AbstractFacade<Advisor> {
 
     public AdvisorFacade() {
         super(Advisor.class);
+    }
+    
+    public List<Advisor> findByEmail(String email) {
+        return em.createNamedQuery("Advisor.findByEmail").setParameter("email", email).getResultList();
     }
     
 }

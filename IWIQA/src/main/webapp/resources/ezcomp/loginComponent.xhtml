@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:shiro="http://shiro.apache.org/tags"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="loginAction" required="true" method-signature="java.lang.String action()"/>
+        <cc:attribute name="logoutAction" required="true" method-signature="java.lang.String action()"/>
+        <cc:attribute name="usernameField" required="true"/>
+        <cc:attribute name="passwordField" required="true"/>
+        <cc:attribute name="switchChangedMethod" required="true" method-signature="void action(javax.faces.event.ValueChangeEvent)"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <shiro:guest>
+            <h:form id="login" styleClass="navbar-form navbar-right">
+                <b:panelGrid columns="4">
+                    <b:inputText id="username" placeholder="Email" fieldSize="sm" value="#{cc.attrs.usernameField}" required="true"/>
+                    <b:inputSecret id="password" placeholder="Passwort" fieldSize="sm" value="#{cc.attrs.passwordField}" required="true"/>
+                    <b:switch id="targetSwitch" switchsize="small" onText="B" offText="S" valueChangeListener="#{cc.attrs.switchChangedMethod}"/>
+                    <b:commandButton action="#{cc.attrs.loginAction}" value="Login" look="primary">
+                        <f:ajax execute="@form" render="@form" />
+                    </b:commandButton>
+                </b:panelGrid>
+            </h:form>
+            <!--<h:form id="login" styleClass="navbar-form navbar-right">
+                <div class="form-group">
+                    <b:inputText id="username" placeholder="Email" fieldSize="sm" value="#{cc.attrs.usernameField}" required="true"/>
+                </div>
+                <div class="form-group">
+                    <b:inputSecret id="password" placeholder="Passwort" fieldSize="sm" value="#{cc.attrs.passwordField}" required="true"/>
+                </div>
+            #{' '}
+            <b:commandButton action="#{cc.attrs.loginAction}" value="Login" look="primary">
+                <f:ajax execute="@form" render="@form" />
+            </b:commandButton>
+        </h:form>-->
+        </shiro:guest>
+        <shiro:user>
+            <h:form id="logout" styleClass="navbar-form navbar-right">
+                <div class="form-group">
+                    <b:label text="Sie sind eingeloggt als #{cc.attrs.usernameField}"/>
+                </div>
+                <div class="form-group">
+                    <b:commandButton action="#{cc.attrs.logoutAction}" value="Logout" look="warning" size="xs"/>
+                </div>
+            </h:form>
+        </shiro:user>
+    </cc:implementation>
+</html>

@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="/layout/skeleton.xhtml">
+
+    <ui:define name="title">
+        Login - IWIQA
+    </ui:define>
+
+    <ui:define name="content">
+        <b:form style="margin: 0 auto; max-width: 330px;">
+            <h3>Bitte einloggen</h3>
+            <b:inputText id="username" placeholder="Email Adresse" value="#{loginBean.username}">
+                <f:facet name="prepend">
+                    <b:icon name="user" />
+                </f:facet>
+            </b:inputText>
+            <b:inputText id="password" placeholder="Passwort" type="password" value="#{loginBean.password}">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="key" />
+                </f:facet>
+            </b:inputText>
+            <b:selectBooleanCheckbox value="true" id="rememberMe" caption="Angemeldet bleiben" />
+            <b:commandButton action="#{loginBean.login()}" value="Einloggen" look="primary btn-block" icon="log-in" size="lg" >
+                <f:setPropertyActionListener target="#{loginBean.target}" value="student"/>
+            </b:commandButton>
+        </b:form>
+    </ui:define>
+
+    <ui:define name="sideContent">
+        sideContent
+    </ui:define>
+
+</ui:composition>

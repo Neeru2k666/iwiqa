@@ -3,8 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:shiro="http://shiro.apache.org/tags"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -13,10 +15,16 @@
 
     <h:body style="padding-top: 50px">
         <b:messages/>
-        <b:navBar brand="IWIQA"  brandHref="#" inverse="true" fixed="top">
+        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.INDEX}" inverse="true" fixed="top">
             <b:navbarLinks>
-                <b:navLink value="Vorlesungen" href="#"></b:navLink>
+                <shiro:notAuthenticated>
+                    <b:navLink value="Registrieren" href="#{request.contextPath}/#{navigation.REGSTUDENT}"/>
+                </shiro:notAuthenticated>
+                <shiro:authenticated>
+                    <b:navLink value="Qualifikationsarbeiten" href="#{request.contextPath}#{navigation.SINDEX}"/>
+                </shiro:authenticated>
             </b:navbarLinks>
+            <ezcomp:loginComponent loginAction="#{loginBean.login()}" logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}" passwordField="#{loginBean.password}" switchChangedMethod="#{loginBean.setSwitchBoxTarget}"/>
         </b:navBar>
         <b:container>
             <b:row>
@@ -31,10 +39,5 @@
                 </b:column>
             </b:row>
         </b:container>
-        <b:navBar inverse="true" fixed="bottom">
-            <b:navbarLinks>
-                <b:navLink value="Home" href="#"></b:navLink>
-            </b:navbarLinks>
-        </b:navBar>
     </h:body>
 </html>
