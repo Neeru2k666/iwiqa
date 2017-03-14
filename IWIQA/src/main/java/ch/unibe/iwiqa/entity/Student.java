@@ -140,6 +140,10 @@ public class Student implements Serializable {
         this.qas.add(qa);
     }
     
+    public void removeQA(QA qa) {
+        this.qas.remove(qa);
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
