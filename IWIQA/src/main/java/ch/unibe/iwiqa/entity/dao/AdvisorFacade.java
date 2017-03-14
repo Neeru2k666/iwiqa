@@ -30,5 +30,9 @@ public class AdvisorFacade extends AbstractFacade<Advisor> {
     public List<Advisor> findByEmail(String email) {
         return em.createNamedQuery("Advisor.findByEmail").setParameter("email", email).getResultList();
     }
+
+    public List<Advisor> findAllActiveAdvisors() {
+        return em.createNamedQuery("Advisor.findAllActiveAdvisors").getResultList();
+    }
     
 }

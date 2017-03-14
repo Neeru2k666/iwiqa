@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:o="http://omnifaces.org/ui"
-                template="./../layout/skeleton.xhtml">
+                template="./../layout/askeleton_fullw.xhtml">
 
     <ui:define name="title">
         Startseite Betreuer - IWIQA
@@ -22,15 +22,15 @@
                         <h3>Offene Qualifikationsarbeiten</h3>
                     </b:column>
                     <b:column span="2">
-                        <b:button value="Alle anzeigen" size="sm" style="margin-top: 18px; float: right"/>
+                        <b:button outcome="#{navigation.AALLQAS}" value="Alle anzeigen" size="sm" style="margin-top: 18px; float: right"/>
                     </b:column>
                 </b:row>
-                <b:panel rendered="#{empty advisorIndexBean.myQAs}">
-                    <h:outputText value="Sie betreuen noch keine Qualifikationsarbeit auf IWIQA"/>
+                <b:panel rendered="#{empty advisorIndexBean.openQAs}">
+                    <h:outputText value="Keine offenen Qualifikationsarbeiten"/>
                 </b:panel>
-                <b:panel rendered="#{not empty advisorIndexBean.myQAs}">
+                <b:panel rendered="#{not empty advisorIndexBean.openQAs}">
                     <h:form>
-                        <h:dataTable value="#{advisorIndexBean.myQAs}" var="qa" styleClass="table table-striped" style="margin-bottom: 0">
+                        <h:dataTable value="#{advisorIndexBean.openQAs}" var="qa" styleClass="table table-striped" style="margin-bottom: 0">
                             <h:column>
                                 <f:facet name="header">Typ</f:facet>
                                 <h:outputText value="#{qa.qaType}" />
@@ -62,16 +62,17 @@
                             <h:column>
                                 <f:facet name="header">Nächster Schritt</f:facet>
                                 <b:commandButton rendered="#{qa.status eq QA_Status.PROPOSAL_IN_PROGRESS}" value="Proposal annehmen" size="xs" look="success" action="#{advisorIndexBean.acceptProposal(qa)}"/>
-                                <h:outputText rendered="#{qa.status eq QA_Status.PROPOSAL_ACCEPTED}" value="Arbeit in Bearbeitung" />
-                                <b:commandButton rendered="#{qa.status eq QA_Status.QA_HANDED_IN}" value="Arbeit bewerten" size="xs" look="success" onclick="ajax:advisorIndexBean.setSelectedQA(qa);javascript:$('.gradeModalPseudoClass').modal(); return false;"/>
+                                <b:commandButton rendered="#{qa.status eq QA_Status.QA_HANDED_IN or qa.status eq QA_Status.PROPOSAL_ACCEPTED}" value="Arbeit bewerten" size="xs" look="success" onclick="ajax:advisorIndexBean.setSelectedQA(qa);javascript:$('.gradeModalPseudoClass').modal(); return false;"/>
                                 <b:button rendered="#{qa.status eq QA_Status.QA_GRADED}" value="Notenmeldung erstellen" size="xs" look="success"/>
                                 <b:icon rendered="#{qa.status eq QA_Status.QA_COMPLETED}" name="check" />
+                                <b:icon rendered="#{qa.status eq QA_Status.QA_ABORTED}" name="remove" />
                             </h:column>
                             <h:column>
                                 <f:facet name="header"/>
                                 <b:button value="Details" size="xs" outcome="#{navigation.AQADETAIL}">
                                     <f:param name="id" value="#{qa.getId()}"/>
                                 </b:button>
+                                <b:commandButton rendered="#{qa.status ne QA_Status.QA_ABORTED and qa.status ne QA_Status.QA_COMPLETED}" value="x" tooltip="Qualifikationsarbeit abbrechen" size="xs" look="danger" action="#{advisorIndexBean.abortQA(qa)}" style="margin-left: 5px"/>
                             </h:column>
                         </h:dataTable>
                         <b:modal id="amodal" title="Qualifikationsarbeit bewerten" styleClass="gradeModalPseudoClass">
@@ -79,7 +80,7 @@
                             <b:inputText value="#{advisorIndexBean.achievedGrade}" label="Note (#.#):" renderLabel="true" />
                             <f:facet name="footer">
                                 <b:button value="Abbrechen" dismiss="modal" onclick="return false;"/>
-                                <b:commandButton value="Bewerten" action="#{advisorIndexBean.gradeQA()}" ajax="true" onclick="$('.gradeModalPseudoClass').modal('hide')" />
+                                <b:commandButton value="Bewerten" look="info" action="#{advisorIndexBean.gradeQA()}" ajax="true" onclick="$('.gradeModalPseudoClass').modal('hide')" />
                             </f:facet>
                         </b:modal>
                     </h:form>
@@ -89,11 +90,18 @@
         <hr />
         <b:row>
             <b:column span="12">
-                <h3>Forschungskolloquien</h3>
+                <b:row>
+                    <b:column span="10">
+                        <h3>Zukünftige Forschungskolloquien</h3>
+                    </b:column>
+                    <b:column span="2">
+                        <b:button value="Alle anzeigen" size="sm" style="margin-top: 18px; float: right" outcome="#{navigation.AALLFOKOS}"/>
+                    </b:column>
+                </b:row>
                 <b:panel rendered="#{empty advisorIndexBean.availableFoKos}">
-                    <h:outputText value="Es sind noch keine Forschungskolloquien auf IWIQA erfasst"/>
+                    <h:outputText value="Keine zukünftigen Forschungskolloquien"/>
                     <f:facet name="footer">
-                        <center><h:link value="Forschungskolloquium erstellen" outcome="#{navigation.AFOKO}"/></center>
+                        <center><h:link value="Forschungskolloquium erstellen" outcome="#{navigation.AALLFOKOS}"/></center>
                     </f:facet>
                 </b:panel>
                 <b:panel rendered="#{not empty advisorIndexBean.availableFoKos}">
@@ -104,10 +112,6 @@
                                 <h:outputText value="#{foko.startingDate.time}">
                                     <f:convertDateTime pattern="dd.MM.yyyy"/>
                                 </h:outputText>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Raum</f:facet>
-                                <h:outputText value="#{foko.room}" />
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Von</f:facet>
@@ -122,17 +126,23 @@
                                 </h:outputText>
                             </h:column>
                             <h:column>
+                                <f:facet name="header">Raum</f:facet>
+                                <h:outputText value="#{foko.room}" />
+                            </h:column>
+                            <h:column>
                                 <f:facet name="header">Teilnehmer</f:facet>
                                 <h:outputText value="#{foko.participants.size()}" />
                             </h:column>
                             <h:column>
                                 <f:facet name="header"/>
-                                <b:commandButton value="Details" ajax="true" size="xs"/>
+                                <b:button value="Details" size="xs" outcome="#{navigation.AFOKODETAIL}">
+                                    <f:param name="id" value="#{foko.getId()}"/>
+                                </b:button>
                             </h:column>
                         </h:dataTable>
                     </b:form>
                     <f:facet name="footer">
-                        <center><h:link value="Alle Forschungskolloquien anzeigen" outcome="#{navigation.AFOKO}"/> / <h:link value="Forschungskolloquium erstellen" outcome="#{navigation.NEWFOKO}"/></center>
+                        <center><h:link value="Forschungskolloquium erstellen" outcome="#{navigation.NEWFOKO}"/></center>
                     </f:facet>
                 </b:panel>
             </b:column>

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="./../layout/askeleton_fullw.xhtml">
+
+    <ui:define name="title">
+        Neues Forschungskolloquium erstellen - IWIQA
+    </ui:define>
+
+    <ui:define name="content">
+        <b:row>
+            <b:column span="6">
+                <b:row>
+                    <b:column span="12">
+                        <h3>Neues Forschungskolloquium erstellen</h3>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <h:form>
+                        <b:panel>
+                            <b:row styleClass="form-group">
+                                <b:column span="2">
+                                    <h:outputLabel value="Von:"/>
+                                </b:column>
+                                <b:column span="10">
+                                    <b:dateTimePicker value="#{newFoKoBean.newFoKo.startingDate}"/>
+                                </b:column>
+                            </b:row>
+                            <b:row styleClass="form-group">
+                                <b:column span="2">
+                                    <h:outputLabel value="Bis:"/>
+                                </b:column>
+                                <b:column span="10">
+                                    <b:dateTimePicker value="#{newFoKoBean.newFoKo.endingDate}"/>
+                                </b:column>
+                            </b:row>
+                            <b:row styleClass="form-group">
+                                <b:column span="2">
+                                    <h:outputLabel value="Raum:" />
+                                </b:column>
+                                <b:column span="10">
+                                    <b:inputText value="#{newFoKoBean.newFoKo.room}"/>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                        <b:commandButton value="Erstellen" look="success" action="#{newFoKoBean.save()}" />
+                    </h:form>
+                </b:row>
+            </b:column>
+        </b:row>
+    </ui:define>
+
+</ui:composition>

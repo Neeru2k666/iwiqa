@@ -5,24 +5,26 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
-                template="./layout/skeleton.xhtml">
+                xmlns:o="http://omnifaces.org/ui"
+                template="./../layout/askeleton_fullw.xhtml">
 
     <ui:define name="title">
-        Registrierung erfolgreich - IWIQA
+        title
     </ui:define>
 
     <ui:define name="content">
         <b:row>
             <b:column span="12">
-                <h3>Registrierung erfolgreich</h3>
-                <p>Vielen Dank, dass Sie sich registriert haben. Sie können sich jetzt einloggen und Ihre Qualifikationsarbeit erfassen.</p>
-                <b:button value="Login" look="info" size="lg" outcome="#{navigation.LOGIN}" />
+                <b:row>
+                    <b:column span="12">
+                        <h3>Betreuer verwalten</h3>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    
+                </b:row>
             </b:column>
         </b:row>
-    </ui:define>
-
-    <ui:define name="sideContent">
-        sideContent
     </ui:define>
 
 </ui:composition>

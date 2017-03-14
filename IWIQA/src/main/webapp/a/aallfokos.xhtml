@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="./../layout/askeleton_fullw.xhtml">
+
+    <ui:define name="title">
+        Forschungskolloquien - IWIQA
+    </ui:define>
+
+    <ui:define name="content">
+        <b:row>
+            <b:column span="12">
+                <b:row>
+                    <b:column span="10">
+                        <h3>Alle Forschungskolloquien</h3>
+                    </b:column>
+                    <b:column span="2">
+                        <b:button outcome="#{navigation.NEWFOKO}" value="Neues Forschungskolloquium" size="sm" style="margin-top: 18px; float: right"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:panel rendered="#{empty allFoKoBean.allFoKos}">
+                        <h:outputText value="Keine Forschungskolloquien gefunden"/>
+                    </b:panel>
+                    <b:panel rendered="#{not empty allFoKoBean.allFoKos}">
+                        <b:dataTable value="#{allFoKoBean.allFoKos}" var="foko" lang="de" searching="true">
+                            <b:dataTableColumn label="Datum">
+                                <h:outputText value="#{foko.startingDate.time}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Von">
+                                <h:outputText value="#{foko.startingDate.time}">
+                                    <f:convertDateTime pattern="hh:mm" />
+                                </h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Bis">
+                                <h:outputText value="#{foko.startingDate.time}">
+                                    <f:convertDateTime pattern="hh:mm" />
+                                </h:outputText>
+                            </b:dataTableColumn>                            
+                            <b:dataTableColumn value="#{foko.room}">
+                                <f:facet name="header">
+                                    <h:outputText value="Raum"/>
+                                </f:facet>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn value="#{foko.participants.size()}">
+                                <f:facet name="header">
+                                    <h:outputText value="Teilnehmer"/>
+                                </f:facet>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="">
+                                <b:button value="Details" size="xs" outcome="#{navigation.AFOKODETAIL}">
+                                    <f:param name="id" value="#{foko.getId()}"/>
+                                </b:button>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </b:panel>
+                </b:row>
+            </b:column>
+        </b:row>
+    </ui:define>
+</ui:composition>

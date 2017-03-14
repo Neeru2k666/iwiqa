@@ -13,20 +13,23 @@ import javax.inject.Named;
 @ApplicationScoped
 public class Navigation {
     public static final String INDEX = "index.xhtml";
-    public static final String SINDEX = "/s/sindex.xhtml";
-    public static final String AINDEX = "/a/aindex.xhtml";
-    public static final String SFOKO = "/s/sfoko.xhtml";
-    public static final String AFOKO = "/a/afoko.xhtml";
+    public static final String SINDEX = "s/sindex.xhtml";
+    public static final String AINDEX = "a/aindex.xhtml";
+    public static final String SFOKO = "sfoko.xhtml";
+    public static final String AALLFOKOS = "aallfokos.xhtml";
     public static final String NEWQA = "newqa.xhtml";
-    public static final String NEWFOKO ="/a/newfoko.xhtml";
+    public static final String NEWFOKO ="anewfoko.xhtml";
     public static final String LOGIN = "login.xhtml";
-    public static final String SLOGIN = "/s/slogin.xhtml";
-    public static final String ALOGIN = "/a/alogin.xhtml";
-    public static final String REGSUCCESS = "registerSuccess.xhtml";
-    public static final String REGSTUDENT = "registerStudent.xhtml";
-    public static final String REGADVISOR = "registerAdvisor.xhtml";
-    public static final String SQADETAIL = "/s/sqadetail.xhtml";
-    public static final String AQADETAIL = "/a/aqadetail.xhtml";
+    public static final String SLOGIN = "s/slogin.xhtml";
+    public static final String ALOGIN = "a/alogin.xhtml";
+    public static final String REGSUCCESS = "sregsuccess.xhtml";
+    public static final String REGSTUDENT = "sreg.xhtml";
+    public static final String REGADVISOR = "areg.xhtml";
+    public static final String SQADETAIL = "sqadetail.xhtml";
+    public static final String AQADETAIL = "aqadetail.xhtml";
+    public static final String AFOKODETAIL = "afokodetail.xhtml";
+    public static final String AALLQAS = "aallqas.xhtml";
+    public static final String AMANADV = "amanadv.xhtml";
 
     public String getINDEX() {
         return INDEX;
@@ -44,8 +47,8 @@ public class Navigation {
         return SFOKO;
     }
     
-    public String getAFOKO() {
-        return AFOKO;
+    public String getAALLFOKOS() {
+        return AALLFOKOS;
     }
 
     public String getNEWQA() {
@@ -58,6 +61,14 @@ public class Navigation {
     
     public String getLOGIN(){
         return LOGIN;
+    }
+    
+    public String getSLOGIN(){
+        return SLOGIN;
+    }
+    
+    public String getALOGIN(){
+        return ALOGIN;
     }
     
     public String getREGSUCCESS(){
@@ -78,5 +89,17 @@ public class Navigation {
     
     public String getAQADETAIL() {
         return AQADETAIL;
+    }
+    
+    public String getAALLQAS() {
+        return AALLQAS;
+    }
+    
+    public String getAMANADV() {
+        return AMANADV;
+    }
+    
+    public String getAFOKODETAIL() {
+        return AFOKODETAIL;
     }
 }

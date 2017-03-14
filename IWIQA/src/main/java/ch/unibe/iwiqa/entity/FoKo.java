@@ -3,6 +3,7 @@ package ch.unibe.iwiqa.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,11 +27,11 @@ public class FoKo implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
-    private Calendar startingDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startingDate;
     
-    @Temporal(TemporalType.DATE)
-    private Calendar endingDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endingDate;
     
     private String room;
     
@@ -45,19 +46,19 @@ public class FoKo implements Serializable {
         this.id = id;
     }
 
-    public Calendar getStartingDate() {
+    public Date getStartingDate() {
         return startingDate;
     }
 
-    public void setStartingDate(Calendar startingDate) {
+    public void setStartingDate(Date startingDate) {
         this.startingDate = startingDate;
     }
 
-    public Calendar getEndingDate() {
+    public Date getEndingDate() {
         return endingDate;
     }
 
-    public void setEndingDate(Calendar endingDate) {
+    public void setEndingDate(Date endingDate) {
         this.endingDate = endingDate;
     }
 
@@ -79,6 +80,10 @@ public class FoKo implements Serializable {
     
     public void addParticipant(FoKoRegistration reg) {
         this.participants.add(reg);
+    }
+    
+    public void removeParticipant(FoKoRegistration reg) {
+        this.participants.remove(reg);
     }
 
     @Override
@@ -105,5 +110,7 @@ public class FoKo implements Serializable {
     public String toString() {
         return "ch.unibe.iwiqa.entity.FoKo[ id=" + id + " ]";
     }
+
+    
     
 }

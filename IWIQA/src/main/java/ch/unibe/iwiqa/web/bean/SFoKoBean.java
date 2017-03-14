@@ -9,6 +9,7 @@ import ch.unibe.iwiqa.entity.Student;
 import ch.unibe.iwiqa.entity.dao.FoKoFacade;
 import ch.unibe.iwiqa.entity.dao.FoKoRegistrationFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
+import ch.unibe.iwiqa.util.FoKo_ParticipateAs;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,8 @@ public class SFoKoBean implements Serializable {
     private FoKo selectedFoKo;
 
     private QA selectedQA;
+    
+    private FoKo_ParticipateAs participateAs;
 
     @PostConstruct
     private void init() {
@@ -75,6 +78,7 @@ public class SFoKoBean implements Serializable {
         FoKoRegistration reg = new FoKoRegistration();
         reg.setFoko(selectedFoKo);
         reg.setQa(selectedQA);
+        reg.setParticipatingAs(participateAs);
 
         selectedFoKo.addParticipant(reg);
         selectedQA.addFoKoRegistration(reg);
@@ -125,5 +129,13 @@ public class SFoKoBean implements Serializable {
 
     public void setMyQAs(List<QA> myQAs) {
         this.myQAs = myQAs;
+    }
+
+    public FoKo_ParticipateAs getParticipateAs() {
+        return participateAs;
+    }
+
+    public void setParticipateAs(FoKo_ParticipateAs participateAs) {
+        this.participateAs = participateAs;
     }
 }

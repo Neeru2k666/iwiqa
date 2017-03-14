@@ -5,7 +5,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
-                template=".././layout/skeleton.xhtml">
+                template=".././layout/askeleton.xhtml">
 
     <ui:define name="title">
         Advisor Login - IWIQA
@@ -14,19 +14,19 @@
     <ui:define name="content">
         <b:form style="margin: 0 auto; max-width: 330px;">
             <h3>Bitte einloggen</h3>
-            <b:inputText id="email" placeholder="Email Adresse" value="#{loginBean.username}">
+            <b:inputText id="email" placeholder="Email Adresse" value="#{loginPageBean.username}">
                 <f:facet name="prepend">
                     <b:icon name="user" />
                 </f:facet>
             </b:inputText>
-            <b:inputText id="password" placeholder="Passwort" type="password" value="#{loginBean.password}">
+            <b:inputText id="password" placeholder="Passwort" type="password" value="#{loginPageBean.password}">
                 <f:facet name="prepend">
                     <b:iconAwesome name="key" />
                 </f:facet>
             </b:inputText>
             <b:selectBooleanCheckbox value="true" id="rememberMe" caption="Angemeldet bleiben" />
-            <b:commandButton action="#{loginBean.login()}" value="Einloggen" look="primary btn-block" icon="log-in" size="lg" >
-                <f:setPropertyActionListener target="#{loginBean.target}" value="advisor"/>
+            <b:commandButton action="#{loginPageBean.login()}" value="Einloggen" look="primary btn-block" icon="log-in" size="lg" >
+                <f:setPropertyActionListener target="#{loginPageBean.target}" value="advisor"/>
             </b:commandButton>
         </b:form>
     </ui:define>

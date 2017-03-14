@@ -37,7 +37,7 @@ public class NewQABean {
     @PostConstruct
     private void init(){
         newQA = new QA();
-        availableAdvisors = advisorFacade.findAll();
+        availableAdvisors = advisorFacade.findAllActiveAdvisors();
     }
     
     public void registerNewQA(){

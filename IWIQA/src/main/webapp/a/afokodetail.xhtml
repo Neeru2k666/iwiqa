@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="./../layout/askeleton_fullw.xhtml">
+
+    <f:metadata>
+        <o:viewParam name="id" value="#{afokoDetailBean.foko}" converter="#{fokoconverter}" converterMessage="Ungültiger Request. Unbekanntes Forschungskolloquium" required="true" requiredMessage="Ungültiger Request. Nutzen Sie einen Link aus der Website."/>
+        <f:viewAction action="#{afokoDetailBean.init()}"/>
+    </f:metadata>
+
+    <ui:define name="title">
+        Forschungskolloquium Details - IWIQA
+    </ui:define>
+
+    <ui:define name="content">
+        <o:importConstants type="ch.unibe.iwiqa.util.FoKo_ParticipateAs"/>
+        <o:importConstants type="ch.unibe.iwiqa.util.QA_Type"/>
+        <o:importConstants type="ch.unibe.iwiqa.util.QA_Status"/>
+        <o:form includeViewParams="true">
+            <b:row>
+                <b:column span="8">
+                    <h3>Details Forschungskolloquium</h3>
+                </b:column>
+                <b:column span="4">
+                    <b:commandButton look="info" value="Editieren" action="#{afokoDetailBean.edit()}" rendered="#{not afokoDetailBean.editMode}" styleClass="pull-right" style="margin-top: 20px" size="sm"/>
+                    <b:commandButton value="X" look="danger" tooltip="Forschungskolloquium löschen" rendered="#{afokoDetailBean.editMode}" styleClass="pull-right" style="margin-top: 20px" size="sm"/>
+                    <b:commandButton value="Änderungen speichern" action="#{afokoDetailBean.editFoKo()}" look="success" rendered="#{afokoDetailBean.editMode}" styleClass="pull-right" style="margin-top: 20px; margin-right: 10px" size="sm"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="4">
+                    <b:row>
+                        <b:column span="12">
+                            <h4>Details</h4>
+                        </b:column>
+                    </b:row>
+                    <b:panel>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Von:" />
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{afokoDetailBean.foko.startingDate}" rendered="#{not afokoDetailBean.editMode}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy hh:mm" />
+                                </h:outputText>
+                                <b:dateTimePicker value="#{afokoDetailBean.foko.startingDate}" rendered="#{afokoDetailBean.editMode}" format="DD.MM.YYYY hh:mm"/>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Bis:" />
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{afokoDetailBean.foko.endingDate}" rendered="#{not afokoDetailBean.editMode}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy hh:mm" />
+                                </h:outputText>
+                                <b:dateTimePicker value="#{afokoDetailBean.foko.endingDate}" rendered="#{afokoDetailBean.editMode}" format="DD.MM.YYYY hh:mm"/>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Raum:"/>
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{afokoDetailBean.foko.room}" rendered="#{not afokoDetailBean.editMode}" />
+                                <b:inputText value="#{afokoDetailBean.foko.room}" rendered="#{afokoDetailBean.editMode}"/>
+                            </b:column>
+                        </b:row>
+                    </b:panel>
+                </b:column>
+                <b:column span="8">
+                    <b:row>
+                        <b:column span="12">
+                            <h4>Teilnehmer</h4>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="12">
+                            <b:panel rendered="#{empty afokoDetailBean.foko.participants}">
+                                <h:outputText value="Dieses Forschungskolloquium hat keine Teilnehmer." />
+                            </b:panel>
+                            <b:panel rendered="#{not empty afokoDetailBean.foko.participants}">
+                                <h:dataTable value="#{afokoDetailBean.foko.participants}" var="par" styleClass="table">
+                                    <h:column>
+                                        <f:facet name="header">Student_in</f:facet>
+                                        <h:outputText value="#{par.qa.student.fullName}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Typ</f:facet>
+                                        <h:outputText value="#{par.qa.qaType}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Titel</f:facet>
+                                        <h:outputText value="#{par.qa.title}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Modus</f:facet>
+                                        <h:outputText rendered="#{par.participatingAs eq FoKo_ParticipateAs.LISTENER}" value="#{text['foko_participateas.LISTENER']}"/>
+                                        <h:outputText rendered="#{par.participatingAs eq FoKo_ParticipateAs.SPEAKER}" value="#{text['foko_participateas.SPEAKER']}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header"/>
+                                        <b:button value="Details" size="xs" outcome="#{navigation.AQADETAIL}">
+                                            <f:param name="id" value="#{par.qa.getId()}"/>
+                                        </b:button>
+                                        <b:commandButton rendered="#{afokoDetailBean.editMode}" value="x" tooltip="Teilnehmer löschen" size="xs" look="danger" action="#{afokoDetailBean.removeParticipant(par)}"/>
+                                    </h:column>
+                                </h:dataTable>
+                            </b:panel>
+                        </b:column>
+                    </b:row>
+                </b:column>
+            </b:row>
+        </o:form>
+    </ui:define>
+
+</ui:composition>

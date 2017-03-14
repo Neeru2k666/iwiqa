@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="./../layout/askeleton_fullw.xhtml">
+
+    <ui:define name="title">
+        Alle Qualifikationsarbeiten - IWIQA
+    </ui:define>
+
+    <ui:define name="content">
+        <b:row>
+            <b:column span="12">
+                <b:row>
+                    <b:column span="12">
+                        <h3>Alle Qualifikationsarbeiten</h3>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:panel rendered="#{empty allQABean.qas}">
+                        <h:outputText value="Keine Qualifikationsarbeiten gefunden"/>
+                    </b:panel>
+                    <b:panel rendered="#{not empty allQABean.qas}">
+                        <b:dataTable value="#{allQABean.qas}" var="qa" lang="de" searching="true">
+                            <b:dataTableColumn value="#{qa.qaType}">
+                                <f:facet name="header">
+                                    <h:outputText value="Typ"/>
+                                </f:facet>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn value="#{qa.title}">
+                                <f:facet name="header">
+                                    <h:outputText value="Titel"/>
+                                </f:facet>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn value="#{qa.student.fullName}">
+                                <f:facet name="header">
+                                    <h:outputText value="Student"/>
+                                </f:facet>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Bis">
+                                <h:outputText value="#{qa.startingDate.time}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Bis">
+                                <h:outputText value="#{qa.endingDate.time}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Status">
+                                <h:outputText value="#{text['qa_status.' += qa.status]}"/>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="">
+                                <b:button value="Details" size="xs" outcome="#{navigation.AQADETAIL}">
+                                    <f:param name="id" value="#{qa.getId()}"/>
+                                </b:button>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </b:panel>
+                </b:row>
+            </b:column>
+        </b:row>
+    </ui:define>
+
+</ui:composition>

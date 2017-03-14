@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="./../layout/askeleton.xhtml">
+
+    <f:metadata>
+        <o:viewParam name="id" value="#{aqaDetailBean.qa}" converter="#{qaconverter}" converterMessage="Ungültiger Request. Unbekannte QA" required="true" requiredMessage="Ungültiger Request. Nutzen Sie einen Link aus der Website."/>
+        <f:viewAction action="#{aqaDetailBean.init()}"/>
+    </f:metadata>
+
+    <ui:define name="title">
+        QA Details - IWIQA
+    </ui:define>
+
+    <ui:define name="content">
+        <o:importConstants type="ch.unibe.iwiqa.util.QA_Type"/>
+        <o:importConstants type="ch.unibe.iwiqa.util.QA_Status"/>
+        <o:form includeViewParams="true">
+            <b:row>
+                <b:column span="8">
+                    <h3>Details Qualifikationsarbeit</h3>
+                </b:column>
+                <b:column span="4">
+                    <b:commandButton look="info" value="Editieren" action="#{aqaDetailBean.edit()}" rendered="#{not aqaDetailBean.editMode and aqaDetailBean.qa.status ne QA_Status.QA_COMPLETED}" styleClass="pull-right" style="margin-top: 20px" size="sm"/>
+                    <b:commandButton value="X" look="danger" tooltip="Qualifikationsarbeit abbrechen" rendered="#{aqaDetailBean.editMode}" styleClass="pull-right" style="margin-top: 20px" size="sm"/>
+                    <b:commandButton value="Änderungen speichern" action="#{aqaDetailBean.editQA()}" look="success" rendered="#{aqaDetailBean.editMode}" styleClass="pull-right" style="margin-top: 20px; margin-right: 10px" size="sm"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="12">
+                    <b:panel>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Titel:" />
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{aqaDetailBean.qa.title}" rendered="#{not aqaDetailBean.editMode}" />
+                                <b:inputText value="#{aqaDetailBean.qa.title}" rendered="#{aqaDetailBean.editMode}"/>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Typ:" />
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{text['qa_type.' += aqaDetailBean.qa.qaType]}" rendered="#{not aqaDetailBean.editMode}"/>
+                                <b:radiobutton value="#{aqaDetailBean.qa.qaType}" rendered="#{aqaDetailBean.editMode}">
+                                    <f:selectItems value="#{aqaDetailBean.types}" var="type" itemLabel="#{text['qa_type.' += type]}" />
+                                </b:radiobutton>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Betreuer:"/>
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{aqaDetailBean.qa.advisor.fullName}" rendered="#{not aqaDetailBean.editMode}" />
+                                <b:selectOneMenu value="#{aqaDetailBean.qa.advisor}" id="advisor" rendered="#{aqaDetailBean.editMode}">
+                                    <f:selectItems value="#{aqaDetailBean.availableAdvisors}" var="advisor" itemLabel="#{advisor.fullName}"/>
+                                </b:selectOneMenu>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Startdatum:"/>
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{aqaDetailBean.qa.startingDate}" rendered="#{not aqaDetailBean.editMode}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                                <b:dateTimePicker value="#{aqaDetailBean.qa.startingDate}" rendered="#{aqaDetailBean.editMode}" format="DD.MM.YYYY"/>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Abgabedatum:"/>
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{aqaDetailBean.qa.handInDate}" rendered="#{aqaDetailBean.qa.handInDate ne null and not aqaDetailBean.editMode}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                                <b:dateTimePicker value="#{aqaDetailBean.qa.handInDate}" rendered="#{aqaDetailBean.editMode}" format="DD.MM.YYYY"/>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Enddatum:"/>
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{aqaDetailBean.qa.endingDate}" rendered="#{not aqaDetailBean.editMode}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                                <b:dateTimePicker value="#{aqaDetailBean.qa.endingDate}" rendered="#{aqaDetailBean.editMode}" format="DD.MM.YYYY"/>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Bewertungsdatum:"/>
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{aqaDetailBean.qa.gradedDate}" rendered="#{aqaDetailBean.qa.gradedDate ne null and not aqaDetailBean.editMode}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                                <b:dateTimePicker value="#{aqaDetailBean.qa.gradedDate}" rendered="#{aqaDetailBean.editMode}" format="DD.MM.YYYY"/>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="2">
+                                <h:outputLabel value="Note:" />
+                            </b:column>
+                            <b:column span="10">
+                                <h:outputText value="#{aqaDetailBean.qa.grade}" rendered="#{aqaDetailBean.qa.grade != 0.0 and not aqaDetailBean.editMode}" />
+                                <b:inputText value="#{aqaDetailBean.qa.grade}" rendered="#{aqaDetailBean.qa.grade != 0.0 and aqaDetailBean.editMode}"/>
+                            </b:column>
+                        </b:row>
+                    </b:panel>
+                </b:column>
+            </b:row>
+        </o:form>
+        <b:row>
+            <b:column span="12">
+                <h3>Details Verfasser_in</h3>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="12">
+                <b:panel>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="Name:" />
+                        </b:column>
+                        <b:column span="10">
+                            <h:outputText value="#{aqaDetailBean.qa.student.fullName}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="Matrikelnummer:" />
+                        </b:column>
+                        <b:column span="10">
+                            <h:outputText value="#{aqaDetailBean.qa.student.matNr}"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="Email:" />
+                        </b:column>
+                        <b:column span="10">
+                            <h:outputText value="#{aqaDetailBean.qa.student.email} "/>
+                            <h:outputLink value="mailto:#{aqaDetailBean.qa.student.email}">
+                                <b:icon name="envelope" />
+                            </h:outputLink>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="2">
+                            <h:outputLabel value="Adresse:" />
+                        </b:column>
+                        <b:column span="10">
+                            <h:outputText value="#{aqaDetailBean.qa.student.street}, #{aqaDetailBean.qa.student.ZIP} #{aqaDetailBean.qa.student.city}"/>
+                        </b:column>
+                    </b:row>
+                </b:panel>
+            </b:column>
+        </b:row>
+    </ui:define>
+
+    <ui:define name="sideContent">
+        <b:row>
+            <b:column span="12">
+                <h4>Status der Arbeit:</h4>
+                <b:panel>
+                    <h:outputText value="#{text['qa_status.' += aqaDetailBean.qa.status]}"/>
+                </b:panel>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="12">
+                <h4>Nächster Schritt:</h4>
+                <o:form includeViewParams="true">
+                    <b:panel>
+                        <b:commandButton rendered="#{aqaDetailBean.qa.status eq QA_Status.PROPOSAL_IN_PROGRESS}" value="Proposal annehmen" look="success" action="#{aqaDetailBean.acceptProposal()}"/>
+                        <b:commandButton rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_HANDED_IN or aqaDetailBean.qa.status eq QA_Status.PROPOSAL_ACCEPTED}" value="Arbeit bewerten" look="success" onclick="javascript:$('.gradeModalPseudoClass').modal(); return false;"/>
+                        <b:button rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_GRADED}" value="Notenmeldung erstellen" look="success"/>
+                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_COMPLETED}" name="check" />
+                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_ABORTED}" name="remove" />
+                    </b:panel>
+                    <b:modal id="amodal" title="Qualifikationsarbeit bewerten" styleClass="gradeModalPseudoClass">
+                        <h:outputText value="Bitte tragen Sie die erreichte Note ein, um die Qualifikationsarbeit zu bewerten." />
+                        <b:inputText value="#{aqaDetailBean.qa.grade}" label="Note (#.#):" renderLabel="true" />
+                        <f:facet name="footer">
+                            <b:button value="Abbrechen" dismiss="modal" onclick="return false;"/>
+                            <b:commandButton value="Bewerten" look="info" action="#{aqaDetailBean.gradeQA()}" ajax="true" onclick="$('.gradeModalPseudoClass').modal('hide')" />
+                        </f:facet>
+                    </b:modal>
+                </o:form>
+            </b:column>
+        </b:row>
+    </ui:define>
+
+</ui:composition>

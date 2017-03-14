@@ -38,9 +38,12 @@ public class AdvisorIndexBean implements Serializable {
     private AcceptProposalBean acceptProposalBean;
     
     @Inject
+    private AbortQABean abortQABean;
+    
+    @Inject
     private GradeQABean gradeQABean;
     
-    private List<QA> myQAs = new ArrayList<>();
+    private List<QA> openQAs = new ArrayList<>();
     
     private List<FoKo> availableFoKos = new ArrayList<>();
     
@@ -54,28 +57,38 @@ public class AdvisorIndexBean implements Serializable {
     private void init(){
         loggedInAdvisor = (Advisor) SecurityUtils.getSubject().getPrincipal();
         if(loggedInAdvisor == null) return;
-        myQAs = loggedInAdvisor.getQas();
+        refreshQAs();
         availableFoKos = foKoFacade.findAll();
     }
     
     public void acceptProposal(QA qa){
         acceptProposalBean.acceptProposal(qa);
-        myQAs = loggedInAdvisor.getQas();
+        refreshQAs();
         Messages.addGlobal(new FacesMessage("Proposal angenommen"));
     }
     
     public void gradeQA() {
         gradeQABean.gradeQA(selectedQA, achievedGrade);
-        myQAs = loggedInAdvisor.getQas();
+        refreshQAs();
         Messages.addGlobal(new FacesMessage("Note erfolgreich gesetzt"));
     }
-
-    public List<QA> getMyQAs() {
-        return myQAs;
+    
+    public void abortQA(QA qa){
+        abortQABean.abortQA(qa);
+        refreshQAs();
+        Messages.addGlobal(new FacesMessage("Qualifikationsarbeit abgebrochen"));
+    }
+    
+    private void refreshQAs(){
+        openQAs = qAFacade.findOpenAndNotAbortedQAsByAdvisor(loggedInAdvisor);
     }
 
-    public void setMyQAs(List<QA> myQAs) {
-        this.myQAs = myQAs;
+    public List<QA> getOpenQAs() {
+        return openQAs;
+    }
+
+    public void setOpenQAs(List<QA> openQAs) {
+        this.openQAs = openQAs;
     }
 
     public List<FoKo> getAvailableFoKos() {

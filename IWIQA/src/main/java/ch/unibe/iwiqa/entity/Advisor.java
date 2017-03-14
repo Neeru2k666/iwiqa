@@ -21,7 +21,8 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Advisor.findByEmail", query = "SELECT f FROM Advisor f WHERE f.email = :email")
+    @NamedQuery(name = "Advisor.findByEmail", query = "SELECT f FROM Advisor f WHERE f.email = :email"),
+    @NamedQuery(name = "Advisor.findAllActiveAdvisors", query = "SELECT f FROM Advisor f WHERE f.active = TRUE")
 })
 public class Advisor implements Serializable {
 
@@ -40,6 +41,8 @@ public class Advisor implements Serializable {
     
     @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<QA> qas = new ArrayList<>();
+    
+    private boolean active = true;
 
     public String getFirstName() {
         return firstName;
@@ -97,6 +100,14 @@ public class Advisor implements Serializable {
         this.password = password;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -121,5 +132,7 @@ public class Advisor implements Serializable {
     public String toString() {
         return "ch.unibe.iwiqa.entity.Advisor[ id=" + id + " ]";
     }
+
+    
     
 }

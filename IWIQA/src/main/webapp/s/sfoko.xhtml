@@ -13,6 +13,7 @@
     </ui:define>
 
     <ui:define name="content">
+        <o:importConstants type="ch.unibe.iwiqa.util.FoKo_ParticipateAs"/>
         <b:row>
             <b:column span="12">
                 <h3>Verfügbare Forschungskolloquien</h3>
@@ -47,14 +48,20 @@
                                 <b:commandButton rendered="#{not sfokoBean.hasRegisteredForFoKo(foko)}" value="Anmelden" size="xs" ajax="true" onclick="ajax:sfokoBean.setSelectedFoKo(foko);javascript:$('.modalPseudoClass').modal();"/>
                             </h:column>
                         </h:dataTable>
-                        <b:modal id="amodal" title="Für Forschungskolloquium registrieren" styleClass="modalPseudoClass">
-                            <h:outputText value="Bitte wählen Sie Ihre Qualifikationsarbeit, mit der Sie am Forschungskolloquium teilnehmen möchten." />
+                        <b:modal id="amodal" title="Für Forschungskolloquium anmelden" styleClass="modalPseudoClass">
+                            <p>Bitte wählen Sie Ihre Qualifikationsarbeit, mit der Sie am Forschungskolloquium teilnehmen möchten.</p>
                             <b:selectOneMenu value="#{sfokoBean.selectedQA}" id="qa">
                                 <f:selectItems value="#{sfokoBean.myQAs}" var="qa" itemLabel="#{qa.title}"/>
                             </b:selectOneMenu>
+                            <h:outputText value="Möchten Sie als Zuhörer oder Referent teilnehmen?" />
+                            <b:radiobutton value="#{sfokoBean.participateAs}">
+                                <f:selectItem itemValue="#{FoKo_ParticipateAs.SPEAKER}" itemLabel="#{text['foko_participateas.SPEAKER']}" />
+                                <f:selectItem itemValue="#{FoKo_ParticipateAs.LISTENER}" itemLabel="#{text['foko_participateas.LISTENER']}" />
+                            </b:radiobutton>
+                            <small><b:icon name="warning-sign" style="color: #f0ad4e;"/> Bitte beachten Sie, dass Ihr Proposal zum Zeitpunkt des Forschungskolloquiums angenommen sein muss, um am Forschungskolloquium teilnehmen zu können.</small>
                             <f:facet name="footer">
                                 <b:button value="Abbrechen" dismiss="modal" onclick="return false;"/>
-                                <b:commandButton value="Registrieren" action="#{sfokoBean.registerToFoKo}" ajax="true" onclick="$('.modalPseudoClass').modal('hide')" />
+                                <b:commandButton value="Registrieren" action="#{sfokoBean.registerToFoKo()}" ajax="true" onclick="$('.modalPseudoClass').modal('hide')" />
                             </f:facet>
                         </b:modal>
                     </h:form>

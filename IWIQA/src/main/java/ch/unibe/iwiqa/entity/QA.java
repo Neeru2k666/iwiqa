@@ -4,6 +4,7 @@ import ch.unibe.iwiqa.util.QA_Status;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,6 +25,9 @@ import javax.persistence.TemporalType;
  * @author Marc Jost
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "QA.findOpenAndNotAbortedQAsByAdvisor", query = "SELECT f FROM QA f WHERE f.advisor = :advisor AND ((f.status <> ch.unibe.iwiqa.util.QA_Status.QA_COMPLETED) AND (f.status <> ch.unibe.iwiqa.util.QA_Status.QA_ABORTED))")
+})
 public class QA implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,20 +44,20 @@ public class QA implements Serializable {
      * Starting date of the processing period
      */
     @Temporal(TemporalType.DATE)
-    private Calendar startingDate;
+    private Date startingDate;
     
     /**
      * Ending date of the processing period. Should be automatically set to 
  startingDate + 10 weeks
      */
     @Temporal(TemporalType.DATE)
-    private Calendar endingDate;
+    private Date endingDate;
     
     /**
      * Date when the thesis was effectively handed in e.g. uploaded
      */
     @Temporal(TemporalType.DATE)
-    private Calendar handInDate;
+    private Date handInDate;
     
     /**
      * Tells the prof if the thesis can be completed. Must have 
@@ -68,7 +74,7 @@ public class QA implements Serializable {
      * Date when the work was graded
      */
     @Temporal(TemporalType.DATE)
-    private Calendar gradedDate;
+    private Date gradedDate;
     
     /**
      * Identifies the type this QA is, either MA or BA
@@ -107,27 +113,27 @@ public class QA implements Serializable {
         this.title = title;
     }
 
-    public Calendar getStartingDate() {
+    public Date getStartingDate() {
         return startingDate;
     }
 
-    public void setStartingDate(Calendar startingDate) {
+    public void setStartingDate(Date startingDate) {
         this.startingDate = startingDate;
     }
 
-    public Calendar getEndingDate() {
+    public Date getEndingDate() {
         return endingDate;
     }
 
-    public void setEndingDate(Calendar endingDate) {
+    public void setEndingDate(Date endingDate) {
         this.endingDate = endingDate;
     }
 
-    public Calendar getHandInDate() {
+    public Date getHandInDate() {
         return handInDate;
     }
 
-    public void setHandInDate(Calendar handInDate) {
+    public void setHandInDate(Date handInDate) {
         this.handInDate = handInDate;
     }
 
@@ -147,11 +153,11 @@ public class QA implements Serializable {
         this.grade = grade;
     }
 
-    public Calendar getGradedDate() {
+    public Date getGradedDate() {
         return gradedDate;
     }
 
-    public void setGradedDate(Calendar gradedDate) {
+    public void setGradedDate(Date gradedDate) {
         this.gradedDate = gradedDate;
     }
 

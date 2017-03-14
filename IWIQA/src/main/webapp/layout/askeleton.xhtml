@@ -15,13 +15,14 @@
 
     <h:body style="padding-top: 50px">
         <b:messages/>
-        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.INDEX}" inverse="true" fixed="top">
+        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.AINDEX}" inverse="true" fixed="top">
             <b:navbarLinks>
                 <shiro:notAuthenticated>
                     <b:navLink value="Registrieren" href="#{request.contextPath}/#{navigation.REGSTUDENT}"/>
                 </shiro:notAuthenticated>
                 <shiro:authenticated>
-                    <b:navLink value="Qualifikationsarbeiten" href="#{request.contextPath}#{navigation.SINDEX}"/>
+                    <b:navLink value="Qualifikationsarbeiten" href="#{request.contextPath}/#{navigation.AINDEX}"/>
+                    <b:navLink value="Forschungskolloquien" href="#{request.contextPath}/#{navigation.AALLFOKOS}"/>
                 </shiro:authenticated>
             </b:navbarLinks>
             <ezcomp:loginComponent loginAction="#{loginBean.login()}" logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}" passwordField="#{loginBean.password}" switchChangedMethod="#{loginBean.setSwitchBoxTarget}"/>
