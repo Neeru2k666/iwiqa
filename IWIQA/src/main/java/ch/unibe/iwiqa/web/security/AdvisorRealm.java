@@ -9,6 +9,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.omnifaces.config.BeanManager;
 
@@ -16,7 +17,7 @@ import org.omnifaces.config.BeanManager;
  *
  * @author Marc Jost
  */
-public class AdvisorRealm extends JdbcRealm {
+public class AdvisorRealm extends AuthenticatingRealm {
     
     private AdvisorFacade advisorFacade;
 

@@ -2,13 +2,15 @@
  */
 package ch.unibe.iwiqa.web.bean;
 
+import ch.unibe.iwiqa.entity.Advisor;
+import ch.unibe.iwiqa.entity.Student;
 import ch.unibe.iwiqa.web.security.TargetedAuthenticationToken;
 import ch.unibe.iwiqa.web.util.Navigation;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 import org.apache.shiro.SecurityUtils;
@@ -23,7 +25,7 @@ import org.omnifaces.util.Messages;
  * @author Marc Jost
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class LoginBean implements Serializable {
     
     private static final long serialVersionUID = -8679256432908991345L;
@@ -60,7 +62,10 @@ public class LoginBean implements Serializable {
     }
 
     public String getUsername() {
-        return username;
+        Object principal = SecurityUtils.getSubject().getPrincipal();
+        if(principal instanceof Advisor) return ((Advisor) principal).getEmail();
+        else if (principal instanceof Student) return ((Student) principal).getEmail();
+        else return username;
     }
 
     public void setUsername(String username) {

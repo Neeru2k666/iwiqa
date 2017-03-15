@@ -35,19 +35,19 @@
                 <b:column span="12">
                     <b:panel>
                         <b:row styleClass="form-group">
-                            <b:column span="2">
+                            <b:column span="3">
                                 <h:outputLabel value="Titel:" />
                             </b:column>
-                            <b:column span="10">
+                            <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.title}" rendered="#{not aqaDetailBean.editMode}" />
                                 <b:inputText value="#{aqaDetailBean.qa.title}" rendered="#{aqaDetailBean.editMode}"/>
                             </b:column>
                         </b:row>
                         <b:row styleClass="form-group">
-                            <b:column span="2">
+                            <b:column span="3">
                                 <h:outputLabel value="Typ:" />
                             </b:column>
-                            <b:column span="10">
+                            <b:column span="9">
                                 <h:outputText value="#{text['qa_type.' += aqaDetailBean.qa.qaType]}" rendered="#{not aqaDetailBean.editMode}"/>
                                 <b:radiobutton value="#{aqaDetailBean.qa.qaType}" rendered="#{aqaDetailBean.editMode}">
                                     <f:selectItems value="#{aqaDetailBean.types}" var="type" itemLabel="#{text['qa_type.' += type]}" />
@@ -55,10 +55,10 @@
                             </b:column>
                         </b:row>
                         <b:row styleClass="form-group">
-                            <b:column span="2">
+                            <b:column span="3">
                                 <h:outputLabel value="Betreuer:"/>
                             </b:column>
-                            <b:column span="10">
+                            <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.advisor.fullName}" rendered="#{not aqaDetailBean.editMode}" />
                                 <b:selectOneMenu value="#{aqaDetailBean.qa.advisor}" id="advisor" rendered="#{aqaDetailBean.editMode}">
                                     <f:selectItems value="#{aqaDetailBean.availableAdvisors}" var="advisor" itemLabel="#{advisor.fullName}"/>
@@ -66,10 +66,10 @@
                             </b:column>
                         </b:row>
                         <b:row styleClass="form-group">
-                            <b:column span="2">
-                                <h:outputLabel value="Startdatum:"/>
+                            <b:column span="3">
+                                <h:outputLabel value="Startdatum:"/><b:icon name="question-sign" tooltip="Datum, an dem das Proposal angenommen wurde. Offizieller Beginn der Bearbeitungszeit."/>
                             </b:column>
-                            <b:column span="10">
+                            <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.startingDate}" rendered="#{not aqaDetailBean.editMode}">
                                     <f:convertDateTime pattern="dd.MM.yyyy" />
                                 </h:outputText>
@@ -77,10 +77,10 @@
                             </b:column>
                         </b:row>
                         <b:row styleClass="form-group">
-                            <b:column span="2">
-                                <h:outputLabel value="Abgabedatum:"/>
+                            <b:column span="3">
+                                <h:outputLabel value="Abgabedatum:"/><b:icon name="question-sign" tooltip="Datum, an dem die Qualifikationsarbeit eingereicht wurde."/>
                             </b:column>
-                            <b:column span="10">
+                            <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.handInDate}" rendered="#{aqaDetailBean.qa.handInDate ne null and not aqaDetailBean.editMode}">
                                     <f:convertDateTime pattern="dd.MM.yyyy" />
                                 </h:outputText>
@@ -88,10 +88,10 @@
                             </b:column>
                         </b:row>
                         <b:row styleClass="form-group">
-                            <b:column span="2">
-                                <h:outputLabel value="Enddatum:"/>
+                            <b:column span="3">
+                                <h:outputLabel value="Enddatum:"/><b:icon name="question-sign" tooltip="Offizielles Ende der Bearbeitungszeit."/>
                             </b:column>
-                            <b:column span="10">
+                            <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.endingDate}" rendered="#{not aqaDetailBean.editMode}">
                                     <f:convertDateTime pattern="dd.MM.yyyy" />
                                 </h:outputText>
@@ -99,10 +99,10 @@
                             </b:column>
                         </b:row>
                         <b:row styleClass="form-group">
-                            <b:column span="2">
-                                <h:outputLabel value="Bewertungsdatum:"/>
+                            <b:column span="3">
+                                <h:outputLabel value="Bewertungsdatum:"/><b:icon name="question-sign" tooltip="Datum, an dem die Qualifikationsarbeit bewertet wurde."/>
                             </b:column>
-                            <b:column span="10">
+                            <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.gradedDate}" rendered="#{aqaDetailBean.qa.gradedDate ne null and not aqaDetailBean.editMode}">
                                     <f:convertDateTime pattern="dd.MM.yyyy" />
                                 </h:outputText>
@@ -110,10 +110,10 @@
                             </b:column>
                         </b:row>
                         <b:row styleClass="form-group">
-                            <b:column span="2">
-                                <h:outputLabel value="Note:" />
+                            <b:column span="3">
+                                <h:outputLabel value="Note:"/>
                             </b:column>
-                            <b:column span="10">
+                            <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.grade}" rendered="#{aqaDetailBean.qa.grade != 0.0 and not aqaDetailBean.editMode}" />
                                 <b:inputText value="#{aqaDetailBean.qa.grade}" rendered="#{aqaDetailBean.qa.grade != 0.0 and aqaDetailBean.editMode}"/>
                             </b:column>
@@ -131,26 +131,26 @@
             <b:column span="12">
                 <b:panel>
                     <b:row>
-                        <b:column span="2">
+                        <b:column span="3">
                             <h:outputLabel value="Name:" />
                         </b:column>
-                        <b:column span="10">
+                        <b:column span="9">
                             <h:outputText value="#{aqaDetailBean.qa.student.fullName}"/>
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column span="2">
+                        <b:column span="3">
                             <h:outputLabel value="Matrikelnummer:" />
                         </b:column>
-                        <b:column span="10">
+                        <b:column span="9">
                             <h:outputText value="#{aqaDetailBean.qa.student.matNr}"/>
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column span="2">
+                        <b:column span="3">
                             <h:outputLabel value="Email:" />
                         </b:column>
-                        <b:column span="10">
+                        <b:column span="9">
                             <h:outputText value="#{aqaDetailBean.qa.student.email} "/>
                             <h:outputLink value="mailto:#{aqaDetailBean.qa.student.email}">
                                 <b:icon name="envelope" />
@@ -158,10 +158,10 @@
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column span="2">
+                        <b:column span="3">
                             <h:outputLabel value="Adresse:" />
                         </b:column>
-                        <b:column span="10">
+                        <b:column span="9">
                             <h:outputText value="#{aqaDetailBean.qa.student.street}, #{aqaDetailBean.qa.student.ZIP} #{aqaDetailBean.qa.student.city}"/>
                         </b:column>
                     </b:row>

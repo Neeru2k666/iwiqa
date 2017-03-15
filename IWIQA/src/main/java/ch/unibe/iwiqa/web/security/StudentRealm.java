@@ -9,14 +9,14 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.realm.jdbc.JdbcRealm;
+import org.apache.shiro.realm.AuthenticatingRealm;
 import org.omnifaces.config.BeanManager;
 
 /**
  *
  * @author Marc Jost
  */
-public class StudentRealm extends JdbcRealm {
+public class StudentRealm extends AuthenticatingRealm {
     
     private StudentFacade studentFacade;
 
