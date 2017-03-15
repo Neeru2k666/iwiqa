@@ -97,6 +97,7 @@
                                     <h:column>
                                         <f:facet name="header">Titel</f:facet>
                                         <h:outputText value="#{par.qa.title}"/>
+                                        <b:icon name="exclamation-sign" rendered="#{par.qa.status eq QA_Status.PROPOSAL_IN_PROGRESS}" style="margin-left: 5px; color: #d9534f;" tooltip="Das Proposal dieser Arbeit wurde noch nicht angenommen."/>
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Modus</f:facet>
@@ -108,7 +109,7 @@
                                         <b:button value="Details" size="xs" outcome="#{navigation.AQADETAIL}">
                                             <f:param name="id" value="#{par.qa.getId()}"/>
                                         </b:button>
-                                        <b:commandButton rendered="#{afokoDetailBean.editMode}" value="x" tooltip="Teilnehmer löschen" size="xs" look="danger" action="#{afokoDetailBean.removeParticipant(par)}"/>
+                                        <b:commandButton rendered="#{afokoDetailBean.editMode}" value="x" tooltip="Teilnehmer löschen" size="xs" look="danger" action="#{afokoDetailBean.removeParticipant(par)}" style="margin-left: 5px"/>
                                     </h:column>
                                 </h:dataTable>
                             </b:panel>

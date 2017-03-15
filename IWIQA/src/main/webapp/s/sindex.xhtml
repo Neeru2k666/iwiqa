@@ -34,13 +34,13 @@
                                 <h:dataTable value="#{qa}" styleClass="table" style="margin-bottom: 0">
                                     <h:column>
                                         <f:facet name="header">Von</f:facet>
-                                        <h:outputText value="#{qa.startingDate.time}">
+                                        <h:outputText value="#{qa.startingDate}">
                                             <f:convertDateTime pattern="dd.MM.yyyy"/>
                                         </h:outputText>
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Bis</f:facet>
-                                        <h:outputText value="#{qa.endingDate.time}">
+                                        <h:outputText value="#{qa.endingDate}">
                                             <f:convertDateTime pattern="dd.MM.yyyy"/>
                                         </h:outputText>
                                     </h:column>

@@ -18,70 +18,123 @@
     </ui:define>
 
     <ui:define name="content">
-        <b:row>
-            <b:column span="12">
-                <h3>Details Qualifikationsarbeit</h3><b:label text="#{text['qa_status.' += sqaDetailBean.qa.status]}" severity="success" />
-            </b:column>
-        </b:row>
-        <hr />
-        <b:row>
-            <b:column span="12">
-                <b:panel>
-                    <b:form>
-                        <b:row>
-                            <b:column span="12">
-                                <b:inputText id="title" value="#{sqaDetailBean.qa.title}" label="Titel" required="true" renderLabel="true" />
+        <o:importConstants type="ch.unibe.iwiqa.util.QA_Type"/>
+        <o:importConstants type="ch.unibe.iwiqa.util.QA_Status"/>
+        <o:form includeViewParams="true">
+            <b:row>
+                <b:column span="8">
+                    <h3>Details Qualifikationsarbeit</h3><b:label text="#{text['qa_status.' += sqaDetailBean.qa.status]}" severity="success" />
+                </b:column>
+                <b:column span="4">
+                    <b:commandButton look="info" value="Editieren" action="#{sqaDetailBean.edit()}" rendered="#{not sqaDetailBean.editMode and sqaDetailBean.qa.status.value lt QA_Status.QA_HANDED_IN.value}" styleClass="pull-right" style="margin-top: 20px" size="sm"/>
+                    <b:commandButton value="X" look="danger" tooltip="Qualifikationsarbeit abbrechen" rendered="#{sqaDetailBean.editMode}" styleClass="pull-right" style="margin-top: 20px" size="sm"/>
+                    <b:commandButton value="Änderungen speichern" action="#{sqaDetailBean.editQA()}" look="success" rendered="#{sqaDetailBean.editMode}" styleClass="pull-right" style="margin-top: 20px; margin-right: 10px" size="sm"/>
+                </b:column>
+            </b:row>
+            <hr />
+            <b:row>
+                <b:column span="12">
+                    <b:panel>
+                        <b:row styleClass="form-group">
+                            <b:column span="3">
+                                <h:outputLabel value="Titel:" />
+                            </b:column>
+                            <b:column span="9">
+                                <h:outputText value="#{sqaDetailBean.qa.title}" rendered="#{not sqaDetailBean.editMode}" />
+                                <b:inputText value="#{sqaDetailBean.qa.title}" rendered="#{sqaDetailBean.editMode}"/>
                             </b:column>
                         </b:row>
-                        <b:row>
-                            <b:column span="2">
-                                <h:outputLabel value="Von:" for="start" style="padding-right: 5px;"/>
-                                <h:outputText id="start" value="#{sqaDetailBean.qa.startingDate.time}">
-                                    <f:convertDateTime pattern="dd.MM.yyyy" />
-                                </h:outputText>
+                        <b:row styleClass="form-group">
+                            <b:column span="3">
+                                <h:outputLabel value="Typ:" />
                             </b:column>
-                            <b:column span="2">
-                                <h:outputLabel value="Bis: " for="end" style="padding-right: 5px;"/>
-                                <h:outputText id="end" value="#{sqaDetailBean.qa.endingDate.time}">
-                                    <f:convertDateTime pattern="dd.MM.yyyy" />
-                                </h:outputText>
+                            <b:column span="9">
+                                <h:outputText value="#{text['qa_type.' += sqaDetailBean.qa.qaType]}" rendered="#{not sqaDetailBean.editMode}"/>
+                                <b:radiobutton value="#{sqaDetailBean.qa.qaType}" rendered="#{sqaDetailBean.editMode}">
+                                    <f:selectItems value="#{sqaDetailBean.types}" var="type" itemLabel="#{text['qa_type.' += type]}" />
+                                </b:radiobutton>
                             </b:column>
-                            <b:column span="2">
-                                <h:outputLabel value="Betreuer: " for="advisor"/>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="3">
+                                <h:outputLabel value="Betreuer:"/>
                             </b:column>
-                            <b:column span="6">
-                                <b:selectOneMenu value="#{sqaDetailBean.qa.advisor}" id="advisor">
+                            <b:column span="9">
+                                <h:outputText value="#{sqaDetailBean.qa.advisor.fullName}" rendered="#{not sqaDetailBean.editMode}" />
+                                <b:selectOneMenu value="#{sqaDetailBean.qa.advisor}" id="advisor" rendered="#{sqaDetailBean.editMode}">
                                     <f:selectItems value="#{sqaDetailBean.availableAdvisors}" var="advisor" itemLabel="#{advisor.fullName}"/>
                                 </b:selectOneMenu>
                             </b:column>
                         </b:row>
-                        <b:row>
-                            <b:column span="4" offset="8">
-                                <b:commandButton value="Änderungen speichern" action="#{sqaDetailBean.editQA()}" look="success" style="margin-right: 5px"/>
-                                <b:button value="X" look="danger" tooltip="Qualifikationsarbeit löschen" />
+                        <b:row styleClass="form-group">
+                            <b:column span="3">
+                                <h:outputLabel value="Startdatum:"/><b:icon name="question-sign" tooltip="Datum, an dem das Proposal angenommen wurde. Offizieller Beginn der Bearbeitungszeit."/>
+                            </b:column>
+                            <b:column span="9">
+                                <h:outputText value="#{sqaDetailBean.qa.startingDate}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
                             </b:column>
                         </b:row>
-                    </b:form>
-                </b:panel>
-                <b:panel collapsible="false">
-                    <f:facet name="heading">
-                        <h:outputText value="File Upload"/>
-                    </f:facet>
-                    <h:form id="fileupload" enctype="multipart/form-data">
-                        <b:row>
-                            <b:column span="12">
-                                <h:inputFile id="file" value="#{uploadFileBean.file}" />
+                        <b:row styleClass="form-group">
+                            <b:column span="3">
+                                <h:outputLabel value="Abgabedatum:"/><b:icon name="question-sign" tooltip="Datum, an dem die Qualifikationsarbeit eingereicht wurde."/>
+                            </b:column>
+                            <b:column span="9">
+                                <h:outputText value="#{sqaDetailBean.qa.handInDate}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
                             </b:column>
                         </b:row>
-                        <b:row>
-                            <b:column span="3" offset="9" >
-                                <b:commandButton value="Upload" action="#{uploadFileBean.upload}" />
+                        <b:row styleClass="form-group">
+                            <b:column span="3">
+                                <h:outputLabel value="Enddatum:"/><b:icon name="question-sign" tooltip="Offizielles Ende der Bearbeitungszeit."/>
+                            </b:column>
+                            <b:column span="9">
+                                <h:outputText value="#{sqaDetailBean.qa.endingDate}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
                             </b:column>
                         </b:row>
-                    </h:form>
-                </b:panel>
-            </b:column>
-        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="3">
+                                <h:outputLabel value="Bewertungsdatum:"/><b:icon name="question-sign" tooltip="Datum, an dem die Qualifikationsarbeit bewertet wurde."/>
+                            </b:column>
+                            <b:column span="9">
+                                <h:outputText value="#{sqaDetailBean.qa.gradedDate}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                            </b:column>
+                        </b:row>
+                        <b:row styleClass="form-group">
+                            <b:column span="3">
+                                <h:outputLabel value="Note:"/>
+                            </b:column>
+                            <b:column span="9">
+                                <h:outputText value="#{sqaDetailBean.qa.grade}" rendered="#{sqaDetailBean.qa.grade != 0.0}" />
+                            </b:column>
+                        </b:row>
+                    </b:panel>
+                </b:column>
+            </b:row>
+        </o:form>
+        <h:form id="fileupload" enctype="multipart/form-data">
+            <b:panel collapsible="false">
+                <f:facet name="heading">
+                    <h:outputText value="File Upload"/>
+                </f:facet>
+                <b:row>
+                    <b:column span="12">
+                        <h:inputFile id="file" value="#{uploadFileBean.file}" />
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="3" offset="9" >
+                        <b:commandButton value="Upload" action="#{uploadFileBean.upload}" />
+                    </b:column>
+                </b:row>
+            </b:panel>
+        </h:form>
     </ui:define>
 
     <ui:define name="sideContent">

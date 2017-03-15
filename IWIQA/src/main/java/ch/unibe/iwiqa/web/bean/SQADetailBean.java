@@ -6,6 +6,7 @@ import ch.unibe.iwiqa.entity.Advisor;
 import ch.unibe.iwiqa.entity.QA;
 import ch.unibe.iwiqa.entity.dao.AdvisorFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
+import ch.unibe.iwiqa.util.QA_Type;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class SQADetailBean implements Serializable {
     
     private List<Advisor> availableAdvisors = new ArrayList<>();
     
+    private boolean editMode= false;
     
     public void init(){
         availableAdvisors = advisorFacade.findAll();
@@ -43,10 +45,18 @@ public class SQADetailBean implements Serializable {
         try {
             qAFacade.edit(qa);
             Messages.addGlobalInfo("Änderungen an der QA gespeichert");
+            editMode = false;
         } catch (Exception e) {
             Messages.addGlobalError("Änderungen an der QA konnten nicht gespeichert werden - versuchen Sie es nochmals");
         }
-        
+    }
+    
+    public void edit(){
+        editMode = true;
+    }
+    
+    public QA_Type[] getTypes(){
+        return QA_Type.values();
     }
     
     public QA getQa() {
@@ -63,5 +73,13 @@ public class SQADetailBean implements Serializable {
 
     public void setAvailableAdvisors(List<Advisor> availableAdvisors) {
         this.availableAdvisors = availableAdvisors;
+    }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
     }
 }

@@ -63,12 +63,12 @@ public class QA implements Serializable {
      * Tells the prof if the thesis can be completed. Must have 
      * visited both Fokos
      */
-    private boolean canBeCompleted;
+    private boolean canBeCompleted = false;
 
     /**
-     * Final grade of the thesis
+     * Final grade of the thesis. Default value of new QAs is zero
      */
-    private double grade;
+    private double grade = 0;
     
     /**
      * Date when the work was graded
@@ -90,9 +90,9 @@ public class QA implements Serializable {
     private Student student;
     
     /**
-     * Identifies the status of this QA
+     * Identifies the status of this QA. Default value of new QAs is PROPOSAL_IN_PROGRESS
      */
-    private QA_Status status;
+    private QA_Status status = QA_Status.PROPOSAL_IN_PROGRESS;
     
     @OneToMany(mappedBy = "qa", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<FoKoRegistration> participatingIn = new ArrayList<>();

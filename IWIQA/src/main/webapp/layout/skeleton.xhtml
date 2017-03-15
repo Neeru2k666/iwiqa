@@ -21,7 +21,7 @@
                     <b:navLink value="Registrieren" href="#{request.contextPath}/#{navigation.REGSTUDENT}"/>
                 </shiro:notAuthenticated>
                 <shiro:authenticated>
-                    <b:navLink value="Qualifikationsarbeiten" href="#{request.contextPath}#{navigation.SINDEX}"/>
+                    <b:navLink value="Qualifikationsarbeiten" href="#{request.contextPath}/#{navigation.SINDEX}"/>
                 </shiro:authenticated>
             </b:navbarLinks>
             <ezcomp:loginComponent loginAction="#{loginBean.login()}" logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}" passwordField="#{loginBean.password}" switchChangedMethod="#{loginBean.setSwitchBoxTarget}"/>
