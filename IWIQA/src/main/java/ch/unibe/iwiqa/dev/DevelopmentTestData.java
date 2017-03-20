@@ -223,11 +223,14 @@ public class DevelopmentTestData {
         FoKoRegistration fr1 = new FoKoRegistration();
         fr1.setFoko(f1);
         fr1.setQa(qa1);
+        fr1.setStudent(qa1.getStudent());
         fr1.setParticipatingAs(FoKo_ParticipateAs.LISTENER);
         foKoRegistrationFacade.create(fr1);
         f1.addParticipant(fr1);
         foKoFacade.edit(f1);
         qa1.addFoKoRegistration(fr1);
         qAFacade.edit(qa1);
+        qa1.getStudent().addFoKoRegistration(fr1);
+        studentFacade.edit(qa1.getStudent());
     }
 }

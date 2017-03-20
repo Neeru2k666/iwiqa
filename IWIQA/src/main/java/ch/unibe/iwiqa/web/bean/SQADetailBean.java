@@ -4,6 +4,7 @@ package ch.unibe.iwiqa.web.bean;
 
 import ch.unibe.iwiqa.entity.Advisor;
 import ch.unibe.iwiqa.entity.QA;
+import ch.unibe.iwiqa.entity.Student;
 import ch.unibe.iwiqa.entity.dao.AdvisorFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
 import ch.unibe.iwiqa.util.QA_Type;
@@ -13,6 +14,7 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.shiro.SecurityUtils;
 import org.omnifaces.util.Messages;
 
 /**
@@ -37,8 +39,15 @@ public class SQADetailBean implements Serializable {
     
     private boolean editMode= false;
     
+    private Student loggedInStudent;
+    
+    private boolean myQA;
+    
     public void init(){
         availableAdvisors = advisorFacade.findAll();
+        loggedInStudent = (Student) SecurityUtils.getSubject().getPrincipal();
+        if(loggedInStudent == null) return;
+        myQA = qa.getStudent().equals(loggedInStudent);
     }
     
     public void editQA(){
@@ -58,7 +67,11 @@ public class SQADetailBean implements Serializable {
     public QA_Type[] getTypes(){
         return QA_Type.values();
     }
-    
+
+    public boolean isMyQA() {
+        return myQA;
+    }
+
     public QA getQa() {
         return qa;
     }

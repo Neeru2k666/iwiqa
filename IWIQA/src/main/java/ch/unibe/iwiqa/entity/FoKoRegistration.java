@@ -34,6 +34,10 @@ public class FoKoRegistration implements Serializable {
     @JoinColumn
     private FoKo foko;
     
+    @ManyToOne
+    @JoinColumn
+    private Student student;
+    
     private FoKo_ParticipateAs participatingAs;
 
     public Long getId() {
@@ -66,6 +70,14 @@ public class FoKoRegistration implements Serializable {
 
     public void setParticipatingAs(FoKo_ParticipateAs participatingAs) {
         this.participatingAs = participatingAs;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     @Override

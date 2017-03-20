@@ -13,15 +13,16 @@
     </ui:define>
 
     <ui:define name="content">
-        <o:importConstants type="ch.unibe.iwiqa.util.FoKo_ParticipateAs"/>
-        <b:row>
-            <b:column span="12">
-                <h3>Verfügbare Forschungskolloquien</h3>
-                <b:panel rendered="#{empty sfokoBean.availableFoKos}">
-                    <h:outputText value="Momentan sind keine Forschungskolloquien verfügbar"/>
-                </b:panel>
-                <b:panel rendered="#{not empty sfokoBean.availableFoKos}">
-                    <h:form id="fokoForm" prependId="false">
+        <h:form id="fokoForm" prependId="false">
+            <o:importConstants type="ch.unibe.iwiqa.util.FoKo_ParticipateAs"/>
+            <b:row>
+                <b:column span="12">
+                    <h3>Verfügbare Forschungskolloquien</h3>
+                    <b:panel rendered="#{empty sfokoBean.availableFoKos}">
+                        <h:outputText value="Momentan sind keine Forschungskolloquien verfügbar"/>
+                    </b:panel>
+                    <b:panel rendered="#{not empty sfokoBean.availableFoKos}">
+
                         <h:dataTable id="fokoTable" value="#{sfokoBean.availableFoKos}" var="foko" styleClass="table" style="margin-bottom: 0">
                             <h:column>
                                 <f:facet name="header">Von</f:facet>
@@ -40,12 +41,8 @@
                                 <h:outputText value="#{foko.room}"/>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Angemeldet</f:facet>
-                                <b:icon rendered="#{sfokoBean.hasRegisteredForFoKo(foko)}" name="check"/>
-                            </h:column>
-                            <h:column>
                                 <f:facet name="header"></f:facet>
-                                <b:commandButton rendered="#{not sfokoBean.hasRegisteredForFoKo(foko)}" value="Anmelden" size="xs" ajax="true" onclick="ajax:sfokoBean.setSelectedFoKo(foko);javascript:$('.modalPseudoClass').modal();"/>
+                                <b:commandButton rendered="#{not sfokoBean.hasRegisteredForFoKo(foko)}" value="Anmelden" size="xs" ajax="true" onclick="ajax:sfokoBean.setSelectedFoKo(foko);javascript:$('.modalPseudoClass').modal();" styleClass="pull-right"/>
                             </h:column>
                         </h:dataTable>
                         <b:modal id="amodal" title="Für Forschungskolloquium anmelden" styleClass="modalPseudoClass">
@@ -64,10 +61,51 @@
                                 <b:commandButton value="Registrieren" action="#{sfokoBean.registerToFoKo()}" ajax="true" onclick="$('.modalPseudoClass').modal('hide')" />
                             </f:facet>
                         </b:modal>
-                    </h:form>
+                    </b:panel>
+                </b:column>
+            </b:row>
+            <b:row>
+            <b:column span="12">
+                <h3>Meine Forschungskolloquien</h3>
+                <b:panel rendered="#{empty sfokoBean.myFoKoRegistrations}">
+                    <p>Sie haben sich noch für keine FoKos angemeldet</p>
+                </b:panel>
+                <b:panel rendered="#{not empty sfokoBean.myFoKoRegistrations}">
+                    <b:form>
+                        <h:dataTable value="#{sfokoBean.myFoKoRegistrations}" var="reg" styleClass="table"  style="margin-bottom: 0">
+                            <h:column>
+                                <f:facet name="header">Arbeit</f:facet>
+                                <h:outputText value="#{reg.qa.title}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Datum</f:facet>
+                                <h:outputText value="#{reg.foko.startingDate.time}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy hh:mm"/>
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Raum</f:facet>
+                                <h:outputText value="#{reg.foko.room}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Zuhörer</f:facet>
+                                <center><b:icon name="#{reg.participatingAs == FoKo_ParticipateAs.LISTENER ? 'check' : 'unchecked'}" /></center>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Referent</f:facet>
+                                <center><b:icon name="#{reg.participatingAs == FoKo_ParticipateAs.SPEAKER ? 'check' : 'unchecked'}" /></center>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header"/>
+                                <b:button value="Details" size="xs" />
+                                <b:commandButton value="X" size="xs" look="danger" action="#{sfokoBean.deregister(reg)}" tooltip="Abmelden"/>
+                            </h:column>
+                        </h:dataTable>
+                    </b:form>
                 </b:panel>
             </b:column>
         </b:row>
+        </h:form>
     </ui:define>
     <ui:define name="sideContent">
         sideContent

@@ -25,6 +25,9 @@ public class AFoKoDetailBean implements Serializable {
     @Inject
     private FoKoFacade foKoFacade;
     
+    @Inject
+    private DeregisterFoKoBean deregisterFoKoBean;
+    
     private FoKo foko;
     
     private boolean editMode = false;
@@ -49,8 +52,7 @@ public class AFoKoDetailBean implements Serializable {
     }
     
     public void removeParticipant(FoKoRegistration par){
-        foko.removeParticipant(par);
-        foKoFacade.edit(foko);
+        deregisterFoKoBean.deregisterFoKo(par);
     }
 
     public FoKo getFoko() {

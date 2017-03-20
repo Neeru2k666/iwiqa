@@ -58,7 +58,7 @@ public class AdvisorIndexBean implements Serializable {
         loggedInAdvisor = (Advisor) SecurityUtils.getSubject().getPrincipal();
         if(loggedInAdvisor == null) return;
         refreshQAs();
-        availableFoKos = foKoFacade.findAll();
+        availableFoKos = foKoFacade.findAllOrderByDate();
     }
     
     public void acceptProposal(QA qa){

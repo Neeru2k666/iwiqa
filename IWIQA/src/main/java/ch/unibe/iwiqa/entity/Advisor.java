@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,6 +44,9 @@ public class Advisor implements Serializable {
     private List<QA> qas = new ArrayList<>();
     
     private boolean active = true;
+    
+    @ManyToOne
+    private Professor professor;
 
     public String getFirstName() {
         return firstName;
@@ -106,6 +110,14 @@ public class Advisor implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 
     @Override

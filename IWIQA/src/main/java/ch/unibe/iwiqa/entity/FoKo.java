@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,6 +22,9 @@ import javax.persistence.TemporalType;
  * @author Marc Jost
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "FoKo.findAllOrderByDate", query = "SELECT f FROM FoKo f ORDER BY f.endingDate ASC")
+})
 public class FoKo implements Serializable {
 
     private static final long serialVersionUID = 1L;

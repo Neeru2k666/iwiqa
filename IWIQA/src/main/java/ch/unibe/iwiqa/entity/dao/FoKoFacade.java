@@ -3,6 +3,7 @@
 package ch.unibe.iwiqa.entity.dao;
 
 import ch.unibe.iwiqa.entity.FoKo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,6 +25,10 @@ public class FoKoFacade extends AbstractFacade<FoKo> {
 
     public FoKoFacade() {
         super(FoKo.class);
+    }
+
+    public List<FoKo> findAllOrderByDate() {
+        return em.createNamedQuery("FoKo.findAllOrderByDate").getResultList();
     }
     
 }

@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "QA.findOpenAndNotAbortedQAsByAdvisor", query = "SELECT f FROM QA f WHERE f.advisor = :advisor AND ((f.status <> ch.unibe.iwiqa.util.QA_Status.QA_COMPLETED) AND (f.status <> ch.unibe.iwiqa.util.QA_Status.QA_ABORTED))")
+    @NamedQuery(name = "QA.findOpenAndNotAbortedQAsByAdvisor", query = "SELECT f FROM QA f WHERE f.advisor = :advisor AND ((f.status <> ch.unibe.iwiqa.util.QA_Status.QA_COMPLETED) AND (f.status <> ch.unibe.iwiqa.util.QA_Status.QA_ABORTED)) ORDER BY f.endingDate ASC")
 })
 public class QA implements Serializable {
 
@@ -188,6 +188,10 @@ public class QA implements Serializable {
     public void addFoKoRegistration(FoKoRegistration reg) {
         this.participatingIn.add(reg);
     }
+    
+    public void removeFoKoRegistration(FoKoRegistration reg) {
+        this.participatingIn.remove(reg);
+    }
 
     public Advisor getAdvisor() {
         return advisor;
@@ -229,5 +233,7 @@ public class QA implements Serializable {
     public String toString() {
         return "ch.unibe.iwiqa.entity.QA[ id=" + id + " ]";
     }
+
+    
     
 }

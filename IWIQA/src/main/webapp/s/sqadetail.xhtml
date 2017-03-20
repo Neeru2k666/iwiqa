@@ -20,7 +20,7 @@
     <ui:define name="content">
         <o:importConstants type="ch.unibe.iwiqa.util.QA_Type"/>
         <o:importConstants type="ch.unibe.iwiqa.util.QA_Status"/>
-        <o:form includeViewParams="true">
+        <o:form includeViewParams="true" rendered="#{sqaDetailBean.myQA}">
             <b:row>
                 <b:column span="8">
                     <h3>Details Qualifikationsarbeit</h3><b:label text="#{text['qa_status.' += sqaDetailBean.qa.status]}" severity="success" />
@@ -118,23 +118,30 @@
                 </b:column>
             </b:row>
         </o:form>
-        <h:form id="fileupload" enctype="multipart/form-data">
+        <h:form id="fileupload" enctype="multipart/form-data" rendered="#{sqaDetailBean.myQA}">
             <b:panel collapsible="false">
                 <f:facet name="heading">
-                    <h:outputText value="File Upload"/>
+                    <h:outputText value="Qualifikationsarbeit hochladen"/><b:icon name="warning-sign" tooltip="Der File Upload ist final. Stellen Sie sicher, dass Sie die definitive Version hochladen." style="margin-left: 5px;"/>
                 </f:facet>
-                <b:row>
-                    <b:column span="12">
+                <b:row rendered="#{sqaDetailBean.qa.status lt QA_Status.QA_HANDED_IN and sqaDetailBean.qa.status ne QA_Status.QA_ABORTED}" styleClass="form-group">
+                    <b:column span="10">
                         <h:inputFile id="file" value="#{uploadFileBean.file}" />
                     </b:column>
+                    <b:column span="2">
+                        <b:commandButton value="Upload" action="#{uploadFileBean.upload}" styleClass="pull-right"/>
+                    </b:column>
                 </b:row>
-                <b:row>
-                    <b:column span="3" offset="9" >
-                        <b:commandButton value="Upload" action="#{uploadFileBean.upload}" />
+                <b:row rendered="#{sqaDetailBean.qa.status ge QA_Status.QA_HANDED_IN or sqaDetailBean.qa.status eq QA_Status.QA_ABORTED}">
+                    <b:column span="12">
+                        <h:outputText value="Sie haben Ihre Qualifikationsarbeit bereits hochgeladen oder abgebrochen."/><b:icon name="question-sign" tooltip="Falls Ihnen ein Irrtum unterlaufen ist, wenden Sie sich an Ihre_n Betreuer_in." />
                     </b:column>
                 </b:row>
             </b:panel>
         </h:form>
+        <b:jumbotron rendered="#{not sqaDetailBean.myQA}">
+            <h1>Oops! Da ist wohl ein Fehler aufgetreten!</h1>
+            <h3>Sie können keine Qualifikationsarbeit einsehen, die Ihnen nicht gehört.</h3>
+        </b:jumbotron>
     </ui:define>
 
     <ui:define name="sideContent">

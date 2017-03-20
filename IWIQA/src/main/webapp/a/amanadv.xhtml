@@ -9,22 +9,39 @@
                 template="./../layout/askeleton_fullw.xhtml">
 
     <ui:define name="title">
-        title
+        Betreuer verwalten - IWIQA
     </ui:define>
 
     <ui:define name="content">
-        <b:row>
-            <b:column span="12">
-                <b:row>
-                    <b:column span="12">
-                        <h3>Betreuer verwalten</h3>
-                    </b:column>
-                </b:row>
-                <b:row>
-                    
-                </b:row>
-            </b:column>
-        </b:row>
+        <h:form>
+            <b:row>
+                <b:column span="12">
+                    <b:row>
+                        <b:column span="12">
+                            <h3>Betreuer verwalten</h3>
+                            <b:panel>
+                                <b:dataTable value="#{aManageAdvisorsBean.advisors}" var="adv" class="editableAdvisorTable" searching="false" paginated="false" lang="de">
+                                    <b:dataTableColumn value="#{adv.firstName}" label="Vorname"/>
+                                    <b:dataTableColumn value="#{adv.lastName}" label="Nachname"/>
+                                    <b:dataTableColumn value="#{adv.email}" />
+                                    <b:dataTableColumn value="#{adv.professor.getFullname()}" label="Professor"/>
+                                    <b:dataTableColumn label="Passwort">
+                                        <b:button value="Passwort ändern" size="xs" onclick="$('.modalPasswordClass').modal(); return false;" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="Aktiv">
+                                        <center><b:icon name="#{adv.active ? 'glyphicon-ok' : 'glyphicon-remove'}" style="color: #{adv.active ? '#5cb85c' : '#d9534f'}"/></center>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </b:panel>
+                            <b:modal id="pwModal" title="Passwort ändern" styleClass="modalPasswordClass" closable="false">
+                                <p>Setzen Sie das neue Passwort für diesen Benutzer:</p>
+                                <h:inputSecret value="#{changePasswordBean.newPassword}" />
+                            </b:modal>
+                        </b:column>
+                    </b:row>
+                </b:column>
+            </b:row>
+        </h:form>
     </ui:define>
 
 </ui:composition>

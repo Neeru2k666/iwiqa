@@ -51,6 +51,9 @@ public class Student implements Serializable {
     
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<QA> qas = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<FoKoRegistration> fokoRegistrations = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -142,6 +145,22 @@ public class Student implements Serializable {
     
     public void removeQA(QA qa) {
         this.qas.remove(qa);
+    }
+    
+    public void addFoKoRegistration(FoKoRegistration reg){
+        this.fokoRegistrations.add(reg);
+    }
+    
+    public void removeFoKoRegistration(FoKoRegistration reg){
+        this.fokoRegistrations.remove(reg);
+    }
+
+    public List<FoKoRegistration> getFokoRegistrations() {
+        return fokoRegistrations;
+    }
+
+    public void setFokoRegistrations(List<FoKoRegistration> fokoRegistrations) {
+        this.fokoRegistrations = fokoRegistrations;
     }
     
     @Override

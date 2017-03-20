@@ -9,7 +9,9 @@ import ch.unibe.iwiqa.entity.Student;
 import ch.unibe.iwiqa.entity.dao.FoKoFacade;
 import ch.unibe.iwiqa.entity.dao.FoKoRegistrationFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
+import ch.unibe.iwiqa.entity.dao.StudentFacade;
 import ch.unibe.iwiqa.util.FoKo_ParticipateAs;
+import ch.unibe.iwiqa.web.util.Navigation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,12 @@ public class SFoKoBean implements Serializable {
 
     @Inject
     private QAFacade qAFacade;
+    
+    @Inject
+    private StudentFacade studentFacade;
+    
+    @Inject
+    private DeregisterFoKoBean deregisterFoKoBean;
 
     private Student loggedInStudent;
 
@@ -44,7 +52,7 @@ public class SFoKoBean implements Serializable {
 
     private List<QA> myQAs;
 
-    private List<FoKoRegistration> myFoKoRegistrations = new ArrayList<>();
+    private List<FoKoRegistration> myFoKoRegistrations;
 
     private FoKo selectedFoKo;
 
@@ -59,9 +67,7 @@ public class SFoKoBean implements Serializable {
             return;
         }
         myQAs = loggedInStudent.getQas();
-        for (QA i : myQAs) {
-            myFoKoRegistrations.addAll(foKoRegistrationFacade.findByQA(i));
-        }
+        myFoKoRegistrations = loggedInStudent.getFokoRegistrations();
         availableFoKos = foKoFacade.findAll();
     }
 
@@ -78,17 +84,23 @@ public class SFoKoBean implements Serializable {
         FoKoRegistration reg = new FoKoRegistration();
         reg.setFoko(selectedFoKo);
         reg.setQa(selectedQA);
+        reg.setStudent(loggedInStudent);
         reg.setParticipatingAs(participateAs);
 
         selectedFoKo.addParticipant(reg);
+        loggedInStudent.addFoKoRegistration(reg);
         selectedQA.addFoKoRegistration(reg);
 
         foKoRegistrationFacade.create(reg);
         foKoFacade.edit(selectedFoKo);
+        studentFacade.edit(loggedInStudent);
         qAFacade.edit(selectedQA);
         
-        myFoKoRegistrations.clear();
-        init();
+        //init();
+    }
+    
+    public void deregister(FoKoRegistration reg){
+        deregisterFoKoBean.deregisterFoKo(reg);
     }
 
     public List<FoKo> getAvailableFoKos() {
