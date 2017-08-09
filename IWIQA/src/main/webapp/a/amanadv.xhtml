@@ -18,18 +18,40 @@
                 <b:column span="12">
                     <b:row>
                         <b:column span="12">
-                            <h3>Betreuer verwalten</h3>
+                            <b:column span="8">
+                                <h3>Betreuer verwalten</h3>
+                            </b:column>
+                            <b:column span="4">
+                                <b:button outcome="#{navigation.ANEWADV}" value="Neuer Betreuer" size="sm" style="margin-top: 20px;" styleClass="pull-right"/>
+                                <b:commandButton rendered="#{not aManageAdvisorsBean.editModeAdvisors}" look="info" value="Betreuer bearbeiten" action="#{aManageAdvisorsBean.editAdvisorMode()}" styleClass="pull-right" style="margin-top: 20px; margin-right: 10px" size="sm"/>
+                                <b:commandButton rendered="#{aManageAdvisorsBean.editModeAdvisors}" value="Änderungen speichern" action="#{aManageAdvisorsBean.editAdvisors()}" look="success"  styleClass="pull-right" style="margin-top: 20px; margin-right: 10px" size="sm"/>
+                            </b:column>
                             <b:panel>
-                                <b:dataTable value="#{aManageAdvisorsBean.advisors}" var="adv" class="editableAdvisorTable" searching="false" paginated="false" lang="de">
-                                    <b:dataTableColumn value="#{adv.firstName}" label="Vorname"/>
-                                    <b:dataTableColumn value="#{adv.lastName}" label="Nachname"/>
-                                    <b:dataTableColumn value="#{adv.email}" />
-                                    <b:dataTableColumn value="#{adv.professor.getFullname()}" label="Professor"/>
+                                <b:dataTable value="#{aManageAdvisorsBean.advisors}" var="adv" searching="false" paginated="false" lang="de">
+                                    <b:dataTableColumn label="Vorname">
+                                        <h:outputText rendered="#{not aManageAdvisorsBean.editModeAdvisors}" value="#{adv.firstName}" />
+                                        <b:inputText rendered="#{aManageAdvisorsBean.editModeAdvisors}" value="#{adv.firstName}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="Nachname">
+                                        <h:outputText rendered="#{not aManageAdvisorsBean.editModeAdvisors}" value="#{adv.lastName}" />
+                                        <b:inputText rendered="#{aManageAdvisorsBean.editModeAdvisors}" value="#{adv.lastName}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="Email">
+                                        <h:outputText rendered="#{not aManageAdvisorsBean.editModeAdvisors}" value="#{adv.email}" />
+                                        <b:inputText rendered="#{aManageAdvisorsBean.editModeAdvisors}" value="#{adv.email}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="Professor">
+                                        <h:outputText rendered="#{not aManageAdvisorsBean.editModeAdvisors}" value="#{adv.professor.getFullname()}" />
+                                        <b:selectOneMenu id="professor" rendered="#{aManageAdvisorsBean.editModeAdvisors}" value="#{adv.professor}" >
+                                            <f:selectItems value="#{aManageAdvisorsBean.professors}" var="professor" itemLabel="#{professor.getFullname()}"/>
+                                        </b:selectOneMenu>
+                                    </b:dataTableColumn>
                                     <b:dataTableColumn label="Passwort">
-                                        <b:commandButton value="Passwort ändern" size="xs" onclick="ajax:changePasswordBean.setSelectedAdvisor(adv);javascript:$('.modalPasswordClass').modal(); return false;" />
+                                        <b:commandButton disabled="#{aManageAdvisorsBean.editModeAdvisors}" value="Passwort ändern" size="xs" onclick="ajax:changePasswordBean.setSelectedAdvisor(adv);javascript:$('.modalPasswordClass').modal(); return false;" />
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="Aktiv">
-                                        <center><b:icon name="#{adv.active ? 'glyphicon-ok' : 'glyphicon-remove'}" style="color: #{adv.active ? '#5cb85c' : '#d9534f'}"/></center>
+                                        <b:icon rendered="#{not aManageAdvisorsBean.editModeAdvisors}" name="#{adv.active ? 'glyphicon-ok' : 'glyphicon-remove'}" style="color: #{adv.active ? '#5cb85c' : '#d9534f'}"/>
+                                        <b:selectBooleanCheckbox rendered="#{aManageAdvisorsBean.editModeAdvisors}" value="#{adv.active}" />
                                     </b:dataTableColumn>
                                 </b:dataTable>
                             </b:panel>
@@ -43,9 +65,36 @@
                             </b:modal>
                         </b:column>
                     </b:row>
+                    <b:row>
+                        <b:column span="12">
+                            <b:column span="8">
+                                <h3>Professoren verwalten</h3>
+                            </b:column>
+                            <b:column span="4">
+                                <b:button outcome="#{navigation.ANEWPROF}" value="Neuer Professor" size="sm" style="margin-top: 20px;" styleClass="pull-right"/>
+                                <b:commandButton look="info" value="Professoren bearbeiten" action="#{aManageAdvisorsBean.editProfessorMode()}" rendered="#{not aManageAdvisorsBean.editModeProfessors}" styleClass="pull-right" style="margin-top: 20px; margin-right: 10px" size="sm"/>
+                                <b:commandButton value="Änderungen speichern" action="#{aManageAdvisorsBean.editProfessors()}" look="success" rendered="#{aManageAdvisorsBean.editModeProfessors}" styleClass="pull-right" style="margin-top: 20px; margin-right: 10px" size="sm"/>
+                            </b:column>
+                            <b:panel>
+                                <b:dataTable value="#{aManageAdvisorsBean.professors}" var="prof" searching="false" paginated="false" lang="de">
+                                    <b:dataTableColumn label="Vorname">
+                                        <h:outputText rendered="#{not aManageAdvisorsBean.editModeProfessors}" value="#{prof.firstName}" />
+                                        <b:inputText rendered="#{aManageAdvisorsBean.editModeProfessors}" value="#{prof.firstName}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="Nachname">
+                                        <h:outputText rendered="#{not aManageAdvisorsBean.editModeProfessors}" value="#{prof.lastName}" />
+                                        <b:inputText rendered="#{aManageAdvisorsBean.editModeProfessors}" value="#{prof.lastName}" />
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn label="Titel">
+                                        <h:outputText rendered="#{not aManageAdvisorsBean.editModeProfessors}" value="#{prof.titles}" />
+                                        <b:inputText rendered="#{aManageAdvisorsBean.editModeProfessors}" value="#{prof.titles}" />
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </b:panel>
+                        </b:column>
+                    </b:row>
                 </b:column>
             </b:row>
         </h:form>
     </ui:define>
-
 </ui:composition>

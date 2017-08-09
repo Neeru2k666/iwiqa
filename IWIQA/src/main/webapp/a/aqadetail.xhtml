@@ -187,8 +187,8 @@
                         <b:commandButton rendered="#{aqaDetailBean.qa.status eq QA_Status.PROPOSAL_IN_PROGRESS}" value="Proposal annehmen" look="success" action="#{aqaDetailBean.acceptProposal()}"/>
                         <b:commandButton rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_HANDED_IN or aqaDetailBean.qa.status eq QA_Status.PROPOSAL_ACCEPTED}" value="Arbeit bewerten" look="success" onclick="javascript:$('.gradeModalPseudoClass').modal(); return false;"/>
                         <b:commandButton rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_GRADED}" value="Notenmeldung erstellen" size="xs" look="success" action="#{aqaDetailBean.createGradeAnnouncement()}"/>
-                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_COMPLETED}" name="check" /><h:outputText rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_COMPLETED}" value=" #{text['qa_status.' += aqaDetailBean.qa.status]}"/>
-                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_ABORTED}" name="remove" /><h:outputText rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_ABORTED}" value=" #{text['qa_status.' += aqaDetailBean.qa.status]}"/>
+                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_COMPLETED}" name="check" style="color: #5cb85c"/><h:outputText rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_COMPLETED}" value=" #{text['qa_status.' += aqaDetailBean.qa.status]}"/>
+                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_ABORTED}" name="remove" style="color: #d9534f"/><h:outputText rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_ABORTED}" value=" #{text['qa_status.' += aqaDetailBean.qa.status]}"/>
                     </b:panel>
                     <b:modal id="amodal" title="Qualifikationsarbeit bewerten" styleClass="gradeModalPseudoClass">
                         <h:outputText value="Bitte tragen Sie die erreichte Note ein, um die Qualifikationsarbeit zu bewerten." />

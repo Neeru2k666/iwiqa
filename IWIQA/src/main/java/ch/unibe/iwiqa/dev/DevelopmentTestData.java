@@ -38,45 +38,67 @@ public class DevelopmentTestData {
 
     @Inject
     private StudentFacade studentFacade;
-    
+
     @Inject
     private QAFacade qAFacade;
-    
+
     @Inject
     private FoKoFacade foKoFacade;
-    
+
     @Inject
     private FoKoRegistrationFacade foKoRegistrationFacade;
-    
+
     @Inject
     private ProfessorFacade professorFacade;
 
     @PostConstruct
     public void initializeData() {
-        createTestAdvisors();
         createTestProfessors();
+        createTestAdvisors();
         createTestStudents();
         createTestQAs();
         createFoKos();
         createFoKoRegistrations();
     }
+    
+    private void createTestProfessors() {
+        Professor prof = new Professor();
+        prof.setFirstName("Jens");
+        prof.setLastName("Dibbern");
+        prof.setTitles("Prof. Dr.");
+
+        professorFacade.create(prof);
+
+        Professor prof2 = new Professor();
+        prof2.setFirstName("VornameProf");
+        prof2.setLastName("NachnameProf");
+        prof2.setTitles("Dipl. Phil. Nat.");
+
+        professorFacade.create(prof2);
+    }
 
     private void createTestAdvisors() {
+        Professor p1 = professorFacade.findAll().get(0);
+        
         Advisor adv1 = new Advisor();
         adv1.setEmail("a1@a.ch");
         adv1.setFirstName("Oliver");
         adv1.setLastName("Krancher");
         adv1.setPassword(new Sha256Hash("123").toHex());
-
+        adv1.setProfessor(p1);
         advisorFacade.create(adv1);
+        p1.addAdvisor(adv1);
+        professorFacade.edit(p1);
 
         Advisor adv2 = new Advisor();
         adv2.setEmail("a2@a.ch");
         adv2.setFirstName("Thomas");
         adv2.setLastName("Hurni");
         adv2.setPassword(new Sha256Hash("123").toHex());
-
+        adv2.setProfessor(p1);
         advisorFacade.create(adv2);
+        p1.addAdvisor(adv2);
+        professorFacade.edit(p1);
         
         Advisor adv3 = new Advisor();
         adv3.setEmail("a3@a.ch");
@@ -84,32 +106,13 @@ public class DevelopmentTestData {
         adv3.setLastName("Advisor");
         adv3.setActive(false);
         adv3.setPassword(new Sha256Hash("123").toHex());
-
+        adv3.setProfessor(p1);
         advisorFacade.create(adv3);
+        p1.addAdvisor(adv3);
+        professorFacade.edit(p1);
     }
+
     
-    private void createTestProfessors(){
-        Advisor a1 = advisorFacade.findByEmail("a1@a.ch").get(0);
-        Advisor a2 = advisorFacade.findByEmail("a2@a.ch").get(0);
-        Advisor a3 = advisorFacade.findByEmail("a3@a.ch").get(0);
-        
-        Professor prof = new Professor();
-        prof.setFirstName("Jens");
-        prof.setLastName("Dibbern");
-        prof.setTitles("Prof. Dr.");
-        
-        prof.addAdvisor(a1);
-        prof.addAdvisor(a2);
-        prof.addAdvisor(a3);
-        
-        professorFacade.create(prof);
-        a1.setProfessor(prof);
-        advisorFacade.edit(a1);
-        a2.setProfessor(prof);
-        advisorFacade.edit(a2);
-        a3.setProfessor(prof);
-        advisorFacade.edit(a3);
-    }
 
     private void createTestStudents() {
         Student s1 = new Student();
@@ -121,9 +124,9 @@ public class DevelopmentTestData {
         s1.setCity("Bern");
         s1.setZIP("3018");
         s1.setPassword(new Sha256Hash("123").toHex());
-        
+
         studentFacade.create(s1);
-        
+
         Student s2 = new Student();
         s2.setFirstName("Nicole");
         s2.setLastName("Buys");
@@ -133,9 +136,9 @@ public class DevelopmentTestData {
         s2.setCity("Bern");
         s2.setZIP("3000");
         s2.setPassword(new Sha256Hash("123").toHex());
-        
+
         studentFacade.create(s2);
-        
+
         Student s3 = new Student();
         s3.setFirstName("David");
         s3.setLastName("Bucher");
@@ -145,10 +148,10 @@ public class DevelopmentTestData {
         s3.setCity("Bern");
         s3.setZIP("3000");
         s3.setPassword(new Sha256Hash("123").toHex());
-        
+
         studentFacade.create(s3);
     }
-    
+
     private void createTestQAs() {
         Student s1 = studentFacade.findByEmail("s1@s.ch").get(0);
         Student s2 = studentFacade.findByEmail("s2@s.ch").get(0);
@@ -177,7 +180,7 @@ public class DevelopmentTestData {
         studentFacade.edit(s1);
         a1.addQA(qa1);
         advisorFacade.edit(a1);
-        
+
         QA qa2 = new QA();
         qa2.setTitle("Schnell WMS Prüfungen korrigieren: Erfahrungen aus erster Hand");
         qa2.setStartingDate(start.getTime());
@@ -191,7 +194,7 @@ public class DevelopmentTestData {
         studentFacade.edit(s2);
         a1.addQA(qa2);
         advisorFacade.edit(a1);
-        
+
         QA qa3 = new QA();
         qa3.setTitle("Multiple Cases Analysis of Platform-as-a-Service implementations");
         qa3.setStartingDate(start.getTime());
@@ -205,7 +208,7 @@ public class DevelopmentTestData {
         studentFacade.edit(s1);
         a1.addQA(qa3);
         advisorFacade.edit(a1);
-        
+
         QA qa4 = new QA();
         qa4.setTitle("Über Swag und schöne Fahrräder: Eine (Un-)Fallstudie");
         qa4.setStartingDate(start.getTime());
@@ -220,29 +223,29 @@ public class DevelopmentTestData {
         a1.addQA(qa4);
         advisorFacade.edit(a1);
     }
-    
+
     private void createFoKos() {
         FoKo f1 = new FoKo();
         Calendar start = Calendar.getInstance();
         start.set(2017, 5, 12, 14, 0);
         f1.setStartingDate(start.getTime());
         f1.setRoom("Engehaldestrasse 8, Raum 101");
-        
+
         foKoFacade.create(f1);
-        
+
         FoKo f2 = new FoKo();
         Calendar start2 = Calendar.getInstance();
         start2.set(2017, 11, 8, 9, 30);
         f2.setStartingDate(start2.getTime());
         f2.setRoom("Engehaldestrasse 8, Raum 101");
-        
+
         foKoFacade.create(f2);
     }
 
     private void createFoKoRegistrations() {
         FoKo f1 = foKoFacade.findAll().get(0);
         QA qa1 = qAFacade.findAll().get(0);
-        
+
         FoKoRegistration fr1 = new FoKoRegistration();
         fr1.setFoko(f1);
         fr1.setQa(qa1);

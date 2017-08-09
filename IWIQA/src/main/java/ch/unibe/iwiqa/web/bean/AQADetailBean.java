@@ -84,7 +84,7 @@ public class AQADetailBean implements Serializable {
             createGradeAnnouncementBean.create(qa);
             Messages.addGlobal(new FacesMessage("Notenmeldung erfolgreich generiert. <a href='/IWIQA/resources/files/" + qa.getId() +"' target='_blank'>Klicken Sie hier, um sie herunterzuladen.</a>"));
         } catch (Exception e){
-            Messages.addGlobal(new FacesMessage("Notenmeldung konnte nicht erstellt werden. Überprüfen Sie die Serverlogs."));
+            Messages.addGlobalError("Notenmeldung konnte nicht erstellt werden. Überprüfen Sie die Serverlogs.");
         }
     }
     

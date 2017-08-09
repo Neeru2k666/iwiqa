@@ -9,7 +9,7 @@
                 template="./../layout/askeleton_fullw.xhtml">
 
     <ui:define name="title">
-        Neues Forschungskolloquium erstellen - IWIQA
+        Neuen Betreuer erfassen - IWIQA
     </ui:define>
 
     <ui:define name="content">
@@ -17,7 +17,7 @@
             <b:column span="6">
                 <b:row>
                     <b:column span="12">
-                        <h3>Neues Forschungskolloquium erstellen</h3>
+                        <h3>Neuen Betreuer erfassen</h3>
                     </b:column>
                 </b:row>
                 <b:row>
@@ -25,26 +25,41 @@
                         <b:panel>
                             <b:row styleClass="form-group">
                                 <b:column span="2">
-                                    <h:outputLabel value="Von:"/>
+                                    <h:outputLabel value="Vorname:"/>
                                 </b:column>
                                 <b:column span="10">
-                                    <b:dateTimePicker value="#{newFoKoBean.newFoKo.startingDate}"/>
+                                    <b:inputText value="#{newAdvisorBean.newAdvisor.firstName}"/>
                                 </b:column>
                             </b:row>
                             <b:row styleClass="form-group">
                                 <b:column span="2">
-                                    <h:outputLabel value="Raum:" />
+                                    <h:outputLabel value="Nachname:" />
                                 </b:column>
                                 <b:column span="10">
-                                    <b:inputText value="#{newFoKoBean.newFoKo.room}"/>
+                                    <b:inputText value="#{newAdvisorBean.newAdvisor.lastName}"/>
+                                </b:column>
+                            </b:row>
+                            <b:row styleClass="form-group">
+                                <b:column span="2">
+                                    <h:outputLabel value="Email:" />
+                                </b:column>
+                                <b:column span="10">
+                                    <b:inputText value="#{newAdvisorBean.newAdvisor.email}"/>
+                                </b:column>
+                            </b:row>
+                            <b:row styleClass="form-group">
+                                <b:column span="2">
+                                    <h:outputLabel value="Passwort:" />
+                                </b:column>
+                                <b:column span="10">
+                                    <b:inputSecret value="#{newAdvisorBean.newAdvisor.password}"/>
                                 </b:column>
                             </b:row>
                         </b:panel>
-                        <b:commandButton value="Erstellen" look="success" action="#{newFoKoBean.save()}" />
+                        <b:commandButton value="Erstellen" look="success" action="#{newAdvisorBean.save()}" />
                     </h:form>
                 </b:row>
             </b:column>
         </b:row>
     </ui:define>
-
 </ui:composition>

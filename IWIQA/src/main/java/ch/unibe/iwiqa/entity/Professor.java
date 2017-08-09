@@ -5,7 +5,9 @@ package ch.unibe.iwiqa.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +31,7 @@ public class Professor implements Serializable {
     
     private String titles;
     
-    @OneToMany
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Advisor> advisors = new ArrayList<>();
     
     public String getFullname(){
@@ -82,6 +84,9 @@ public class Professor implements Serializable {
     
     public void addAdvisor(Advisor adv){
         advisors.add(adv);
+        if(adv.getProfessor() != this){
+            adv.setProfessor(this);
+        }
     }
     
     public void removeAdvisor(Advisor adv){

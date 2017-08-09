@@ -9,39 +9,12 @@
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="loginAction" required="true" method-signature="java.lang.String action()"/>
         <cc:attribute name="logoutAction" required="true" method-signature="java.lang.String action()"/>
         <cc:attribute name="usernameField" required="true"/>
-        <cc:attribute name="passwordField" required="true"/>
-        <cc:attribute name="switchChangedMethod" required="true" method-signature="void action(javax.faces.event.ValueChangeEvent)"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <shiro:guest>
-            <h:form id="login" styleClass="navbar-form navbar-right">
-                <b:panelGrid columns="4">
-                    <b:inputText id="username" placeholder="Email" fieldSize="sm" value="#{cc.attrs.usernameField}" required="true"/>
-                    <b:inputSecret id="password" placeholder="Passwort" fieldSize="sm" value="#{cc.attrs.passwordField}" required="true"/>
-                    <b:switch id="targetSwitch" switchsize="small" onText="B" offText="S" valueChangeListener="#{cc.attrs.switchChangedMethod}"/>
-                    <b:commandButton action="#{cc.attrs.loginAction}" value="Login" look="primary">
-                        <f:ajax execute="@form" render="@form" />
-                    </b:commandButton>
-                </b:panelGrid>
-            </h:form>
-            <!--<h:form id="login" styleClass="navbar-form navbar-right">
-                <div class="form-group">
-                    <b:inputText id="username" placeholder="Email" fieldSize="sm" value="#{cc.attrs.usernameField}" required="true"/>
-                </div>
-                <div class="form-group">
-                    <b:inputSecret id="password" placeholder="Passwort" fieldSize="sm" value="#{cc.attrs.passwordField}" required="true"/>
-                </div>
-            #{' '}
-            <b:commandButton action="#{cc.attrs.loginAction}" value="Login" look="primary">
-                <f:ajax execute="@form" render="@form" />
-            </b:commandButton>
-        </h:form>-->
-        </shiro:guest>
         <shiro:user>
             <h:form id="logout" styleClass="navbar-form navbar-right">
                 <div class="form-group">

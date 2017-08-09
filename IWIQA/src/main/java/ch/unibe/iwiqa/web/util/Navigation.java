@@ -30,6 +30,8 @@ public class Navigation {
     public static final String AFOKODETAIL = "afokodetail.xhtml";
     public static final String AALLQAS = "aallqas.xhtml";
     public static final String AMANADV = "amanadv.xhtml";
+    public static final String ANEWADV = "anewadv.xhtml";
+    public static final String ANEWPROF = "anewprof.xhtml";
 
     public String getINDEX() {
         return INDEX;
@@ -101,5 +103,13 @@ public class Navigation {
     
     public String getAFOKODETAIL() {
         return AFOKODETAIL;
+    }
+    
+    public String getANEWADV() {
+        return ANEWADV;
+    }
+    
+    public String getANEWPROF() {
+        return ANEWPROF;
     }
 }

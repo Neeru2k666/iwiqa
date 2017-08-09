@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -46,6 +47,7 @@ public class Advisor implements Serializable {
     private boolean active = true;
     
     @ManyToOne
+    @JoinColumn
     private Professor professor;
 
     public String getFirstName() {
@@ -118,6 +120,9 @@ public class Advisor implements Serializable {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+        if(!professor.getAdvisors().contains(this)){
+            professor.getAdvisors().add(this);
+        }
     }
 
     @Override

@@ -18,12 +18,11 @@
         <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.AINDEX}" inverse="true" fixed="top">
             <b:navbarLinks>
                 <shiro:authenticated>
-                    <b:navLink value="Qualifikationsarbeiten" href="#{navigation.AINDEX}"/>
                     <b:navLink value="Forschungskolloquien" href="#{navigation.AALLFOKOS}"/>
                     <b:navLink value="Verwaltung" href="#{navigation.AMANADV}"/>
                 </shiro:authenticated>
             </b:navbarLinks>
-            <ezcomp:loginComponent loginAction="#{loginBean.login()}" logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}" passwordField="#{loginBean.password}" switchChangedMethod="#{loginBean.setSwitchBoxTarget}"/>
+            <ezcomp:loginComponent logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}"/>
         </b:navBar>
         <b:container>
             <b:row>
