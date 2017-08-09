@@ -67,7 +67,7 @@
                         </b:row>
                         <b:row styleClass="form-group">
                             <b:column span="3">
-                                <h:outputLabel value="Startdatum:"/><b:icon name="question-sign" tooltip="Datum, an dem das Proposal angenommen wurde. Offizieller Beginn der Bearbeitungszeit."/>
+                                <h:outputLabel value="Startdatum: "/><b:icon name="question-sign" tooltip="Datum, an dem das Proposal angenommen wurde. Offizieller Beginn der Bearbeitungszeit."/>
                             </b:column>
                             <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.startingDate}" rendered="#{not aqaDetailBean.editMode}">
@@ -78,7 +78,7 @@
                         </b:row>
                         <b:row styleClass="form-group">
                             <b:column span="3">
-                                <h:outputLabel value="Abgabedatum:"/><b:icon name="question-sign" tooltip="Datum, an dem die Qualifikationsarbeit eingereicht wurde."/>
+                                <h:outputLabel value="Abgabedatum: "/><b:icon name="question-sign" tooltip="Datum, an dem die Qualifikationsarbeit eingereicht wurde."/>
                             </b:column>
                             <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.handInDate}" rendered="#{aqaDetailBean.qa.handInDate ne null and not aqaDetailBean.editMode}">
@@ -89,7 +89,7 @@
                         </b:row>
                         <b:row styleClass="form-group">
                             <b:column span="3">
-                                <h:outputLabel value="Enddatum:"/><b:icon name="question-sign" tooltip="Offizielles Ende der Bearbeitungszeit."/>
+                                <h:outputLabel value="Enddatum: "/><b:icon name="question-sign" tooltip="Offizielles Ende der Bearbeitungszeit."/>
                             </b:column>
                             <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.endingDate}" rendered="#{not aqaDetailBean.editMode}">
@@ -100,13 +100,13 @@
                         </b:row>
                         <b:row styleClass="form-group">
                             <b:column span="3">
-                                <h:outputLabel value="Bewertungsdatum:"/><b:icon name="question-sign" tooltip="Datum, an dem die Qualifikationsarbeit bewertet wurde."/>
+                                <h:outputLabel value="Bewertungsdatum: "/><b:icon name="question-sign" tooltip="Datum, an dem die Qualifikationsarbeit bewertet wurde."/>
                             </b:column>
                             <b:column span="9">
                                 <h:outputText value="#{aqaDetailBean.qa.gradedDate}" rendered="#{aqaDetailBean.qa.gradedDate ne null and not aqaDetailBean.editMode}">
                                     <f:convertDateTime pattern="dd.MM.yyyy" />
                                 </h:outputText>
-                                <b:dateTimePicker value="#{aqaDetailBean.qa.gradedDate}" rendered="#{aqaDetailBean.editMode}" format="DD.MM.YYYY"/>
+                                <b:dateTimePicker value="#{aqaDetailBean.qa.gradedDate}" rendered="#{aqaDetailBean.editMode}"/>
                             </b:column>
                         </b:row>
                         <b:row styleClass="form-group">

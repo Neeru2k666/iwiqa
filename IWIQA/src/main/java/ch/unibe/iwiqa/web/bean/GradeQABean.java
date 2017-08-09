@@ -30,12 +30,12 @@ public class GradeQABean {
     }
     
     public void gradeQA(QA qa) {
-        qa.setStatus(QA_Status.QA_GRADED);
-        qAFacade.edit(qa);
+        gradeQA(qa, qa.getGrade(), qa.getHandInDate());
     }
     
     public void gradeQA(QA qa, double grade, Date handInDate) {
         qa.setGrade(grade);
+        qa.setGradedDate(new Date());
         qa.setHandInDate(handInDate);
         qa.setStatus(QA_Status.QA_GRADED);
         qAFacade.edit(qa);

@@ -34,16 +34,11 @@
                                     <f:convertDateTime pattern="dd.MM.yyyy" />
                                 </h:outputText>
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="Von">
+                            <b:dataTableColumn label="Uhrzeit">
                                 <h:outputText value="#{foko.startingDate.time}">
                                     <f:convertDateTime pattern="hh:mm" />
                                 </h:outputText>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn label="Bis">
-                                <h:outputText value="#{foko.startingDate.time}">
-                                    <f:convertDateTime pattern="hh:mm" />
-                                </h:outputText>
-                            </b:dataTableColumn>                            
+                            </b:dataTableColumn>                       
                             <b:dataTableColumn value="#{foko.room}">
                                 <f:facet name="header">
                                     <h:outputText value="Raum"/>
