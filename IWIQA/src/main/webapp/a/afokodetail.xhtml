@@ -46,9 +46,9 @@
                             </b:column>
                             <b:column span="10">
                                 <h:outputText value="#{afokoDetailBean.foko.startingDate}" rendered="#{not afokoDetailBean.editMode}">
-                                    <f:convertDateTime pattern="dd.MM.yyyy hh:mm" />
+                                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
                                 </h:outputText>
-                                <b:dateTimePicker value="#{afokoDetailBean.foko.startingDate}" rendered="#{afokoDetailBean.editMode}" format="DD.MM.YYYY hh:mm"/>
+                                <b:dateTimePicker value="#{afokoDetailBean.foko.startingDate}" rendered="#{afokoDetailBean.editMode}" />
                             </b:column>
                         </b:row>
                         <b:row styleClass="form-group">
