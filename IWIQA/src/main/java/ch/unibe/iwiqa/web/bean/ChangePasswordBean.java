@@ -5,10 +5,12 @@ package ch.unibe.iwiqa.web.bean;
 import ch.unibe.iwiqa.entity.Advisor;
 import ch.unibe.iwiqa.entity.dao.AdvisorFacade;
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.omnifaces.util.Messages;
 
 /**
  *
@@ -28,9 +30,10 @@ public class ChangePasswordBean implements Serializable {
     private String newPassword;
     
     public void changePassword(){
-        String hashedPW = new Sha256Hash(newPassword, null, 1024).toHex();
+        String hashedPW = new Sha256Hash(newPassword).toHex();
         selectedAdvisor.setPassword(hashedPW);
         advisorFacade.edit(selectedAdvisor);
+        Messages.addGlobal(new FacesMessage("Passwort erfolgreich geändert"));
     }
 
     public Advisor getSelectedAdvisor() {

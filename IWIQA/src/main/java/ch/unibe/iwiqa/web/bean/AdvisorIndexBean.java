@@ -9,6 +9,7 @@ import ch.unibe.iwiqa.entity.dao.FoKoFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -43,6 +44,9 @@ public class AdvisorIndexBean implements Serializable {
     @Inject
     private GradeQABean gradeQABean;
     
+    @Inject
+    private CreateGradeAnnouncementBean createGradeAnnouncementBean;
+    
     private List<QA> openQAs = new ArrayList<>();
     
     private List<FoKo> availableFoKos = new ArrayList<>();
@@ -53,12 +57,14 @@ public class AdvisorIndexBean implements Serializable {
     
     private double achievedGrade;
     
+    private Date handInDate;
+    
     @PostConstruct
     private void init(){
         loggedInAdvisor = (Advisor) SecurityUtils.getSubject().getPrincipal();
         if(loggedInAdvisor == null) return;
         refreshQAs();
-        availableFoKos = foKoFacade.findAllOrderByDate();
+        availableFoKos = foKoFacade.findAllInFutureOrderByDate();
     }
     
     public void acceptProposal(QA qa){
@@ -68,7 +74,7 @@ public class AdvisorIndexBean implements Serializable {
     }
     
     public void gradeQA() {
-        gradeQABean.gradeQA(selectedQA, achievedGrade);
+        gradeQABean.gradeQA(selectedQA, achievedGrade, handInDate);
         refreshQAs();
         Messages.addGlobal(new FacesMessage("Note erfolgreich gesetzt"));
     }
@@ -77,6 +83,16 @@ public class AdvisorIndexBean implements Serializable {
         abortQABean.abortQA(qa);
         refreshQAs();
         Messages.addGlobal(new FacesMessage("Qualifikationsarbeit abgebrochen"));
+    }
+    
+    public void createGradeAnnouncement(QA qa){
+        try {
+            createGradeAnnouncementBean.create(qa);
+            refreshQAs();
+            Messages.addGlobal(new FacesMessage("Notenmeldung erfolgreich generiert. <a href='/IWIQA/resources/files/" + qa.getId() +"' target='_blank'>Klicken Sie hier, um sie herunterzuladen.</a>"));
+        } catch (Exception e){
+            Messages.addGlobal(new FacesMessage("Notenmeldung konnte nicht erstellt werden. Überprüfen Sie die Serverlogs."));
+        }
     }
     
     private void refreshQAs(){
@@ -109,5 +125,13 @@ public class AdvisorIndexBean implements Serializable {
 
     public double getAchievedGrade() {
         return achievedGrade;
+    }
+
+    public Date getHandInDate() {
+        return handInDate;
+    }
+
+    public void setHandInDate(Date handInDate) {
+        this.handInDate = handInDate;
     }
 }

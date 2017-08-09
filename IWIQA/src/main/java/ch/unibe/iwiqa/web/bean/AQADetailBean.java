@@ -38,6 +38,9 @@ public class AQADetailBean implements Serializable {
     @Inject
     private GradeQABean gradeQABean;
     
+    @Inject
+    private CreateGradeAnnouncementBean createGradeAnnouncementBean;
+    
     private QA qa;
     
     private List<Advisor> availableAdvisors = new ArrayList<>();
@@ -72,8 +75,17 @@ public class AQADetailBean implements Serializable {
     }
     
     public void gradeQA() {
-        gradeQABean.gradeQA(qa, qa.getGrade());
+        gradeQABean.gradeQA(qa);
         Messages.addGlobal(new FacesMessage("Note erfolgreich gesetzt"));
+    }
+    
+    public void createGradeAnnouncement(){
+        try {
+            createGradeAnnouncementBean.create(qa);
+            Messages.addGlobal(new FacesMessage("Notenmeldung erfolgreich generiert. <a href='/IWIQA/resources/files/" + qa.getId() +"' target='_blank'>Klicken Sie hier, um sie herunterzuladen.</a>"));
+        } catch (Exception e){
+            Messages.addGlobal(new FacesMessage("Notenmeldung konnte nicht erstellt werden. Überprüfen Sie die Serverlogs."));
+        }
     }
     
     public void edit(){

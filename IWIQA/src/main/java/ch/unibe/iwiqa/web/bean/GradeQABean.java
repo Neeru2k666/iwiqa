@@ -5,6 +5,7 @@ package ch.unibe.iwiqa.web.bean;
 import ch.unibe.iwiqa.entity.QA;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
 import ch.unibe.iwiqa.util.QA_Status;
+import java.util.Date;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,8 +29,14 @@ public class GradeQABean {
         qAFacade.edit(selectedQA);
     }
     
-    public void gradeQA(QA qa, double grade) {
+    public void gradeQA(QA qa) {
+        qa.setStatus(QA_Status.QA_GRADED);
+        qAFacade.edit(qa);
+    }
+    
+    public void gradeQA(QA qa, double grade, Date handInDate) {
         qa.setGrade(grade);
+        qa.setHandInDate(handInDate);
         qa.setStatus(QA_Status.QA_GRADED);
         qAFacade.edit(qa);
     }
@@ -49,4 +56,6 @@ public class GradeQABean {
     public void setAchievedGrade(double achievedGrade) {
         this.achievedGrade = achievedGrade;
     }
+
+    
 }

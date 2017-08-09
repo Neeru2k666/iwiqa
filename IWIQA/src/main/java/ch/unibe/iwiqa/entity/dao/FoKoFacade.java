@@ -31,4 +31,8 @@ public class FoKoFacade extends AbstractFacade<FoKo> {
         return em.createNamedQuery("FoKo.findAllOrderByDate").getResultList();
     }
     
+    public List<FoKo> findAllInFutureOrderByDate(){
+        return em.createNamedQuery("FoKo.findAllInFutureOrderByDate").getResultList();
+    }
+    
 }

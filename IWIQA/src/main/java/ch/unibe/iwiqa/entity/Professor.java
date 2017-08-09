@@ -27,6 +27,8 @@ public class Professor implements Serializable {
     
     private String lastName;
     
+    private String titles;
+    
     @OneToMany
     private List<Advisor> advisors = new ArrayList<>();
     
@@ -57,6 +59,10 @@ public class Professor implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    
+    public String getFullnameWithTitles(){
+        return titles + " " + getFullname();
+    }
 
     public Long getId() {
         return id;
@@ -64,6 +70,22 @@ public class Professor implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitles() {
+        return titles;
+    }
+
+    public void setTitles(String titles) {
+        this.titles = titles;
+    }
+    
+    public void addAdvisor(Advisor adv){
+        advisors.add(adv);
+    }
+    
+    public void removeAdvisor(Advisor adv){
+        advisors.remove(adv);
     }
 
     @Override

@@ -25,14 +25,8 @@
 
                         <h:dataTable id="fokoTable" value="#{sfokoBean.availableFoKos}" var="foko" styleClass="table" style="margin-bottom: 0">
                             <h:column>
-                                <f:facet name="header">Von</f:facet>
+                                <f:facet name="header">Start</f:facet>
                                 <h:outputText value="#{foko.startingDate.time}">
-                                    <f:convertDateTime pattern="dd.MM.yyyy hh:mm"/>
-                                </h:outputText>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Bis</f:facet>
-                                <h:outputText value="#{foko.endingDate.time}">
                                     <f:convertDateTime pattern="dd.MM.yyyy hh:mm"/>
                                 </h:outputText>
                             </h:column>

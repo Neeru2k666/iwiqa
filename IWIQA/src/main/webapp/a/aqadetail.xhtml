@@ -186,13 +186,14 @@
                     <b:panel>
                         <b:commandButton rendered="#{aqaDetailBean.qa.status eq QA_Status.PROPOSAL_IN_PROGRESS}" value="Proposal annehmen" look="success" action="#{aqaDetailBean.acceptProposal()}"/>
                         <b:commandButton rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_HANDED_IN or aqaDetailBean.qa.status eq QA_Status.PROPOSAL_ACCEPTED}" value="Arbeit bewerten" look="success" onclick="javascript:$('.gradeModalPseudoClass').modal(); return false;"/>
-                        <b:button rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_GRADED}" value="Notenmeldung erstellen" look="success"/>
-                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_COMPLETED}" name="check" />
-                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_ABORTED}" name="remove" />
+                        <b:commandButton rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_GRADED}" value="Notenmeldung erstellen" size="xs" look="success" action="#{aqaDetailBean.createGradeAnnouncement()}"/>
+                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_COMPLETED}" name="check" /><h:outputText rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_COMPLETED}" value=" #{text['qa_status.' += aqaDetailBean.qa.status]}"/>
+                        <b:icon rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_ABORTED}" name="remove" /><h:outputText rendered="#{aqaDetailBean.qa.status eq QA_Status.QA_ABORTED}" value=" #{text['qa_status.' += aqaDetailBean.qa.status]}"/>
                     </b:panel>
                     <b:modal id="amodal" title="Qualifikationsarbeit bewerten" styleClass="gradeModalPseudoClass">
                         <h:outputText value="Bitte tragen Sie die erreichte Note ein, um die Qualifikationsarbeit zu bewerten." />
                         <b:inputText value="#{aqaDetailBean.qa.grade}" label="Note (#.#):" renderLabel="true" />
+                        <b:dateTimePicker show-time="false" value="#{aqaDetailBean.qa.handInDate}" label="Abgabedatum:" renderLabel="true" />
                         <f:facet name="footer">
                             <b:button value="Abbrechen" dismiss="modal" onclick="return false;"/>
                             <b:commandButton value="Bewerten" look="info" action="#{aqaDetailBean.gradeQA()}" ajax="true" onclick="$('.gradeModalPseudoClass').modal('hide')" />

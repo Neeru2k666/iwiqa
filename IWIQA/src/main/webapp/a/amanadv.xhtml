@@ -26,7 +26,7 @@
                                     <b:dataTableColumn value="#{adv.email}" />
                                     <b:dataTableColumn value="#{adv.professor.getFullname()}" label="Professor"/>
                                     <b:dataTableColumn label="Passwort">
-                                        <b:button value="Passwort ändern" size="xs" onclick="$('.modalPasswordClass').modal(); return false;" />
+                                        <b:commandButton value="Passwort ändern" size="xs" onclick="ajax:changePasswordBean.setSelectedAdvisor(adv);javascript:$('.modalPasswordClass').modal(); return false;" />
                                     </b:dataTableColumn>
                                     <b:dataTableColumn label="Aktiv">
                                         <center><b:icon name="#{adv.active ? 'glyphicon-ok' : 'glyphicon-remove'}" style="color: #{adv.active ? '#5cb85c' : '#d9534f'}"/></center>
@@ -36,6 +36,10 @@
                             <b:modal id="pwModal" title="Passwort ändern" styleClass="modalPasswordClass" closable="false">
                                 <p>Setzen Sie das neue Passwort für diesen Benutzer:</p>
                                 <h:inputSecret value="#{changePasswordBean.newPassword}" />
+                                <f:facet name="footer">
+                                    <b:button value="Abbrechen" dismiss="pwModal" onclick="return false;"/>
+                                    <b:commandButton value="Ändern" look="info" action="#{changePasswordBean.changePassword()}" ajax="true" onclick="$('.modalPasswordClass').modal('hide')" />
+                                </f:facet>
                             </b:modal>
                         </b:column>
                     </b:row>

@@ -5,11 +5,13 @@ package ch.unibe.iwiqa.dev;
 import ch.unibe.iwiqa.entity.Advisor;
 import ch.unibe.iwiqa.entity.FoKo;
 import ch.unibe.iwiqa.entity.FoKoRegistration;
+import ch.unibe.iwiqa.entity.Professor;
 import ch.unibe.iwiqa.entity.QA;
 import ch.unibe.iwiqa.entity.Student;
 import ch.unibe.iwiqa.entity.dao.AdvisorFacade;
 import ch.unibe.iwiqa.entity.dao.FoKoFacade;
 import ch.unibe.iwiqa.entity.dao.FoKoRegistrationFacade;
+import ch.unibe.iwiqa.entity.dao.ProfessorFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
 import ch.unibe.iwiqa.entity.dao.StudentFacade;
 import ch.unibe.iwiqa.util.FoKo_ParticipateAs;
@@ -45,10 +47,14 @@ public class DevelopmentTestData {
     
     @Inject
     private FoKoRegistrationFacade foKoRegistrationFacade;
+    
+    @Inject
+    private ProfessorFacade professorFacade;
 
     @PostConstruct
     public void initializeData() {
         createTestAdvisors();
+        createTestProfessors();
         createTestStudents();
         createTestQAs();
         createFoKos();
@@ -80,6 +86,29 @@ public class DevelopmentTestData {
         adv3.setPassword(new Sha256Hash("123").toHex());
 
         advisorFacade.create(adv3);
+    }
+    
+    private void createTestProfessors(){
+        Advisor a1 = advisorFacade.findByEmail("a1@a.ch").get(0);
+        Advisor a2 = advisorFacade.findByEmail("a2@a.ch").get(0);
+        Advisor a3 = advisorFacade.findByEmail("a3@a.ch").get(0);
+        
+        Professor prof = new Professor();
+        prof.setFirstName("Jens");
+        prof.setLastName("Dibbern");
+        prof.setTitles("Prof. Dr.");
+        
+        prof.addAdvisor(a1);
+        prof.addAdvisor(a2);
+        prof.addAdvisor(a3);
+        
+        professorFacade.create(prof);
+        a1.setProfessor(prof);
+        advisorFacade.edit(a1);
+        a2.setProfessor(prof);
+        advisorFacade.edit(a2);
+        a3.setProfessor(prof);
+        advisorFacade.edit(a3);
     }
 
     private void createTestStudents() {
@@ -138,7 +167,7 @@ public class DevelopmentTestData {
         end.set(Calendar.DAY_OF_MONTH, 1);
         end.add(Calendar.DAY_OF_YEAR, 70);
         qa1.setEndingDate(end.getTime());
-        qa1.setQaType(QA_Type.BA.getAbbreviated());
+        qa1.setQaType(QA_Type.BA);
         qa1.setStatus(QA_Status.QA_ABORTED);
         qa1.setStudent(s1);
         qa1.setAdvisor(a1);
@@ -153,7 +182,7 @@ public class DevelopmentTestData {
         qa2.setTitle("Schnell WMS Prüfungen korrigieren: Erfahrungen aus erster Hand");
         qa2.setStartingDate(start.getTime());
         qa2.setEndingDate(end.getTime());
-        qa2.setQaType(QA_Type.BA.getAbbreviated());
+        qa2.setQaType(QA_Type.BA);
         qa2.setStatus(QA_Status.PROPOSAL_IN_PROGRESS);
         qa2.setStudent(s2);
         qa2.setAdvisor(a1);
@@ -167,7 +196,7 @@ public class DevelopmentTestData {
         qa3.setTitle("Multiple Cases Analysis of Platform-as-a-Service implementations");
         qa3.setStartingDate(start.getTime());
         qa3.setEndingDate(end.getTime());
-        qa3.setQaType(QA_Type.MA.getAbbreviated());
+        qa3.setQaType(QA_Type.MA);
         qa3.setStatus(QA_Status.QA_COMPLETED);
         qa3.setStudent(s1);
         qa3.setAdvisor(a1);
@@ -181,7 +210,7 @@ public class DevelopmentTestData {
         qa4.setTitle("Über Swag und schöne Fahrräder: Eine (Un-)Fallstudie");
         qa4.setStartingDate(start.getTime());
         qa4.setEndingDate(end.getTime());
-        qa4.setQaType(QA_Type.BA.getAbbreviated());
+        qa4.setQaType(QA_Type.BA);
         qa4.setStatus(QA_Status.QA_HANDED_IN);
         qa4.setStudent(s3);
         qa4.setAdvisor(a1);
@@ -197,20 +226,14 @@ public class DevelopmentTestData {
         Calendar start = Calendar.getInstance();
         start.set(2017, 5, 12, 14, 0);
         f1.setStartingDate(start.getTime());
-        Calendar end = Calendar.getInstance();
-        end.set(2017, 5, 12, 15, 0);
-        f1.setEndingDate(end.getTime());
         f1.setRoom("Engehaldestrasse 8, Raum 101");
         
         foKoFacade.create(f1);
         
         FoKo f2 = new FoKo();
         Calendar start2 = Calendar.getInstance();
-        start2.set(2017, 7, 8, 9, 30);
+        start2.set(2017, 11, 8, 9, 30);
         f2.setStartingDate(start2.getTime());
-        Calendar end2 = Calendar.getInstance();
-        end2.set(2017, 7, 8, 11, 45);
-        f2.setEndingDate(end2.getTime());
         f2.setRoom("Engehaldestrasse 8, Raum 101");
         
         foKoFacade.create(f2);

@@ -2,7 +2,6 @@ package ch.unibe.iwiqa.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -23,7 +22,8 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "FoKo.findAllOrderByDate", query = "SELECT f FROM FoKo f ORDER BY f.endingDate ASC")
+    @NamedQuery(name = "FoKo.findAllOrderByDate", query = "SELECT f FROM FoKo f ORDER BY f.startingDate ASC"),
+    @NamedQuery(name = "FoKo.findAllInFutureOrderByDate", query = "SELECT f FROM FoKo f WHERE f.startingDate >= CURRENT_TIMESTAMP ORDER BY f.startingDate")
 })
 public class FoKo implements Serializable {
 
@@ -34,9 +34,6 @@ public class FoKo implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date startingDate;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endingDate;
     
     private String room;
     
@@ -57,14 +54,6 @@ public class FoKo implements Serializable {
 
     public void setStartingDate(Date startingDate) {
         this.startingDate = startingDate;
-    }
-
-    public Date getEndingDate() {
-        return endingDate;
-    }
-
-    public void setEndingDate(Date endingDate) {
-        this.endingDate = endingDate;
     }
 
     public String getRoom() {

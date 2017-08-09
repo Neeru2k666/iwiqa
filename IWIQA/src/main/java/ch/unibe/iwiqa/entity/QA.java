@@ -1,6 +1,7 @@
 package ch.unibe.iwiqa.entity;
 
 import ch.unibe.iwiqa.util.QA_Status;
+import ch.unibe.iwiqa.util.QA_Type;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,6 +71,8 @@ public class QA implements Serializable {
      */
     private double grade = 0;
     
+    private String gradeAnnouncementLocalURI = "";
+    
     /**
      * Date when the work was graded
      */
@@ -79,7 +82,7 @@ public class QA implements Serializable {
     /**
      * Identifies the type this QA is, either MA or BA
      */
-    private String qaType;
+    private QA_Type qaType;
     
     @ManyToOne
     @JoinColumn
@@ -161,11 +164,11 @@ public class QA implements Serializable {
         this.gradedDate = gradedDate;
     }
 
-    public String getQaType() {
+    public QA_Type getQaType() {
         return qaType;
     }
 
-    public void setQaType(String qaType) {
+    public void setQaType(QA_Type qaType) {
         this.qaType = qaType;
     }
 
@@ -207,6 +210,14 @@ public class QA implements Serializable {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public String getGradeAnnouncementLocalURI() {
+        return gradeAnnouncementLocalURI;
+    }
+
+    public void setGradeAnnouncementLocalURI(String gradeAnnouncementLocalURI) {
+        this.gradeAnnouncementLocalURI = gradeAnnouncementLocalURI;
     }
 
     @Override

@@ -63,7 +63,7 @@
                                 <f:facet name="header">Nächster Schritt</f:facet>
                                 <b:commandButton rendered="#{qa.status eq QA_Status.PROPOSAL_IN_PROGRESS}" value="Proposal annehmen" size="xs" look="success" action="#{advisorIndexBean.acceptProposal(qa)}"/>
                                 <b:commandButton rendered="#{qa.status eq QA_Status.QA_HANDED_IN or qa.status eq QA_Status.PROPOSAL_ACCEPTED}" value="Arbeit bewerten" size="xs" look="success" onclick="ajax:advisorIndexBean.setSelectedQA(qa);javascript:$('.gradeModalPseudoClass').modal(); return false;"/>
-                                <b:button rendered="#{qa.status eq QA_Status.QA_GRADED}" value="Notenmeldung erstellen" size="xs" look="success"/>
+                                <b:commandButton rendered="#{qa.status eq QA_Status.QA_GRADED}" value="Notenmeldung erstellen" size="xs" look="success" action="#{advisorIndexBean.createGradeAnnouncement(qa)}"/>
                                 <b:icon rendered="#{qa.status eq QA_Status.QA_COMPLETED}" name="check" />
                                 <b:icon rendered="#{qa.status eq QA_Status.QA_ABORTED}" name="remove" />
                             </h:column>
@@ -78,6 +78,7 @@
                         <b:modal id="amodal" title="Qualifikationsarbeit bewerten" styleClass="gradeModalPseudoClass">
                             <h:outputText value="Bitte tragen Sie die erreichte Note ein, um die Qualifikationsarbeit zu bewerten." />
                             <b:inputText value="#{advisorIndexBean.achievedGrade}" label="Note (#.#):" renderLabel="true" />
+                            <b:dateTimePicker show-time="false" value="#{advisorIndexBean.handInDate}" label="Abgabedatum:" renderLabel="true" />
                             <f:facet name="footer">
                                 <b:button value="Abbrechen" dismiss="modal" onclick="return false;"/>
                                 <b:commandButton value="Bewerten" look="info" action="#{advisorIndexBean.gradeQA()}" ajax="true" onclick="$('.gradeModalPseudoClass').modal('hide')" />
@@ -114,14 +115,8 @@
                                 </h:outputText>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Von</f:facet>
+                                <f:facet name="header">Start</f:facet>
                                 <h:outputText value="#{foko.startingDate.time}">
-                                    <f:convertDateTime pattern="hh:mm"/>
-                                </h:outputText>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Bis</f:facet>
-                                <h:outputText value="#{foko.endingDate.time}">
                                     <f:convertDateTime pattern="hh:mm"/>
                                 </h:outputText>
                             </h:column>
@@ -145,26 +140,6 @@
                         <center><h:link value="Forschungskolloquium erstellen" outcome="#{navigation.NEWFOKO}"/></center>
                     </f:facet>
                 </b:panel>
-            </b:column>
-        </b:row>
-    </ui:define>
-    <ui:define name="sideContent">
-        <b:row>
-            <b:column span="12">
-                <h4>Pendenzen</h4>
-
-            </b:column>
-        </b:row>
-        <b:row>
-            <b:column span="12">
-                <h4>Termine</h4>
-
-            </b:column>
-        </b:row>
-        <b:row>
-            <b:column span="12">
-                <h4>Forschungskolloquien</h4>
-
             </b:column>
         </b:row>
     </ui:define>
