@@ -201,6 +201,8 @@ public class DevelopmentTestData {
         qa3.setEndingDate(end.getTime());
         qa3.setQaType(QA_Type.MA);
         qa3.setStatus(QA_Status.QA_COMPLETED);
+        qa3.setHandInDate(new Date());
+        qa3.setGradedDate(end.getTime());
         qa3.setStudent(s1);
         qa3.setAdvisor(a1);
         qAFacade.create(qa3);
@@ -213,6 +215,7 @@ public class DevelopmentTestData {
         qa4.setTitle("Über Swag und schöne Fahrräder: Eine (Un-)Fallstudie");
         qa4.setStartingDate(start.getTime());
         qa4.setEndingDate(end.getTime());
+        qa4.setHandInDate(new Date());
         qa4.setQaType(QA_Type.BA);
         qa4.setStatus(QA_Status.QA_HANDED_IN);
         qa4.setStudent(s3);

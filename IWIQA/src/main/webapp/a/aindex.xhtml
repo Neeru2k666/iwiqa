@@ -75,6 +75,7 @@
                                 <b:commandButton rendered="#{qa.status ne QA_Status.QA_ABORTED and qa.status ne QA_Status.QA_COMPLETED}" value="x" tooltip="Qualifikationsarbeit abbrechen" size="xs" look="danger" action="#{advisorIndexBean.abortQA(qa)}" style="margin-left: 5px"/>
                             </h:column>
                         </h:dataTable>
+                        <b:commandButton value="TEST" look="danger" action="#{mailNotificationManagerBean.test()}"/>
                         <b:modal id="amodal" title="Qualifikationsarbeit bewerten" styleClass="gradeModalPseudoClass">
                             <h:outputText value="Bitte tragen Sie die erreichte Note ein, um die Qualifikationsarbeit zu bewerten." />
                             <b:inputText value="#{advisorIndexBean.achievedGrade}" label="Note (#.#):" renderLabel="true" />
