@@ -15,9 +15,9 @@ import javax.inject.Named;
  *
  * @author Marc Jost
  */
-@Named
+@Named (value = "AAllFoKoBean")
 @RequestScoped
-public class AllFoKoBean {
+public class AAllFoKoBean {
     
     
     private List<FoKo> allFoKos = new ArrayList<>();

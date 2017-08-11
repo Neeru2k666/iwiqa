@@ -97,7 +97,7 @@ public class QA implements Serializable {
      */
     private QA_Status status = QA_Status.PROPOSAL_IN_PROGRESS;
     
-    @OneToMany(mappedBy = "qa", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "qa", fetch = FetchType.EAGER)
     private List<FoKoRegistration> participatingIn = new ArrayList<>();
 
     public Long getId() {

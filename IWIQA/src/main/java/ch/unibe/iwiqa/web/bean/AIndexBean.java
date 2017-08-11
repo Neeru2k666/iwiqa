@@ -23,9 +23,9 @@ import org.omnifaces.util.Messages;
  *
  * @author Marc Jost
  */
-@Named
+@Named(value = "AIndexBean")
 @ViewScoped
-public class AdvisorIndexBean implements Serializable {
+public class AIndexBean implements Serializable {
     
     private static final long serialVersionUID = -9186749789853072367L;
     

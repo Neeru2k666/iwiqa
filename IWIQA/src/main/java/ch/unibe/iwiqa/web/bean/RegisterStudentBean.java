@@ -4,6 +4,8 @@ package ch.unibe.iwiqa.web.bean;
 
 import ch.unibe.iwiqa.entity.Student;
 import ch.unibe.iwiqa.entity.dao.StudentFacade;
+import ch.unibe.iwiqa.web.mail.MailNotificationManagerBean;
+import ch.unibe.iwiqa.web.mail.MailSenderBean;
 import ch.unibe.iwiqa.web.util.Navigation;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -28,6 +30,9 @@ public class RegisterStudentBean implements Serializable {
     @Inject
     private StudentFacade studentFacade;
     
+    @Inject
+    private MailNotificationManagerBean mailNotificationManagerBean;
+    
     private boolean agreed = false;
     
     @PostConstruct
@@ -38,6 +43,7 @@ public class RegisterStudentBean implements Serializable {
     public String registerStudent(){
         newStudent.setPassword(new Sha256Hash(newStudent.getPassword()).toHex());
         studentFacade.create(newStudent);
+        mailNotificationManagerBean.sendStudentRegistrationSuccess(newStudent);
         return Navigation.REGSUCCESS;
     }
 

@@ -18,14 +18,14 @@
         <b:row>
             <b:column span="12">
                 <h3>Meine Qualifikationsarbeiten</h3>
-                <b:panel rendered="#{empty studentIndexBean.myQAs}">
+                <b:panel rendered="#{empty SIndexBean.myQAs}">
                     <h:outputText value="Sie haben noch keine QA erfasst"/>
                     <f:facet name="footer">
-                        <b:button outcome="#{navigation.NEWQA}" look="primary" value="Neue Qualifikationsarbeit erfassen"/>
+                        <center><h:link outcome="#{navigation.SNEWQA}" value="Neue Qualifikationsarbeit erfassen"/></center>
                     </f:facet>
                 </b:panel>
-                <b:panel rendered="#{not empty studentIndexBean.myQAs}">
-                    <ui:repeat value="#{studentIndexBean.myQAs}" var="qa">
+                <b:panel rendered="#{not empty SIndexBean.myQAs}">
+                    <ui:repeat value="#{SIndexBean.myQAs}" var="qa">
                         <b:panel look="#{qa.qaType == QA_Type.BA? 'info' : 'primary'}" collapsible="false">
                             <f:facet name="heading">
                                 <h:outputText value="#{qa.qaType += ': ' += qa.title}"/>
@@ -66,6 +66,9 @@
                             </h:form>
                         </b:panel>
                     </ui:repeat>
+                    <f:facet name="footer">
+                        <center><h:link outcome="#{navigation.SNEWQA}" value="Neue Qualifikationsarbeit erfassen"/></center>
+                    </f:facet>
                 </b:panel>
             </b:column>
         </b:row>
@@ -73,15 +76,15 @@
         <b:row>
             <b:column span="12">
                 <h3>Meine Forschungskolloquien</h3>
-                <b:panel rendered="#{empty studentIndexBean.myFoKoRegistrations}">
+                <b:panel rendered="#{empty SIndexBean.myFoKoRegistrations}">
                     <p>Sie haben sich noch für keine FoKos angemeldet</p>
                     <f:facet name="footer">
-                        <center><h:link value="Für Forschungskolloquium an- oder abmelden" outcome="#{navigation.SFOKO}"/></center>
+                        <center><h:link value="Für Forschungskolloquium an- oder abmelden" outcome="#{navigation.SALLFOKOS}"/></center>
                     </f:facet>
                 </b:panel>
-                <b:panel rendered="#{not empty studentIndexBean.myFoKoRegistrations}">
+                <b:panel rendered="#{not empty SIndexBean.myFoKoRegistrations}">
                     <b:form>
-                        <h:dataTable value="#{studentIndexBean.myFoKoRegistrations}" var="reg" styleClass="table"  style="margin-bottom: 0">
+                        <h:dataTable value="#{SIndexBean.myFoKoRegistrations}" var="reg" styleClass="table"  style="margin-bottom: 0">
                             <h:column>
                                 <f:facet name="header">Arbeit</f:facet>
                                 <h:outputText value="#{reg.qa.title}" />
@@ -104,14 +107,10 @@
                                 <f:facet name="header">Referent</f:facet>
                                 <b:icon name="#{reg.participatingAs == FoKo_ParticipateAs.SPEAKER ? 'check' : 'unchecked'}" />
                             </h:column>
-                            <h:column>
-                                <f:facet name="header"/>
-                                <b:commandButton value="Details" ajax="true" size="xs"/>
-                            </h:column>
                         </h:dataTable>
                     </b:form>
                     <f:facet name="footer">
-                        <center><h:link value="Für Forschungskolloquium an- oder abmelden" outcome="#{navigation.SFOKO}"/></center>
+                        <center><h:link value="Für Forschungskolloquium an- oder abmelden" outcome="#{navigation.SALLFOKOS}"/></center>
                     </f:facet>
                 </b:panel>
             </b:column>
@@ -120,20 +119,10 @@
     <ui:define name="sideContent">
         <b:row>
             <b:column span="12">
-                <h4>Pendenzen</h4>
+                <h4>Ressourcen</h4>
 
             </b:column>
         </b:row>
-        <b:row>
-            <b:column span="12">
-                <h4>Termine</h4>
-            </b:column>
-        </b:row>
-        <b:row>
-            <b:column span="12">
-                <h4>Forschungskolloquien</h4>
 
-            </b:column>
-        </b:row>
     </ui:define>
 </ui:composition>

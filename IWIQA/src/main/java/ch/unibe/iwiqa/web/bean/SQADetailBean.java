@@ -7,13 +7,17 @@ import ch.unibe.iwiqa.entity.QA;
 import ch.unibe.iwiqa.entity.Student;
 import ch.unibe.iwiqa.entity.dao.AdvisorFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
+import ch.unibe.iwiqa.util.QA_Status;
 import ch.unibe.iwiqa.util.QA_Type;
+import ch.unibe.iwiqa.web.mail.MailNotificationManagerBean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import org.apache.shiro.SecurityUtils;
 import org.omnifaces.util.Messages;
 
@@ -33,6 +37,12 @@ public class SQADetailBean implements Serializable {
     @Inject
     private AdvisorFacade advisorFacade;
     
+    @Inject
+    private UploadFileBean uploadFileBean;
+    
+    @Inject
+    private MailNotificationManagerBean mailNotificationManagerBean;
+    
     private QA qa;
     
     private List<Advisor> availableAdvisors = new ArrayList<>();
@@ -42,6 +52,9 @@ public class SQADetailBean implements Serializable {
     private Student loggedInStudent;
     
     private boolean myQA;
+    
+    private Part file;
+    
     
     public void init(){
         availableAdvisors = advisorFacade.findAll();
@@ -62,6 +75,15 @@ public class SQADetailBean implements Serializable {
     
     public void edit(){
         editMode = true;
+    }
+    
+    public void uploadQA(){
+        uploadFileBean.upload(file, qa);
+        qa.setStatus(QA_Status.QA_HANDED_IN);
+        qAFacade.edit(qa);
+        mailNotificationManagerBean.sendStudentQAStatusUpdate(qa);
+        mailNotificationManagerBean.sendAdvisorQAUploaded(qa);
+        Messages.addGlobal(new FacesMessage("Qualifikationsarbeit erfolgreich hochgeladen!"));
     }
     
     public QA_Type[] getTypes(){
@@ -94,5 +116,13 @@ public class SQADetailBean implements Serializable {
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
+    }
+    
+    public Part getFile() {
+        return file;
+    }
+
+    public void setFile(Part file) {
+        this.file = file;
     }
 }

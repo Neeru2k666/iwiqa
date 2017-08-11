@@ -121,19 +121,24 @@
         <h:form id="fileupload" enctype="multipart/form-data" rendered="#{sqaDetailBean.myQA}">
             <b:panel collapsible="false">
                 <f:facet name="heading">
-                    <h:outputText value="Qualifikationsarbeit hochladen"/><b:icon name="warning-sign" tooltip="Der File Upload ist final. Stellen Sie sicher, dass Sie die definitive Version hochladen." style="margin-left: 5px;"/>
+                    <h:outputText value="Qualifikationsarbeit hochladen (nur .pdf Datei)"/><b:icon name="warning-sign" tooltip="Der File Upload ist final und nur als .pdf Datei möglich. Stellen Sie sicher, dass Sie die definitive Version hochladen." style="margin-left: 5px;"/>
                 </f:facet>
                 <b:row rendered="#{sqaDetailBean.qa.status lt QA_Status.QA_HANDED_IN and sqaDetailBean.qa.status ne QA_Status.QA_ABORTED}" styleClass="form-group">
                     <b:column span="10">
-                        <h:inputFile id="file" value="#{uploadFileBean.file}" />
+                        <h:inputFile id="file" value="#{sqaDetailBean.file}" />
                     </b:column>
                     <b:column span="2">
-                        <b:commandButton value="Upload" action="#{uploadFileBean.upload}" styleClass="pull-right"/>
+                        <b:commandButton value="Upload" action="#{sqaDetailBean.uploadQA()}" styleClass="pull-right"/>
                     </b:column>
                 </b:row>
                 <b:row rendered="#{sqaDetailBean.qa.status ge QA_Status.QA_HANDED_IN or sqaDetailBean.qa.status eq QA_Status.QA_ABORTED}">
                     <b:column span="12">
-                        <h:outputText value="Sie haben Ihre Qualifikationsarbeit bereits hochgeladen oder abgebrochen."/><b:icon name="question-sign" tooltip="Falls Ihnen ein Irrtum unterlaufen ist, wenden Sie sich an Ihre_n Betreuer_in." />
+                        <h:outputText value="Sie haben Ihre Qualifikationsarbeit bereits hochgeladen."/><b:icon name="question-sign" tooltip="Falls Ihnen ein Irrtum unterlaufen ist, wenden Sie sich an #{sqaDetailBean.qa.advisor.fullName}." />
+                    </b:column>
+                </b:row>
+                <b:row rendered="#{sqaDetailBean.qa.status eq QA_Status.QA_ABORTED}">
+                    <b:column span="12">
+                        <h:outputText value="Sie haben Ihre Qualifikationsarbeit abgebrochen."/><b:icon name="question-sign" tooltip="Falls Ihnen ein Irrtum unterlaufen ist, wenden Sie sich an #{sqaDetailBean.qa.advisor.fullName}." />
                     </b:column>
                 </b:row>
             </b:panel>

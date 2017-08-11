@@ -21,11 +21,11 @@
                     </b:column>
                 </b:row>
                 <b:row>
-                    <b:panel rendered="#{empty allQABean.qas}">
+                    <b:panel rendered="#{empty AAllQABean.qas}">
                         <h:outputText value="Keine Qualifikationsarbeiten gefunden"/>
                     </b:panel>
-                    <b:panel rendered="#{not empty allQABean.qas}">
-                        <b:dataTable value="#{allQABean.qas}" var="qa" lang="de" searching="true">
+                    <b:panel rendered="#{not empty AAllQABean.qas}">
+                        <b:dataTable value="#{AAllQABean.qas}" var="qa" lang="de" searching="true">
                             <b:dataTableColumn value="#{qa.qaType}">
                                 <f:facet name="header">
                                     <h:outputText value="Typ"/>
@@ -41,7 +41,7 @@
                                     <h:outputText value="Student"/>
                                 </f:facet>
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="Bis">
+                            <b:dataTableColumn label="Von">
                                 <h:outputText value="#{qa.startingDate.time}">
                                     <f:convertDateTime pattern="dd.MM.yyyy" />
                                 </h:outputText>

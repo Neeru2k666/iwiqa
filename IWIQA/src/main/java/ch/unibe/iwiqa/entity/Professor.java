@@ -31,7 +31,7 @@ public class Professor implements Serializable {
     
     private String titles;
     
-    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "professor", fetch = FetchType.EAGER)
     private List<Advisor> advisors = new ArrayList<>();
     
     public String getFullname(){

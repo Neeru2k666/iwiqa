@@ -49,10 +49,10 @@ public class Student implements Serializable {
     
     private String city;
     
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
     private List<QA> qas = new ArrayList<>();
     
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
     private List<FoKoRegistration> fokoRegistrations = new ArrayList<>();
 
     public Long getId() {

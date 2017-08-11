@@ -14,13 +14,12 @@
     </h:head>
 
     <h:body style="padding-top: 50px">
-        <b:messages escape="false"/>
-        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.AINDEX}" inverse="true" fixed="top">
+        <b:messages/>
+        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.SINDEX}" inverse="true" fixed="top">
             <b:navbarLinks>
-                <shiro:authenticated>
-                    <b:navLink value="Forschungskolloquien" href="#{navigation.AALLFOKOS}"/>
-                    <b:navLink value="Verwaltung" href="#{navigation.AMANADV}"/>
-                </shiro:authenticated>
+                <shiro:notAuthenticated>
+                    <b:navLink value="Registrieren" href="#{request.contextPath}/#{navigation.REGSTUDENT}"/>
+                </shiro:notAuthenticated>
             </b:navbarLinks>
             <ezcomp:loginComponent logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}"/>
         </b:navBar>

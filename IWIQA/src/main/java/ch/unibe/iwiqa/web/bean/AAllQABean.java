@@ -16,9 +16,9 @@ import javax.inject.Named;
  *
  * @author Marc Jost
  */
-@Named
+@Named (value = "AAllQABean")
 @RequestScoped
-public class AllQABean implements Serializable {
+public class AAllQABean implements Serializable {
     
     private static final long serialVersionUID = -3224025447348839378L;
     

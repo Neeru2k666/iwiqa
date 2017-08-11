@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.shiro.SecurityUtils;
@@ -20,9 +21,9 @@ import org.apache.shiro.SecurityUtils;
  *
  * @author Marc Jost
  */
-@Named
-@RequestScoped
-public class StudentIndexBean implements Serializable {
+@Named (value = "SIndexBean")
+@ViewScoped
+public class SIndexBean implements Serializable {
 
     private static final long serialVersionUID = -8014037414719166347L;
     
@@ -32,16 +33,18 @@ public class StudentIndexBean implements Serializable {
     @Inject
     private FoKoRegistrationFacade foKoRegistrationFacade;
     
-    private List<QA> myQAs;
+    private List<QA> myQAs = new ArrayList<>();
     
-    private List<FoKoRegistration> myFoKoRegistrations;
+    private List<FoKoRegistration> myFoKoRegistrations = new ArrayList<>();
     
     private Student loggedInStudent;
     
     @PostConstruct
     private void init() {
         loggedInStudent = (Student) SecurityUtils.getSubject().getPrincipal();
-        if(loggedInStudent == null) return;
+        if(loggedInStudent == null) {
+            return;
+        }
         myQAs = loggedInStudent.getQas();
         myFoKoRegistrations = loggedInStudent.getFokoRegistrations();
     }

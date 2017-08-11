@@ -15,7 +15,7 @@
 
     <h:body style="padding-top: 50px">
         <b:messages/>
-        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.INDEX}" inverse="true" fixed="top">
+        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.SINDEX}" inverse="true" fixed="top">
             <b:navbarLinks>
                 <shiro:notAuthenticated>
                     <b:navLink value="Registrieren" href="#{request.contextPath}/#{navigation.REGSTUDENT}"/>
@@ -35,9 +35,6 @@
                     <ui:insert name="sideContent">sideContent</ui:insert>
                 </b:column>
             </b:row>
-            <b:navBar brand="©2017 Institut für Wirtschaftsinformatik, Universität Bern" brandHref="#" position="bottom" sticky="false" inverse="false">
-                <h:outputText value="IWIQA - Das Portal um Bachelor- und Masterarbeiten am IWI zu verwalten." styleClass="navbar-text pull-right"/>
-            </b:navBar>
         </b:container>
     </h:body>
 </html>

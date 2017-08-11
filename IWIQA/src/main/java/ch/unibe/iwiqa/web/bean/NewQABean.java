@@ -9,12 +9,15 @@ import ch.unibe.iwiqa.entity.dao.AdvisorFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
 import ch.unibe.iwiqa.entity.dao.StudentFacade;
 import ch.unibe.iwiqa.util.QA_Type;
+import ch.unibe.iwiqa.web.mail.MailNotificationManagerBean;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.shiro.SecurityUtils;
+import org.omnifaces.util.Messages;
 
 /**
  *
@@ -32,6 +35,9 @@ public class NewQABean {
     
     @Inject
     private StudentFacade studentFacade;
+    
+    @Inject
+    private MailNotificationManagerBean mailNotificationManagerBean;
     
     private QA newQA;
     
@@ -54,8 +60,14 @@ public class NewQABean {
         newQA.setAdvisor(selectedAdvisor);
         newQA.setStudent(loggedInStudent);
         qaFacade.create(newQA);
+        
+        selectedAdvisor.addQA(newQA);
+        advisorFacade.edit(selectedAdvisor);
+        
         loggedInStudent.addQA(newQA);
         studentFacade.edit(loggedInStudent);
+        mailNotificationManagerBean.sendAdvisorNewQA(newQA);
+        Messages.addGlobal(new FacesMessage("Qualifikationsarbeit erfolgreich erstellt!"));
     }
     
     public List<Advisor> getAvailableAdvisors(){

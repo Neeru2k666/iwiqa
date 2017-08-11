@@ -2,19 +2,25 @@
  */
 package ch.unibe.iwiqa.web.mail;
 
+import ch.unibe.iwiqa.entity.MailTemplate;
+import ch.unibe.iwiqa.entity.dao.MailTemplateFacade;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import javax.inject.Inject;
 
 /**
- *
+ * 
+ * 
  * @author Marc Jost
  */
 public class MailTemplateReader {
     
-    public static String readTemplate(String templatename){
+    @Inject
+    private MailTemplateFacade mailTemplateFacade;
+    
+    public String readTemplateFromFiles(String templatename){
         try {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             URL res = classLoader.getResource("mailtemplates/" + templatename);
@@ -25,6 +31,10 @@ public class MailTemplateReader {
             System.err.println("Could not load Mail Template");
             return null;
         }
+    }
+    
+    public MailTemplate readTemplateFromDB(String templateName){
+        return mailTemplateFacade.findByTemplateName(templateName).get(0);
     }
             
 }

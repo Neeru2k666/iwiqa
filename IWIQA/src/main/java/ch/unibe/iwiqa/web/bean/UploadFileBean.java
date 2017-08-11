@@ -2,39 +2,37 @@
  */
 package ch.unibe.iwiqa.web.bean;
 
+import ch.unibe.iwiqa.entity.QA;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
 import javax.servlet.http.Part;
 
 /**
  *
  * @author Marc Jost
  */
-@Named
 @RequestScoped
 public class UploadFileBean {
-    
+
     private Part file;
-    
+
     private String fileContent;
-    
-    public void upload(){
-        try (InputStream input = file.getInputStream()){
-            Files.copy(input, new File("S:\\up", "test.pdf").toPath());
+
+    public void upload(Part file, QA qa) {
+        try (InputStream input = file.getInputStream()) {
+            Files.copy(input, new File("S:\\up", generateFilename(qa)).toPath());
         } catch (IOException e) {
             // Error handling
         }
     }
-    
-    public Part getFile() {
-        return file;
-    }
 
-    public void setFile(Part file) {
-        this.file = file;
+    private String generateFilename(QA qa) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        return "" + sdf.format(new Date()) + "_" + qa.getQaType().getAbbreviated() + "_" + qa.getStudent().getLastName() + "_" + qa.getStudent().getFirstName() + ".pdf";
     }
 }

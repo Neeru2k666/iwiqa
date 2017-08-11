@@ -18,12 +18,11 @@
             <b:row>
                 <b:column span="12">
                     <h3>Verfügbare Forschungskolloquien</h3>
-                    <b:panel rendered="#{empty sfokoBean.availableFoKos}">
+                    <b:panel rendered="#{empty SAllFoKoBean.availableFoKos}">
                         <h:outputText value="Momentan sind keine Forschungskolloquien verfügbar"/>
                     </b:panel>
-                    <b:panel rendered="#{not empty sfokoBean.availableFoKos}">
-
-                        <h:dataTable id="fokoTable" value="#{sfokoBean.availableFoKos}" var="foko" styleClass="table" style="margin-bottom: 0">
+                    <b:panel rendered="#{not empty SAllFoKoBean.availableFoKos}">
+                        <h:dataTable id="fokoTable" value="#{SAllFoKoBean.availableFoKos}" var="foko" styleClass="table" style="margin-bottom: 0">
                             <h:column>
                                 <f:facet name="header">Datum</f:facet>
                                 <h:outputText value="#{foko.startingDate.time}">
@@ -36,23 +35,23 @@
                             </h:column>
                             <h:column>
                                 <f:facet name="header"></f:facet>
-                                <b:commandButton rendered="#{not sfokoBean.hasRegisteredForFoKo(foko)}" value="Anmelden" size="xs" ajax="true" onclick="ajax:sfokoBean.setSelectedFoKo(foko);javascript:$('.modalPseudoClass').modal();" styleClass="pull-right"/>
+                                <b:commandButton rendered="#{not SAllFoKoBean.hasRegisteredForFoKo(foko)}" value="Anmelden" size="xs" ajax="true" onclick="ajax:SAllFoKoBean.setSelectedFoKo(foko);javascript:$('.modalPseudoClass').modal();" styleClass="pull-right"/>
                             </h:column>
                         </h:dataTable>
                         <b:modal id="amodal" title="Für Forschungskolloquium anmelden" styleClass="modalPseudoClass">
                             <p>Bitte wählen Sie Ihre Qualifikationsarbeit, mit der Sie am Forschungskolloquium teilnehmen möchten.</p>
-                            <b:selectOneMenu value="#{sfokoBean.selectedQA}" id="qa">
-                                <f:selectItems value="#{sfokoBean.myQAs}" var="qa" itemLabel="#{qa.title}"/>
+                            <b:selectOneMenu value="#{SAllFoKoBean.selectedQA}" id="qa">
+                                <f:selectItems value="#{SAllFoKoBean.myQAs}" var="qa" itemLabel="#{qa.title}"/>
                             </b:selectOneMenu>
                             <h:outputText value="Möchten Sie als Zuhörer oder Referent teilnehmen?" />
-                            <b:radiobutton value="#{sfokoBean.participateAs}">
+                            <b:radiobutton value="#{SAllFoKoBean.participateAs}">
                                 <f:selectItem itemValue="#{FoKo_ParticipateAs.SPEAKER}" itemLabel="#{text['foko_participateas.SPEAKER']}" />
                                 <f:selectItem itemValue="#{FoKo_ParticipateAs.LISTENER}" itemLabel="#{text['foko_participateas.LISTENER']}" />
                             </b:radiobutton>
-                            <small><b:icon name="warning-sign" style="color: #f0ad4e;"/> Bitte beachten Sie, dass Ihr Proposal zum Zeitpunkt des Forschungskolloquiums angenommen sein muss, um am Forschungskolloquium teilnehmen zu können.</small>
+                            <small><b:icon name="warning-sign" style="color: #f0ad4e;"/> Bitte beachten Sie, dass Ihr Proposal zum Zeitpunkt des Forschungskolloquiums angenommen sein muss, um am Forschungskolloquium als Referent teilnehmen zu können.</small>
                             <f:facet name="footer">
                                 <b:button value="Abbrechen" dismiss="modal" onclick="return false;"/>
-                                <b:commandButton value="Registrieren" action="#{sfokoBean.registerToFoKo()}" ajax="true" onclick="$('.modalPseudoClass').modal('hide')" />
+                                <b:commandButton value="Registrieren" action="#{SAllFoKoBean.registerToFoKo()}" ajax="true" onclick="$('.modalPseudoClass').modal('hide')" />
                             </f:facet>
                         </b:modal>
                     </b:panel>
@@ -61,12 +60,12 @@
             <b:row>
             <b:column span="12">
                 <h3>Meine Forschungskolloquien</h3>
-                <b:panel rendered="#{empty sfokoBean.myFoKoRegistrations}">
+                <b:panel rendered="#{empty SAllFoKoBean.myFoKoRegistrations}">
                     <p>Sie haben sich noch für keine FoKos angemeldet</p>
                 </b:panel>
-                <b:panel rendered="#{not empty sfokoBean.myFoKoRegistrations}">
+                <b:panel rendered="#{not empty SAllFoKoBean.myFoKoRegistrations}">
                     <b:form>
-                        <h:dataTable value="#{sfokoBean.myFoKoRegistrations}" var="reg" styleClass="table"  style="margin-bottom: 0">
+                        <h:dataTable value="#{SAllFoKoBean.myFoKoRegistrations}" var="reg" styleClass="table"  style="margin-bottom: 0">
                             <h:column>
                                 <f:facet name="header">Arbeit</f:facet>
                                 <h:outputText value="#{reg.qa.title}" />
@@ -91,8 +90,7 @@
                             </h:column>
                             <h:column>
                                 <f:facet name="header"/>
-                                <b:button value="Details" size="xs" />
-                                <b:commandButton value="X" size="xs" look="danger" action="#{sfokoBean.deregister(reg)}" tooltip="Abmelden"/>
+                                <b:commandButton value="X" size="xs" look="danger" action="#{SAllFoKoBean.deregister(reg)}" tooltip="Abmelden"/>
                             </h:column>
                         </h:dataTable>
                     </b:form>

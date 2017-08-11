@@ -7,11 +7,7 @@ import ch.unibe.iwiqa.entity.FoKoRegistration;
 import ch.unibe.iwiqa.entity.QA;
 import ch.unibe.iwiqa.entity.Student;
 import ch.unibe.iwiqa.entity.dao.FoKoFacade;
-import ch.unibe.iwiqa.entity.dao.FoKoRegistrationFacade;
-import ch.unibe.iwiqa.entity.dao.QAFacade;
-import ch.unibe.iwiqa.entity.dao.StudentFacade;
 import ch.unibe.iwiqa.util.FoKo_ParticipateAs;
-import ch.unibe.iwiqa.web.util.Navigation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,27 +21,21 @@ import org.apache.shiro.SecurityUtils;
  *
  * @author Marc Jost
  */
-@Named(value = "sfokoBean")
+@Named (value = "SAllFoKoBean")
 @ViewScoped
-public class SFoKoBean implements Serializable {
+public class SAllFoKoBean implements Serializable {
 
     private static final long serialVersionUID = 8258927200455896846L;
 
     @Inject
     private FoKoFacade foKoFacade;
-
-    @Inject
-    private FoKoRegistrationFacade foKoRegistrationFacade;
-
-    @Inject
-    private QAFacade qAFacade;
     
     @Inject
-    private StudentFacade studentFacade;
+    private RegisterFoKoBean registerFoKoBean;
     
     @Inject
     private DeregisterFoKoBean deregisterFoKoBean;
-
+    
     private Student loggedInStudent;
 
     private List<FoKo> availableFoKos = new ArrayList<>();
@@ -63,9 +53,7 @@ public class SFoKoBean implements Serializable {
     @PostConstruct
     private void init() {
         loggedInStudent = (Student) SecurityUtils.getSubject().getPrincipal();
-        if (loggedInStudent == null) {
-            return;
-        }
+        if (loggedInStudent == null) return;
         myQAs = loggedInStudent.getQas();
         myFoKoRegistrations = loggedInStudent.getFokoRegistrations();
         availableFoKos = foKoFacade.findAll();
@@ -81,22 +69,7 @@ public class SFoKoBean implements Serializable {
     }
 
     public void registerToFoKo() {
-        FoKoRegistration reg = new FoKoRegistration();
-        reg.setFoko(selectedFoKo);
-        reg.setQa(selectedQA);
-        reg.setStudent(loggedInStudent);
-        reg.setParticipatingAs(participateAs);
-
-        selectedFoKo.addParticipant(reg);
-        loggedInStudent.addFoKoRegistration(reg);
-        selectedQA.addFoKoRegistration(reg);
-
-        foKoRegistrationFacade.create(reg);
-        foKoFacade.edit(selectedFoKo);
-        studentFacade.edit(loggedInStudent);
-        qAFacade.edit(selectedQA);
-        
-        //init();
+        registerFoKoBean.registerToFoKo(selectedFoKo, selectedQA, loggedInStudent, participateAs);
     }
     
     public void deregister(FoKoRegistration reg){

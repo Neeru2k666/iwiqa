@@ -15,9 +15,9 @@ public class Navigation {
     public static final String INDEX = "index.xhtml";
     public static final String SINDEX = "s/sindex.xhtml";
     public static final String AINDEX = "a/aindex.xhtml";
-    public static final String SFOKO = "sfoko.xhtml";
+    public static final String SALLFOKOS = "sallfokos.xhtml";
     public static final String AALLFOKOS = "aallfokos.xhtml";
-    public static final String NEWQA = "newqa.xhtml";
+    public static final String SNEWQA = "snewqa.xhtml";
     public static final String NEWFOKO ="anewfoko.xhtml";
     public static final String LOGIN = "login.xhtml";
     public static final String SLOGIN = "s/slogin.xhtml";
@@ -45,16 +45,16 @@ public class Navigation {
         return AINDEX;
     }
     
-    public String getSFOKO() {
-        return SFOKO;
+    public String getSALLFOKOS() {
+        return SALLFOKOS;
     }
     
     public String getAALLFOKOS() {
         return AALLFOKOS;
     }
 
-    public String getNEWQA() {
-        return NEWQA;
+    public String getSNEWQA() {
+        return SNEWQA;
     }
     
     public String getNEWFOKO() {

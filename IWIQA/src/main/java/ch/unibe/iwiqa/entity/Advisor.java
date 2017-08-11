@@ -41,7 +41,7 @@ public class Advisor implements Serializable {
     
     private String password;
     
-    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "advisor", fetch = FetchType.EAGER)
     private List<QA> qas = new ArrayList<>();
     
     private boolean active = true;

@@ -25,12 +25,12 @@
                         <b:button outcome="#{navigation.AALLQAS}" value="Alle anzeigen" size="sm" style="margin-top: 18px; float: right"/>
                     </b:column>
                 </b:row>
-                <b:panel rendered="#{empty advisorIndexBean.openQAs}">
+                <b:panel rendered="#{empty AIndexBean.openQAs}">
                     <h:outputText value="Keine offenen Qualifikationsarbeiten"/>
                 </b:panel>
-                <b:panel rendered="#{not empty advisorIndexBean.openQAs}">
+                <b:panel rendered="#{not empty AIndexBean.openQAs}">
                     <h:form>
-                        <h:dataTable value="#{advisorIndexBean.openQAs}" var="qa" styleClass="table table-striped" style="margin-bottom: 0">
+                        <h:dataTable value="#{AIndexBean.openQAs}" var="qa" styleClass="table table-striped" style="margin-bottom: 0">
                             <h:column>
                                 <f:facet name="header">Typ</f:facet>
                                 <h:outputText value="#{qa.qaType}" />
@@ -61,9 +61,9 @@
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Nächster Schritt</f:facet>
-                                <b:commandButton rendered="#{qa.status eq QA_Status.PROPOSAL_IN_PROGRESS}" value="Proposal annehmen" size="xs" look="success" action="#{advisorIndexBean.acceptProposal(qa)}"/>
-                                <b:commandButton rendered="#{qa.status eq QA_Status.QA_HANDED_IN or qa.status eq QA_Status.PROPOSAL_ACCEPTED}" value="Arbeit bewerten" size="xs" look="success" onclick="ajax:advisorIndexBean.setSelectedQA(qa);javascript:$('.gradeModalPseudoClass').modal(); return false;"/>
-                                <b:commandButton rendered="#{qa.status eq QA_Status.QA_GRADED}" value="Notenmeldung erstellen" size="xs" look="success" action="#{advisorIndexBean.createGradeAnnouncement(qa)}"/>
+                                <b:commandButton rendered="#{qa.status eq QA_Status.PROPOSAL_IN_PROGRESS}" value="Proposal annehmen" size="xs" look="success" action="#{AIndexBean.acceptProposal(qa)}"/>
+                                <b:commandButton rendered="#{qa.status eq QA_Status.QA_HANDED_IN or qa.status eq QA_Status.PROPOSAL_ACCEPTED}" value="Arbeit bewerten" size="xs" look="success" onclick="ajax:AIndexBean.setSelectedQA(qa);javascript:$('.gradeModalPseudoClass').modal(); return false;"/>
+                                <b:commandButton rendered="#{qa.status eq QA_Status.QA_GRADED}" value="Notenmeldung erstellen" size="xs" look="success" action="#{AIndexBean.createGradeAnnouncement(qa)}"/>
                                 <b:icon rendered="#{qa.status eq QA_Status.QA_COMPLETED}" name="check" />
                                 <b:icon rendered="#{qa.status eq QA_Status.QA_ABORTED}" name="remove" />
                             </h:column>
@@ -72,17 +72,17 @@
                                 <b:button value="Details" size="xs" outcome="#{navigation.AQADETAIL}">
                                     <f:param name="id" value="#{qa.getId()}"/>
                                 </b:button>
-                                <b:commandButton rendered="#{qa.status ne QA_Status.QA_ABORTED and qa.status ne QA_Status.QA_COMPLETED}" value="x" tooltip="Qualifikationsarbeit abbrechen" size="xs" look="danger" action="#{advisorIndexBean.abortQA(qa)}" style="margin-left: 5px"/>
+                                <b:commandButton rendered="#{qa.status ne QA_Status.QA_ABORTED and qa.status ne QA_Status.QA_COMPLETED}" value="x" tooltip="Qualifikationsarbeit abbrechen" size="xs" look="danger" action="#{AIndexBean.abortQA(qa)}" style="margin-left: 5px"/>
                             </h:column>
                         </h:dataTable>
                         <b:commandButton value="TEST" look="danger" action="#{mailNotificationManagerBean.test()}"/>
                         <b:modal id="amodal" title="Qualifikationsarbeit bewerten" styleClass="gradeModalPseudoClass">
                             <h:outputText value="Bitte tragen Sie die erreichte Note ein, um die Qualifikationsarbeit zu bewerten." />
-                            <b:inputText value="#{advisorIndexBean.achievedGrade}" label="Note (#.#):" renderLabel="true" />
-                            <b:dateTimePicker show-time="false" value="#{advisorIndexBean.handInDate}" label="Abgabedatum:" renderLabel="true" />
+                            <b:inputText value="#{AIndexBean.achievedGrade}" label="Note (#.#):" renderLabel="true" />
+                            <b:dateTimePicker show-time="false" value="#{AIndexBean.handInDate}" label="Abgabedatum:" renderLabel="true" />
                             <f:facet name="footer">
                                 <b:button value="Abbrechen" dismiss="modal" onclick="return false;"/>
-                                <b:commandButton value="Bewerten" look="info" action="#{advisorIndexBean.gradeQA()}" ajax="true" onclick="$('.gradeModalPseudoClass').modal('hide')" />
+                                <b:commandButton value="Bewerten" look="info" action="#{AIndexBean.gradeQA()}" ajax="true" onclick="$('.gradeModalPseudoClass').modal('hide')" />
                             </f:facet>
                         </b:modal>
                     </h:form>
@@ -100,15 +100,15 @@
                         <b:button value="Alle anzeigen" size="sm" style="margin-top: 18px; float: right" outcome="#{navigation.AALLFOKOS}"/>
                     </b:column>
                 </b:row>
-                <b:panel rendered="#{empty advisorIndexBean.availableFoKos}">
+                <b:panel rendered="#{empty AIndexBean.availableFoKos}">
                     <h:outputText value="Keine zukünftigen Forschungskolloquien"/>
                     <f:facet name="footer">
                         <center><h:link value="Forschungskolloquium erstellen" outcome="#{navigation.AALLFOKOS}"/></center>
                     </f:facet>
                 </b:panel>
-                <b:panel rendered="#{not empty advisorIndexBean.availableFoKos}">
+                <b:panel rendered="#{not empty AIndexBean.availableFoKos}">
                     <b:form>
-                        <h:dataTable value="#{advisorIndexBean.availableFoKos}" var="foko" styleClass="table"  style="margin-bottom: 0">
+                        <h:dataTable value="#{AIndexBean.availableFoKos}" var="foko" styleClass="table"  style="margin-bottom: 0">
                             <h:column>
                                 <f:facet name="header">Datum</f:facet>
                                 <h:outputText value="#{foko.startingDate.time}">

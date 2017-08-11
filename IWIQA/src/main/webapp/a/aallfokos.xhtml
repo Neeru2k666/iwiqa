@@ -24,11 +24,11 @@
                     </b:column>
                 </b:row>
                 <b:row>
-                    <b:panel rendered="#{empty allFoKoBean.allFoKos}">
+                    <b:panel rendered="#{empty AAllFoKoBean.allFoKos}">
                         <h:outputText value="Keine Forschungskolloquien gefunden"/>
                     </b:panel>
-                    <b:panel rendered="#{not empty allFoKoBean.allFoKos}">
-                        <b:dataTable value="#{allFoKoBean.allFoKos}" var="foko" lang="de" searching="true">
+                    <b:panel rendered="#{not empty AAllFoKoBean.allFoKos}">
+                        <b:dataTable value="#{AAllFoKoBean.allFoKos}" var="foko" lang="de" searching="true">
                             <b:dataTableColumn label="Datum">
                                 <h:outputText value="#{foko.startingDate.time}">
                                     <f:convertDateTime pattern="dd.MM.yyyy" />

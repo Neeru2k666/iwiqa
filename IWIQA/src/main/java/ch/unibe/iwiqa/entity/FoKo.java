@@ -37,7 +37,7 @@ public class FoKo implements Serializable {
     
     private String room;
     
-    @OneToMany(mappedBy = "foko", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "foko", fetch = FetchType.EAGER)
     private List<FoKoRegistration> participants = new ArrayList<>();
     
     public Long getId() {

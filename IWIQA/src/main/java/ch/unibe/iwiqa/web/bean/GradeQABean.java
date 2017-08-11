@@ -5,6 +5,7 @@ package ch.unibe.iwiqa.web.bean;
 import ch.unibe.iwiqa.entity.QA;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
 import ch.unibe.iwiqa.util.QA_Status;
+import ch.unibe.iwiqa.web.mail.MailNotificationManagerBean;
 import java.util.Date;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -20,6 +21,8 @@ public class GradeQABean {
 
     @Inject
     private QAFacade qAFacade;
+    @Inject
+    private MailNotificationManagerBean mailNotificationManagerBean;
     
     private QA selectedQA;
     private double achievedGrade = 0;
@@ -39,6 +42,7 @@ public class GradeQABean {
         qa.setHandInDate(handInDate);
         qa.setStatus(QA_Status.QA_GRADED);
         qAFacade.edit(qa);
+        mailNotificationManagerBean.sendStudentQAStatusUpdate(qa);
     }
 
     public QA getSelectedQA() {
