@@ -5,6 +5,7 @@ package ch.unibe.iwiqa.dev;
 import ch.unibe.iwiqa.entity.Advisor;
 import ch.unibe.iwiqa.entity.FoKo;
 import ch.unibe.iwiqa.entity.FoKoRegistration;
+import ch.unibe.iwiqa.entity.IWIQASettings;
 import ch.unibe.iwiqa.entity.MailTemplate;
 import ch.unibe.iwiqa.entity.Professor;
 import ch.unibe.iwiqa.entity.QA;
@@ -12,6 +13,7 @@ import ch.unibe.iwiqa.entity.Student;
 import ch.unibe.iwiqa.entity.dao.AdvisorFacade;
 import ch.unibe.iwiqa.entity.dao.FoKoFacade;
 import ch.unibe.iwiqa.entity.dao.FoKoRegistrationFacade;
+import ch.unibe.iwiqa.entity.dao.IWIQASettingsFacade;
 import ch.unibe.iwiqa.entity.dao.MailTemplateFacade;
 import ch.unibe.iwiqa.entity.dao.ProfessorFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
@@ -55,6 +57,9 @@ public class DevelopmentTestData {
 
     @Inject
     private MailTemplateFacade mailTemplateFacade;
+    
+    @Inject
+    private IWIQASettingsFacade iWIQASettingsFacade;
 
     @PostConstruct
     public void initializeData() {
@@ -65,6 +70,7 @@ public class DevelopmentTestData {
         createFoKos();
         createFoKoRegistrations();
         createMailTemplates();
+        createIWIQASettings();
     }
 
     private void createTestProfessors() {
@@ -510,5 +516,15 @@ public class DevelopmentTestData {
                 + "</body>\n"
                 + "</html>");
         mailTemplateFacade.create(mt13);
+    }
+    
+    private void createIWIQASettings(){
+        IWIQASettings settings = new IWIQASettings();
+        settings.setGradeAnnouncerEmail("marc.jost@digital-front.ch");
+        settings.setPathGradeAnnouncementFolder("S:\\up\\announcements");
+        settings.setPathQAFileUploadFolder("S:\\up\\qauploads");
+        settings.setPathGradeAnnouncementTemplate("S:\\up\\IWIQA_Notenmeldung.docx");
+        
+        iWIQASettingsFacade.create(settings);
     }
 }

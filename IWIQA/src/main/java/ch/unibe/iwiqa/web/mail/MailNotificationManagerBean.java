@@ -3,10 +3,11 @@
 package ch.unibe.iwiqa.web.mail;
 
 import ch.unibe.iwiqa.entity.FoKoRegistration;
+import ch.unibe.iwiqa.entity.IWIQASettings;
 import ch.unibe.iwiqa.entity.MailTemplate;
 import ch.unibe.iwiqa.entity.QA;
 import ch.unibe.iwiqa.entity.Student;
-import ch.unibe.iwiqa.entity.dao.MailTemplateFacade;
+import ch.unibe.iwiqa.entity.dao.IWIQASettingsFacade;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,10 +24,10 @@ public class MailNotificationManagerBean {
     private MailSenderBean mailSenderBean;
     
     @Inject
-    private MailTemplateFacade mailTemplateFacade;
+    private MailTemplateReader mailTemplateReader;
     
     @Inject
-    private MailTemplateReader mailTemplateReader;
+    private IWIQASettingsFacade iWIQASettingsFacade;
 
     public void test() { //TODO: Remove
    
@@ -60,6 +61,8 @@ public class MailNotificationManagerBean {
     public void sendAdvisorQAGraded(QA qa) {
         MailTemplate mt = mailTemplateReader.readTemplateFromDB("Mailtemp_A_QA_Graded");
         if (mt != null) {
+            IWIQASettings settings = iWIQASettingsFacade.findAll().get(0);
+            String gradeAnnouncerEmail = settings != null ? settings.getGradeAnnouncerEmail() : qa.getAdvisor().getEmail(); //TODO: PUT THIS INTO RECEIVER
             String mailBody = mt.getMailBody();
             mailBody = MailTemplatePopulater.populateTemplateWithQA(mailBody, qa);
             mailBody = MailTemplatePopulater.populateTemplateWithStudent(mailBody, qa.getStudent());
@@ -101,6 +104,8 @@ public class MailNotificationManagerBean {
     public void sendAdvisorReminderQAGradeAnnouncementOneWeek(QA qa){
         MailTemplate mt = mailTemplateReader.readTemplateFromDB("Mailtemp_A_QA_Reminder_GradeAnnouncement_1Week");
         if (mt != null) {
+            IWIQASettings settings = iWIQASettingsFacade.findAll().get(0);
+            String gradeAnnouncerEmail = settings != null ? settings.getGradeAnnouncerEmail() : qa.getAdvisor().getEmail(); //TODO: PUT THIS INTO RECEIVER
             String mailBody = mt.getMailBody();
             mailBody = MailTemplatePopulater.populateTemplateWithQA(mailBody, qa);
             mailSenderBean.send(mt.getSubject(), "marc.jost@digital-front.ch", mailBody); //ToDO: CHANGE

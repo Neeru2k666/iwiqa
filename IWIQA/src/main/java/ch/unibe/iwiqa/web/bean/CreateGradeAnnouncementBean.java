@@ -3,9 +3,11 @@
 package ch.unibe.iwiqa.web.bean;
 
 import ch.unibe.iwiqa.entity.Advisor;
+import ch.unibe.iwiqa.entity.IWIQASettings;
 import ch.unibe.iwiqa.entity.Professor;
 import ch.unibe.iwiqa.entity.QA;
 import ch.unibe.iwiqa.entity.Student;
+import ch.unibe.iwiqa.entity.dao.IWIQASettingsFacade;
 import ch.unibe.iwiqa.entity.dao.QAFacade;
 import ch.unibe.iwiqa.util.QA_Status;
 import java.text.SimpleDateFormat;
@@ -30,6 +32,9 @@ public class CreateGradeAnnouncementBean {
 
     @Inject
     private QAFacade qAFacade;
+    
+    @Inject
+    private IWIQASettingsFacade iWIQASettingsFacade;
 
     public void create(QA qa) {
         try {
@@ -41,11 +46,14 @@ public class CreateGradeAnnouncementBean {
             SimpleDateFormat sdfDoc = new SimpleDateFormat("dd. MMM. yyyy");
             SimpleDateFormat sdfFilename = new SimpleDateFormat("yyyyMMdd");
             org.docx4j.wml.ObjectFactory foo = Context.getWmlObjectFactory();
-
+            
+            IWIQASettings settings = iWIQASettingsFacade.findAll().get(0);
+            if(settings == null) throw new Exception("IWIQASettings could not be loaded from DB.");
+            
             // Input docx has variables in it: ${colour}, ${icecream}
-            String inputfilepath = "S:\\up\\IWIQA_Notenmeldung.docx";
+            String inputfilepath = settings.getPathGradeAnnouncementTemplate();
             String outputFilename = sdfFilename.format(new Date()) + "_Notenmeldung_" + qa.getQaType().getAbbreviated() + "_" + s.getLastName() + "_" + s.getFirstName();
-            String outputfilepath = "S:\\up\\" + outputFilename + ".docx";
+            String outputfilepath = settings.getPathGradeAnnouncementFolder() + "\\" + outputFilename + ".docx";
 
             WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage
                     .load(new java.io.File(inputfilepath));
