@@ -187,10 +187,7 @@ public class DevelopmentTestData {
         start.set(Calendar.DAY_OF_MONTH, 1);
         qa1.setStartingDate(start.getTime());
         Calendar end = Calendar.getInstance();
-        end.set(Calendar.YEAR, 2017);
-        end.set(Calendar.MONTH, 0);
-        end.set(Calendar.DAY_OF_MONTH, 1);
-        end.add(Calendar.DAY_OF_YEAR, 70);
+        end.add(Calendar.DAY_OF_YEAR, 3);
         qa1.setEndingDate(end.getTime());
         qa1.setQaType(QA_Type.BA);
         qa1.setStatus(QA_Status.QA_ABORTED);
@@ -206,6 +203,7 @@ public class DevelopmentTestData {
         QA qa2 = new QA();
         qa2.setTitle("Schnell WMS Prüfungen korrigieren: Erfahrungen aus erster Hand");
         qa2.setStartingDate(start.getTime());
+        end.add(Calendar.DAY_OF_YEAR, 3);
         qa2.setEndingDate(end.getTime());
         qa2.setQaType(QA_Type.BA);
         qa2.setStatus(QA_Status.PROPOSAL_IN_PROGRESS);
@@ -220,10 +218,13 @@ public class DevelopmentTestData {
         QA qa3 = new QA();
         qa3.setTitle("Multiple Cases Analysis of Platform-as-a-Service implementations");
         qa3.setStartingDate(start.getTime());
+        end.add(Calendar.DAY_OF_YEAR, 3);
         qa3.setEndingDate(end.getTime());
         qa3.setQaType(QA_Type.MA);
-        qa3.setStatus(QA_Status.QA_COMPLETED);
-        qa3.setHandInDate(new Date());
+        Calendar handIn1 = Calendar.getInstance();
+        handIn1.add(Calendar.DAY_OF_YEAR, -8);
+        qa3.setStatus(QA_Status.QA_HANDED_IN);
+        qa3.setHandInDate(handIn1.getTime());
         qa3.setGradedDate(end.getTime());
         qa3.setStudent(s1);
         qa3.setAdvisor(a1);
@@ -237,7 +238,9 @@ public class DevelopmentTestData {
         qa4.setTitle("Über Swag und schöne Fahrräder: Eine (Un-)Fallstudie");
         qa4.setStartingDate(start.getTime());
         qa4.setEndingDate(end.getTime());
-        qa4.setHandInDate(new Date());
+        Calendar handIn2 = Calendar.getInstance();
+        handIn2.add(Calendar.DAY_OF_YEAR, -5);
+        qa4.setHandInDate(handIn2.getTime());
         qa4.setQaType(QA_Type.BA);
         qa4.setStatus(QA_Status.QA_HANDED_IN);
         qa4.setStudent(s3);

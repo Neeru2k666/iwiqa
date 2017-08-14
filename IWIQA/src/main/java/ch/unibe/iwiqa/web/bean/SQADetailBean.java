@@ -12,6 +12,7 @@ import ch.unibe.iwiqa.util.QA_Type;
 import ch.unibe.iwiqa.web.mail.MailNotificationManagerBean;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
@@ -80,6 +81,7 @@ public class SQADetailBean implements Serializable {
     public void uploadQA(){
         uploadFileBean.upload(file, qa);
         qa.setStatus(QA_Status.QA_HANDED_IN);
+        qa.setHandInDate(new Date());
         qAFacade.edit(qa);
         mailNotificationManagerBean.sendStudentQAStatusUpdate(qa);
         mailNotificationManagerBean.sendAdvisorQAUploaded(qa);

@@ -35,4 +35,8 @@ public class FoKoFacade extends AbstractFacade<FoKo> {
         return em.createNamedQuery("FoKo.findAllInFutureOrderByDate").getResultList();
     }
     
+    public List<FoKo> findUnremindedInFutureFoKos() {
+        return em.createNamedQuery("FoKo.findUnremindedInFutureFoKos").getResultList();
+    }
+    
 }

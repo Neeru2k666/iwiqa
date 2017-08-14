@@ -23,7 +23,8 @@ import javax.persistence.TemporalType;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "FoKo.findAllOrderByDate", query = "SELECT f FROM FoKo f ORDER BY f.startingDate ASC"),
-    @NamedQuery(name = "FoKo.findAllInFutureOrderByDate", query = "SELECT f FROM FoKo f WHERE f.startingDate >= CURRENT_TIMESTAMP ORDER BY f.startingDate")
+    @NamedQuery(name = "FoKo.findAllInFutureOrderByDate", query = "SELECT f FROM FoKo f WHERE f.startingDate >= CURRENT_TIMESTAMP ORDER BY f.startingDate"),
+    @NamedQuery(name = "FoKo.findUnremindedInFutureFoKos", query = "SELECT f FROM FoKo f WHERE f.startingDate >= CURRENT_TIMESTAMP AND f.sentOutReminderOneWeek = FALSE")
 })
 public class FoKo implements Serializable {
 
@@ -39,6 +40,8 @@ public class FoKo implements Serializable {
     
     @OneToMany(mappedBy = "foko", fetch = FetchType.EAGER)
     private List<FoKoRegistration> participants = new ArrayList<>();
+    
+    private boolean sentOutReminderOneWeek = false;
     
     public Long getId() {
         return id;
@@ -78,6 +81,14 @@ public class FoKo implements Serializable {
     
     public void removeParticipant(FoKoRegistration reg) {
         this.participants.remove(reg);
+    }
+
+    public boolean isSentOutReminderOneWeek() {
+        return sentOutReminderOneWeek;
+    }
+
+    public void setSentOutReminderOneWeek(boolean sentOutReminderOneWeek) {
+        this.sentOutReminderOneWeek = sentOutReminderOneWeek;
     }
 
     @Override

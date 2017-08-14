@@ -32,4 +32,15 @@ public class QAFacade extends AbstractFacade<QA> {
         return em.createNamedQuery("QA.findOpenAndNotAbortedQAsByAdvisor").setParameter("advisor", advisor).getResultList();
     }
     
+    public List<QA> findOpenUnremindedOfEndingInOneWeekQAs() {
+        return em.createNamedQuery("QA.findOpenUnremindedOfEndingInOneWeekQAs").getResultList();
+    }
+    
+    public List<QA> findHandedInQAs() {
+        return em.createNamedQuery("QA.findHandedInQAs").getResultList();
+    }
+    
+    public List<QA> findAllOpenAndNotAbortedQAs() {
+        return em.createNamedQuery("QA.findAllOpenAndNotAbortedQAs").getResultList();
+    }
 }

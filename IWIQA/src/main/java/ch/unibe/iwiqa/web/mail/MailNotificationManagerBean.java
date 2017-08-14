@@ -2,6 +2,7 @@
  */
 package ch.unibe.iwiqa.web.mail;
 
+import ch.unibe.iwiqa.entity.FoKo;
 import ch.unibe.iwiqa.entity.FoKoRegistration;
 import ch.unibe.iwiqa.entity.IWIQASettings;
 import ch.unibe.iwiqa.entity.MailTemplate;
@@ -174,13 +175,12 @@ public class MailNotificationManagerBean {
         }
     }
     
-    public void sendStudentReminderFoKoInOneWeek(FoKoRegistration reg){
+    public void sendStudentReminderFoKoInOneWeek(FoKo foko, Student student){
         MailTemplate mt = mailTemplateReader.readTemplateFromDB("Mailtemp_S_Foko_Reminder_1Week");
         if (mt != null) {
             String mailBody = mt.getMailBody();
-            mailBody = MailTemplatePopulater.populateTemplateWithFoKoRegistration(mailBody, reg);
-            mailBody = MailTemplatePopulater.populateTemplateWithFoKo(mailBody, reg.getFoko());
-            mailBody = MailTemplatePopulater.populateTemplateWithStudent(mailBody, reg.getStudent());
+            mailBody = MailTemplatePopulater.populateTemplateWithFoKo(mailBody, foko);
+            mailBody = MailTemplatePopulater.populateTemplateWithStudent(mailBody, student);
             mailSenderBean.send(mt.getSubject(), "marc.jost@digital-front.ch", mailBody); //ToDO: CHANGE
         } else {
             System.out.println("ch.unibe.iwiqa.web.mail.MailNotificationManagerBean.sendStudentReminderFoKoInOneWeek()");

@@ -4,10 +4,8 @@ import ch.unibe.iwiqa.util.QA_Status;
 import ch.unibe.iwiqa.util.QA_Type;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,7 +25,10 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "QA.findOpenAndNotAbortedQAsByAdvisor", query = "SELECT f FROM QA f WHERE f.advisor = :advisor AND ((f.status <> ch.unibe.iwiqa.util.QA_Status.QA_COMPLETED) AND (f.status <> ch.unibe.iwiqa.util.QA_Status.QA_ABORTED)) ORDER BY f.endingDate ASC")
+    @NamedQuery(name = "QA.findOpenAndNotAbortedQAsByAdvisor", query = "SELECT f FROM QA f WHERE f.advisor = :advisor AND ((f.status <> ch.unibe.iwiqa.util.QA_Status.QA_COMPLETED) AND (f.status <> ch.unibe.iwiqa.util.QA_Status.QA_ABORTED)) ORDER BY f.endingDate ASC"),
+    @NamedQuery(name = "QA.findAllOpenAndNotAbortedQAs", query = "SELECT f FROM QA f WHERE ((f.status <> ch.unibe.iwiqa.util.QA_Status.QA_COMPLETED) AND (f.status <> ch.unibe.iwiqa.util.QA_Status.QA_ABORTED))"),
+    @NamedQuery(name = "QA.findOpenUnremindedOfEndingInOneWeekQAs", query = "SELECT f FROM QA f WHERE ((f.status = ch.unibe.iwiqa.util.QA_Status.PROPOSAL_IN_PROGRESS) OR (f.status = ch.unibe.iwiqa.util.QA_Status.PROPOSAL_ACCEPTED)) AND f.receivedReminderEndingOneWeek = FALSE"),
+    @NamedQuery(name = "QA.findHandedInQAs", query = "SELECT f FROM QA f WHERE f.status = ch.unibe.iwiqa.util.QA_Status.QA_HANDED_IN")
 })
 public class QA implements Serializable {
 
@@ -99,6 +100,11 @@ public class QA implements Serializable {
     
     @OneToMany(mappedBy = "qa", fetch = FetchType.EAGER)
     private List<FoKoRegistration> participatingIn = new ArrayList<>();
+    
+    /**
+     * True if Student and Advisor were notified about ending date in one week
+     */
+    private boolean receivedReminderEndingOneWeek = false;
 
     public Long getId() {
         return id;
@@ -218,6 +224,14 @@ public class QA implements Serializable {
 
     public void setGradeAnnouncementLocalURI(String gradeAnnouncementLocalURI) {
         this.gradeAnnouncementLocalURI = gradeAnnouncementLocalURI;
+    }
+
+    public boolean isReceivedReminderEndingOneWeek() {
+        return receivedReminderEndingOneWeek;
+    }
+
+    public void setReceivedReminderEndingOneWeek(boolean receivedReminderEndingOneWeek) {
+        this.receivedReminderEndingOneWeek = receivedReminderEndingOneWeek;
     }
 
     @Override
