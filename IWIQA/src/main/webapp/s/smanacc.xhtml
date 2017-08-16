@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="./../layout/skeleton.xhtml">
+
+    <ui:define name="title">
+        Kontoverwaltung - IWIQA
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <b:row>
+                <b:column span="12">
+                    <b:row>
+                        <b:column span="12">
+                            <b:row>
+                                <b:column span="7">
+                                    <h3>Mein Konto verwalten</h3>
+                                </b:column>
+                                <b:column span="5">
+                                    <b:commandButton disabled="#{SManageAccountBean.editMode}" value="Passwort ändern" onclick="javascript:$('.modalPasswordClass').modal(); return false;" styleClass="pull-right" style="margin-top: 20px;" size="sm"/>
+                                    <b:commandButton rendered="#{not SManageAccountBean.editMode}" look="info" value="Details bearbeiten" action="#{SManageAccountBean.edit()}" styleClass="pull-right" style="margin-top: 20px; margin-right: 10px" size="sm"/>
+                                    <b:commandButton rendered="#{SManageAccountBean.editMode}" value="Änderungen speichern" action="#{SManageAccountBean.editStudent()}" look="success"  styleClass="pull-right" style="margin-top: 20px; margin-right: 10px" size="sm"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column span="12">
+                                    <b:panel>
+                                        <b:row styleClass="form-group">
+                                            <b:column span="2">
+                                                <h:outputLabel value="Nachname:" />
+                                            </b:column>
+                                            <b:column span="4">
+                                                <h:outputText rendered="#{not SManageAccountBean.editMode}" value="#{SManageAccountBean.student.lastName}"/>
+                                                <b:inputText rendered="#{SManageAccountBean.editMode}" value="#{SManageAccountBean.student.lastName}" />
+                                            </b:column>
+                                            <b:column span="2">
+                                                <h:outputLabel value="Vorname:" />
+                                            </b:column>
+                                            <b:column span="4">
+                                                <h:outputText rendered="#{not SManageAccountBean.editMode}" value="#{SManageAccountBean.student.firstName}"/>
+                                                <b:inputText rendered="#{SManageAccountBean.editMode}" value="#{SManageAccountBean.student.firstName}" />
+                                            </b:column>
+                                        </b:row>
+                                        <b:row styleClass="form-group">
+                                            <b:column span="2">
+                                                <h:outputLabel value="Email:" />
+                                            </b:column>
+                                            <b:column span="4">
+                                                <h:outputText rendered="#{not SManageAccountBean.editMode}" value="#{SManageAccountBean.student.email}"/>
+                                                <b:inputText rendered="#{SManageAccountBean.editMode}" value="#{SManageAccountBean.student.email}" />
+                                            </b:column>
+                                            <b:column span="2">
+                                                <h:outputLabel value="MatNr:" />
+                                            </b:column>
+                                            <b:column span="4">
+                                                <h:outputText rendered="#{not SManageAccountBean.editMode}" value="#{SManageAccountBean.student.matNr}"/>
+                                                <b:inputText rendered="#{SManageAccountBean.editMode}" value="#{SManageAccountBean.student.matNr}" />
+                                            </b:column>
+                                        </b:row>
+                                        <b:row styleClass="form-group">
+                                            <b:column span="2">
+                                                <h:outputLabel value="Strasse:" />
+                                            </b:column>
+                                            <b:column span="4">
+                                                <h:outputText rendered="#{not SManageAccountBean.editMode}" value="#{SManageAccountBean.student.street}"/>
+                                                <b:inputText rendered="#{SManageAccountBean.editMode}" value="#{SManageAccountBean.student.street}" />
+                                            </b:column>
+                                            <b:column span="2">
+                                                <h:outputLabel value="Ort:" />
+                                            </b:column>
+                                            <b:column span="4">
+                                                <h:outputText rendered="#{not SManageAccountBean.editMode}" value="#{SManageAccountBean.student.city}"/>
+                                                <b:inputText rendered="#{SManageAccountBean.editMode}" value="#{SManageAccountBean.student.city}" />
+                                            </b:column>
+                                        </b:row>
+                                        <b:row styleClass="form-group">
+                                            <b:column span="2">
+                                                <h:outputLabel value="PLZ:" />
+                                            </b:column>
+                                            <b:column span="4">
+                                                <h:outputText rendered="#{not SManageAccountBean.editMode}" value="#{SManageAccountBean.student.ZIP}"/>
+                                                <b:inputText rendered="#{SManageAccountBean.editMode}" value="#{SManageAccountBean.student.ZIP}" />
+                                            </b:column>
+                                            <b:column span="6">
+
+                                            </b:column>
+                                        </b:row>
+                                        <b:modal id="pwModal" title="Passwort ändern" styleClass="modalPasswordClass" closable="false">
+                                            <p>Setzen Sie Ihr neues Passwort:</p>
+                                            <h:inputSecret value="#{SManageAccountBean.newPassword}" />
+                                            <f:facet name="footer">
+                                                <b:button value="Abbrechen" dismiss="pwModal" onclick="return false;"/>
+                                                <b:commandButton value="Ändern" look="info" action="#{SManageAccountBean.changePassword()}" ajax="true" onclick="$('.modalPasswordClass').modal('hide')" />
+                                            </f:facet>
+                                        </b:modal>
+                                    </b:panel>
+                                </b:column>
+                            </b:row>
+                        </b:column>
+                    </b:row>
+                </b:column>
+            </b:row>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

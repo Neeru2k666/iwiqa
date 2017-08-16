@@ -32,6 +32,7 @@ public class Navigation {
     public static final String AMANADV = "amanadv.xhtml";
     public static final String ANEWADV = "anewadv.xhtml";
     public static final String ANEWPROF = "anewprof.xhtml";
+    public static final String SMANACC = "smanacc.xhtml";
 
     public String getINDEX() {
         return INDEX;
@@ -111,5 +112,9 @@ public class Navigation {
     
     public String getANEWPROF() {
         return ANEWPROF;
+    }
+    
+    public String getSMANACC() {
+        return SMANACC;
     }
 }

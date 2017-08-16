@@ -26,6 +26,7 @@
             <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.SINDEX}" inverse="true" fixed="top">
                 <b:navbarLinks>
                     <b:navLink value="Übersicht" href="#{request.contextPath}/#{navigation.SINDEX}"/>
+                    <b:navLink value="Konto verwalten" href="#{request.contextPath}/#{navigation.SMANACC}"/>
                 </b:navbarLinks>
                 <ezcomp:loginComponent logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}"/>
             </b:navBar>
