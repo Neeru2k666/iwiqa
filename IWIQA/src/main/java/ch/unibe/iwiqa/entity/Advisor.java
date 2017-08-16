@@ -44,6 +44,9 @@ public class Advisor implements Serializable {
     @OneToMany(mappedBy = "advisor", fetch = FetchType.EAGER)
     private List<QA> qas = new ArrayList<>();
     
+    @OneToMany(mappedBy = "responsibleAdvisor", fetch = FetchType.EAGER)
+    private List<FoKo> fokos = new ArrayList<>();
+    
     private boolean active = true;
     
     @ManyToOne
@@ -123,6 +126,14 @@ public class Advisor implements Serializable {
         if(!professor.getAdvisors().contains(this)){
             professor.getAdvisors().add(this);
         }
+    }
+
+    public List<FoKo> getFokos() {
+        return fokos;
+    }
+
+    public void setFokos(List<FoKo> fokos) {
+        this.fokos = fokos;
     }
 
     @Override

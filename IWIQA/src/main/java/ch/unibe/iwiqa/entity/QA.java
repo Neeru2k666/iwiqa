@@ -25,10 +25,12 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @NamedQueries({
+    @NamedQuery(name = "QA.findAllByStudent", query = "SELECT f FROM QA f WHERE f.student = :student"),
     @NamedQuery(name = "QA.findOpenAndNotAbortedQAsByAdvisor", query = "SELECT f FROM QA f WHERE f.advisor = :advisor AND ((f.status <> ch.unibe.iwiqa.util.QA_Status.QA_COMPLETED) AND (f.status <> ch.unibe.iwiqa.util.QA_Status.QA_ABORTED)) ORDER BY f.endingDate ASC"),
     @NamedQuery(name = "QA.findAllOpenAndNotAbortedQAs", query = "SELECT f FROM QA f WHERE ((f.status <> ch.unibe.iwiqa.util.QA_Status.QA_COMPLETED) AND (f.status <> ch.unibe.iwiqa.util.QA_Status.QA_ABORTED))"),
     @NamedQuery(name = "QA.findOpenUnremindedOfEndingInOneWeekQAs", query = "SELECT f FROM QA f WHERE ((f.status = ch.unibe.iwiqa.util.QA_Status.PROPOSAL_IN_PROGRESS) OR (f.status = ch.unibe.iwiqa.util.QA_Status.PROPOSAL_ACCEPTED)) AND f.receivedReminderEndingOneWeek = FALSE"),
-    @NamedQuery(name = "QA.findHandedInQAs", query = "SELECT f FROM QA f WHERE f.status = ch.unibe.iwiqa.util.QA_Status.QA_HANDED_IN")
+    @NamedQuery(name = "QA.findHandedInQAs", query = "SELECT f FROM QA f WHERE f.status = ch.unibe.iwiqa.util.QA_Status.QA_HANDED_IN"),
+    @NamedQuery(name = "QA.findGradedQAs", query = "SELECT f FROM QA f WHERE f.status = ch.unibe.iwiqa.util.QA_Status.QA_GRADED")
 })
 public class QA implements Serializable {
 

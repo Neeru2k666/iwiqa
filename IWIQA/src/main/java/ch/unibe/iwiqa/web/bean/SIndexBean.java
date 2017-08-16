@@ -45,7 +45,7 @@ public class SIndexBean implements Serializable {
         if(loggedInStudent == null) {
             return;
         }
-        myQAs = loggedInStudent.getQas();
+        myQAs = qaFacade.findAllByStudent(loggedInStudent);
         myFoKoRegistrations = loggedInStudent.getFokoRegistrations();
     }
 

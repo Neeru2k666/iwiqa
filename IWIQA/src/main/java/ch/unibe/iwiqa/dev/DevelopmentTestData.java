@@ -222,10 +222,10 @@ public class DevelopmentTestData {
         qa3.setEndingDate(end.getTime());
         qa3.setQaType(QA_Type.MA);
         Calendar handIn1 = Calendar.getInstance();
-        handIn1.add(Calendar.DAY_OF_YEAR, -8);
-        qa3.setStatus(QA_Status.QA_HANDED_IN);
+        handIn1.add(Calendar.DAY_OF_YEAR, -9);
+        qa3.setStatus(QA_Status.PROPOSAL_IN_PROGRESS);
         qa3.setHandInDate(handIn1.getTime());
-        qa3.setGradedDate(end.getTime());
+        qa3.setGradedDate(handIn1.getTime());
         qa3.setStudent(s1);
         qa3.setAdvisor(a1);
         qAFacade.create(qa3);
@@ -253,19 +253,23 @@ public class DevelopmentTestData {
     }
 
     private void createFoKos() {
+        Advisor adv = advisorFacade.findAllActiveAdvisors().get(0);
+        
         FoKo f1 = new FoKo();
         Calendar start = Calendar.getInstance();
-        start.set(2017, 5, 12, 14, 0);
+        start.add(Calendar.DAY_OF_YEAR, 12);
         f1.setStartingDate(start.getTime());
         f1.setRoom("Engehaldestrasse 8, Raum 101");
+        f1.setResponsibleAdvisor(adv);
 
         foKoFacade.create(f1);
 
         FoKo f2 = new FoKo();
         Calendar start2 = Calendar.getInstance();
-        start2.set(2017, 11, 8, 9, 30);
+        start2.add(Calendar.DAY_OF_YEAR, 9);
         f2.setStartingDate(start2.getTime());
         f2.setRoom("Engehaldestrasse 8, Raum 101");
+        f2.setResponsibleAdvisor(adv);
 
         foKoFacade.create(f2);
     }
@@ -453,7 +457,8 @@ public class DevelopmentTestData {
                 + "</html>");
         mailTemplateFacade.create(mt9);
 
-        MailTemplate mt10 = new MailTemplate();
+        // Removed, because not part of original requirements
+        /**MailTemplate mt10 = new MailTemplate();
         mt10.setTemplateName("Mailtemp_S_Foko_Reminder_3Days");
         mt10.setSubject("IWIQA: Reminder: FoKo in drei Tagen");
         mt10.setMailBody("<html>\n"
@@ -471,7 +476,7 @@ public class DevelopmentTestData {
                 + "<p>Liebe Grüsse, IWIQA</p>\n"
                 + "</body>\n"
                 + "</html>");
-        mailTemplateFacade.create(mt10);
+        mailTemplateFacade.create(mt10);*/
 
         MailTemplate mt11 = new MailTemplate();
         mt11.setTemplateName("Mailtemp_S_QA_Reminder_Endingdate_1Week");

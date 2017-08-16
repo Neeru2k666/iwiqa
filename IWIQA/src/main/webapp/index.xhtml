@@ -1,34 +1,45 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:b="http://bootsfaces.net/ui"
-                template="./layout/skeleton.xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
 
-    <ui:define name="title">
-        IWIQA - Index
-    </ui:define>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Index - IWIQA</title>
+    </h:head>
 
-    <ui:define name="content">
-        <b:jumbotron>
-            <h1>Willkommen bei IWIQA!</h1>
-            <p>Hier können Sie Ihre Qualifikationsarbeit am Institut für Wirtschaftsinformatik an der Universität Bern verwalten und sich für Forschungskolloquien registrieren.</p>
-            <p>Bitte registrieren Sie sich, um die Plattform nutzen zu können.</p>
-            <p><a href="#{navigation.REGSTUDENT}" class="btn btn-lg btn-info">Jetzt registrieren »</a></p>
-            <a href="#{navigation.SLOGIN}" style="font-size: 14px">Bereits registriert? Hier geht's zum Login</a>
-        </b:jumbotron>
-    </ui:define>
-    <ui:define name="sideContent">
-        <b:row>
-            <b:column>
-                <h4>Betreuer Login</h4>
-                <b:panel>
-                    <p>Hier können sich Betreuer einloggen.</p>
-                    <p><a href="#{navigation.ALOGIN}" class="btn btn-sm btn-default">Zum Login »</a></p>
-                </b:panel>
-            </b:column>
-        </b:row>
-    </ui:define>
-</ui:composition>
+    <h:body style="padding-top: 50px">
+        <b:messages escape="false"/>
+        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.INDEX}" inverse="true" fixed="top" />
+        <b:container>
+            <b:row>
+                <div class="page-header">
+                    <h1>Qualifikationsarbeiten <small>am Institut für Wirtschaftsinformatik</small></h1>
+                </div>
+                <b:column span="9" id="content">
+                    <b:jumbotron>
+                        <h1>Willkommen bei IWIQA!</h1>
+                        <p>Hier können Sie Ihre Qualifikationsarbeit am Institut für Wirtschaftsinformatik an der Universität Bern verwalten und sich für Forschungskolloquien registrieren.</p>
+                        <p>Bitte registrieren Sie sich, um die Plattform nutzen zu können.</p>
+                        <p><a href="#{navigation.REGSTUDENT}" class="btn btn-lg btn-info">Jetzt registrieren »</a></p>
+                        <a href="#{navigation.SLOGIN}" style="font-size: 14px">Bereits registriert? Hier geht's zum Login</a>
+                    </b:jumbotron>
+                </b:column>
+                <b:column span="3" id="sidebar" style="background-color: #f9f9f9;">
+                    <b:row>
+                        <b:column>
+                            <h4>Betreuer Login</h4>
+                            <b:panel>
+                                <p>Hier können sich Betreuer einloggen.</p>
+                                <p><a href="#{navigation.ALOGIN}" class="btn btn-sm btn-default">Zum Login »</a></p>
+                            </b:panel>
+                        </b:column>
+                    </b:row>
+                </b:column>
+            </b:row>
+        </b:container>
+    </h:body>
+</html>

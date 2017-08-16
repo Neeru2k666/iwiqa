@@ -43,6 +43,7 @@ public class GradeQABean {
         qa.setStatus(QA_Status.QA_GRADED);
         qAFacade.edit(qa);
         mailNotificationManagerBean.sendStudentQAStatusUpdate(qa);
+        mailNotificationManagerBean.sendAdvisorQAGraded(qa);
     }
 
     public QA getSelectedQA() {

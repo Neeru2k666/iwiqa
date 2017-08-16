@@ -69,13 +69,12 @@
                             </h:column>
                             <h:column>
                                 <f:facet name="header"/>
-                                <b:button value="Details" size="xs" outcome="#{navigation.AQADETAIL}">
+                                <b:commandButton rendered="#{qa.status ne QA_Status.QA_ABORTED and qa.status ne QA_Status.QA_COMPLETED}" value="x" tooltip="Qualifikationsarbeit abbrechen" size="xs" look="danger" action="#{AIndexBean.abortQA(qa)}" style-class="pull-right" />
+                                <b:button value="Details" size="xs" outcome="#{navigation.AQADETAIL}" style-class="pull-right" style="margin-right: 5px">
                                     <f:param name="id" value="#{qa.getId()}"/>
                                 </b:button>
-                                <b:commandButton rendered="#{qa.status ne QA_Status.QA_ABORTED and qa.status ne QA_Status.QA_COMPLETED}" value="x" tooltip="Qualifikationsarbeit abbrechen" size="xs" look="danger" action="#{AIndexBean.abortQA(qa)}" style="margin-left: 5px"/>
                             </h:column>
                         </h:dataTable>
-                        <b:commandButton value="TEST" look="danger" action="#{mailNotificationManagerBean.test()}"/>
                         <b:modal id="amodal" title="Qualifikationsarbeit bewerten" styleClass="gradeModalPseudoClass">
                             <h:outputText value="Bitte tragen Sie die erreichte Note ein, um die Qualifikationsarbeit zu bewerten." />
                             <b:inputText value="#{AIndexBean.achievedGrade}" label="Note (#.#):" renderLabel="true" />

@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -42,6 +43,10 @@ public class FoKo implements Serializable {
     private List<FoKoRegistration> participants = new ArrayList<>();
     
     private boolean sentOutReminderOneWeek = false;
+    
+    @ManyToOne
+    @JoinColumn
+    private Advisor responsibleAdvisor;
     
     public Long getId() {
         return id;
@@ -89,6 +94,14 @@ public class FoKo implements Serializable {
 
     public void setSentOutReminderOneWeek(boolean sentOutReminderOneWeek) {
         this.sentOutReminderOneWeek = sentOutReminderOneWeek;
+    }
+
+    public Advisor getResponsibleAdvisor() {
+        return responsibleAdvisor;
+    }
+
+    public void setResponsibleAdvisor(Advisor responsibleAdvisor) {
+        this.responsibleAdvisor = responsibleAdvisor;
     }
 
     @Override

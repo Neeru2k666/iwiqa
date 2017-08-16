@@ -15,14 +15,22 @@
 
     <h:body style="padding-top: 50px">
         <b:messages/>
-        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.SINDEX}" inverse="true" fixed="top">
-            <b:navbarLinks>
-                <shiro:notAuthenticated>
+        <shiro:notAuthenticated>
+            <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.INDEX}" inverse="true" fixed="top">
+                <b:navbarLinks>
                     <b:navLink value="Registrieren" href="#{request.contextPath}/#{navigation.REGSTUDENT}"/>
-                </shiro:notAuthenticated>
-            </b:navbarLinks>
-            <ezcomp:loginComponent logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}"/>
-        </b:navBar>
+                </b:navbarLinks>
+            </b:navBar>
+        </shiro:notAuthenticated>
+        <shiro:authenticated>
+            <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.SINDEX}" inverse="true" fixed="top">
+                <b:navbarLinks>
+                    <b:navLink value="Übersicht" href="#{request.contextPath}/#{navigation.SINDEX}"/>
+                </b:navbarLinks>
+                <ezcomp:loginComponent logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}"/>
+            </b:navBar>
+        </shiro:authenticated>
+
         <b:container>
             <b:row>
                 <div class="page-header">
@@ -31,8 +39,17 @@
                 <b:column span="9" id="content">
                     <ui:insert name="content">Content</ui:insert>
                 </b:column>
-                <b:column span="3" id="sidebar" style="background-color: #f9f9f9;">
-                    <ui:insert name="sideContent">sideContent</ui:insert>
+                <b:column span="3" id="sidebar">
+                    <h3>Leitfäden und Vorlagen</h3>
+                    <b:panel>
+                        <h:outputText value="Falls Sie sich nicht sicher sind, wie Sie vorgehen sollen, besuchen Sie die IWI Webseite für Leitfäden und Vorlagen." /><br/><br/>
+                        <b:icon name="plus" /><h:outputLink target="_blank" value="http://www.iwi.unibe.ch/studium/bachelor__und_masterarbeiten/leitfaeden_und_vorlagen/index_ger.html"> Zur IWI Webseite</h:outputLink>
+                    </b:panel>
+                    <h3>Kontakt</h3>
+                    <b:panel>
+                        <h:outputText value="Wenn Sie Fragen zu Ihrer Qualifikationsarbeit oder zu dieser Plattform haben, können Sie sich an das Sekretariat des IWI wenden."/><br/><br/>
+                        <b:icon name="plus" /><h:outputLink target="_blank" value="http://www.iwi.unibe.ch/ueber_uns/kontakt/index_ger.html"> Kontakt</h:outputLink>
+                    </b:panel>
                 </b:column>
             </b:row>
         </b:container>

@@ -4,6 +4,7 @@ package ch.unibe.iwiqa.entity.dao;
 
 import ch.unibe.iwiqa.entity.Advisor;
 import ch.unibe.iwiqa.entity.QA;
+import ch.unibe.iwiqa.entity.Student;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -42,5 +43,13 @@ public class QAFacade extends AbstractFacade<QA> {
     
     public List<QA> findAllOpenAndNotAbortedQAs() {
         return em.createNamedQuery("QA.findAllOpenAndNotAbortedQAs").getResultList();
+    }
+    
+    public List<QA> findGradedQAs() {
+        return em.createNamedQuery("QA.findGradedQAs").getResultList();
+    }
+    
+    public List<QA> findAllByStudent(Student student) {
+        return em.createNamedQuery("QA.findAllByStudent").setParameter("student", student).getResultList();
     }
 }

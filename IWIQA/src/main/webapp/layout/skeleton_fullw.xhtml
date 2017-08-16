@@ -15,14 +15,21 @@
 
     <h:body style="padding-top: 50px">
         <b:messages/>
-        <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.SINDEX}" inverse="true" fixed="top">
-            <b:navbarLinks>
-                <shiro:notAuthenticated>
+        <shiro:notAuthenticated>
+            <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.INDEX}" inverse="true" fixed="top">
+                <b:navbarLinks>
                     <b:navLink value="Registrieren" href="#{request.contextPath}/#{navigation.REGSTUDENT}"/>
-                </shiro:notAuthenticated>
-            </b:navbarLinks>
-            <ezcomp:loginComponent logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}"/>
-        </b:navBar>
+                </b:navbarLinks>
+            </b:navBar>
+        </shiro:notAuthenticated>
+        <shiro:authenticated>
+            <b:navBar brand="IWIQA"  brandHref="#{request.contextPath}/#{navigation.SINDEX}" inverse="true" fixed="top">
+                <b:navbarLinks>
+                    <b:navLink value="Übersicht" href="#{request.contextPath}/#{navigation.SINDEX}"/>
+                </b:navbarLinks>
+                <ezcomp:loginComponent logoutAction="#{loginBean.logout()}" usernameField="#{loginBean.username}"/>
+            </b:navBar>
+        </shiro:authenticated>
         <b:container>
             <b:row>
                 <div class="page-header">
